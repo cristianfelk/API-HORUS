@@ -1,0 +1,1174 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "API - FORUM HORUS",
+    "description": "Essa documentação utilizando Swagger, é a versão 1.0 da documentação da API - FORUM HORUS, onde possuí intuito de apresentar dúvidas e respostas dos academicos com assuntos gerais da faculdade, está API possuí 5 tabelas, que estão documentadas abaixo, com seus métodos e exemplos."
+  },
+  "host": "localhost:3000",
+  "basePath": "",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/usuario": {
+      "get": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Consulta todos usuarios",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Sucesso!",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "number",
+                  "example": 1
+                },
+                "Usuario": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number",
+                        "example": 2
+                      },
+                      "nome": {
+                        "type": "string",
+                        "example": "Cristian"
+                      },
+                      "email": {
+                        "type": "string",
+                        "example": "cristianfeldkircher@gmail.com"
+                      },
+                      "senha": {
+                        "type": "string",
+                        "example": "Cristian123"
+                      },
+                      "data_cadastro": {
+                        "type": "string",
+                        "example": "2023-05-25T03:00:00.000Z"
+                      },
+                      "reputacao": {
+                        "type": "number",
+                        "example": 4
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Cadastro de Usuario",
+        "description": "Cadastro de Usuario do sistema da forum horus",
+        "parameters": [
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados para inserir um usuario",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "NOME"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "EMAIL"
+                },
+                "senha": {
+                  "type": "string",
+                  "example": "SENHA"
+                },
+                "reputacao": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/usuario/{id}": {
+      "delete": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Deleta um usuario - Basta passa - localhost:3000/usuario/id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Efetua atualização de todos os campos de um Usuario com parametro id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados que podem ser passados para atualizar totalmente um usuario",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "ID"
+                },
+                "nome": {
+                  "type": "string",
+                  "example": "NOME"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "EMAIL"
+                },
+                "senha": {
+                  "type": "string",
+                  "example": "SENHA"
+                },
+                "data_cadastro": {
+                  "type": "string",
+                  "example": "DATA"
+                },
+                "reputacao": {
+                  "type": "string",
+                  "example": "REPUTACAO"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Usuario"
+        ],
+        "summary": "Efetua atualização parcial de um Usuario com parametro id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados que podem ser passados para atualizar um usuario",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "NOME"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "EMAIL"
+                },
+                "senha": {
+                  "type": "string",
+                  "example": "SENHA"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/categoria": {
+      "post": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Cadastro de Categoria",
+        "description": "Cadastro de Categoria do sistema da forum horus",
+        "parameters": [
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados para inserir um Categoria",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "VARCHAR(100)"
+                },
+                "descricao": {
+                  "type": "string",
+                  "example": "TEXT"
+                },
+                "data_criacao": {
+                  "type": "string",
+                  "example": "DATE"
+                },
+                "quantidade_topicos": {
+                  "type": "string",
+                  "example": "INTEGER"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Consulta todos Categoria",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Sucesso!",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "number",
+                  "example": 1
+                },
+                "Categoria": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "SERIAL PRIMARY KEY"
+                      },
+                      "nome": {
+                        "type": "string",
+                        "example": "VARCHAR(100)"
+                      },
+                      "descricao": {
+                        "type": "string",
+                        "example": "TEXT"
+                      },
+                      "data_criacao": {
+                        "type": "string",
+                        "example": "DATE"
+                      },
+                      "quantidade_topicos": {
+                        "type": "string",
+                        "example": "INTEGER"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "201": {
+            "description": "Criado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/categoria/{id}": {
+      "delete": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Efetua deleção de uma categoria utilizando o id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Nenhum Conteúdo"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Efetua atualização de todos os campos de um Categoria com parametro id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados que podem ser passados para atualizar totalmente um Categoria",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "SERIAL PRIMARY KEY"
+                },
+                "nome": {
+                  "type": "string",
+                  "example": "VARCHAR(100)"
+                },
+                "descricao": {
+                  "type": "string",
+                  "example": "TEXT"
+                },
+                "data_criacao": {
+                  "type": "string",
+                  "example": "DATE"
+                },
+                "quantidade_topicos": {
+                  "type": "string",
+                  "example": "INTEGER"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Categoria"
+        ],
+        "summary": "Efetua atualização parcial de um Categoria com parametro id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados que podem ser passados para atualizar um Categoria",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nome": {
+                  "type": "string",
+                  "example": "VARCHAR(100)"
+                },
+                "descricao": {
+                  "type": "string",
+                  "example": "TEXT"
+                },
+                "data_criacao": {
+                  "type": "string",
+                  "example": "DATE"
+                },
+                "quantidade_topicos": {
+                  "type": "string",
+                  "example": "INTEGER"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/topico": {
+      "post": {
+        "tags": [
+          "Topico"
+        ],
+        "summary": "Cadastro de Topico",
+        "description": "Cadastro de Topico do sistema da forum horus",
+        "parameters": [
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados para inserir um Topico",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "titulo": {
+                  "type": "string",
+                  "example": "Exemplo de topico"
+                },
+                "conteudo": {
+                  "type": "string",
+                  "example": "Este é um topico de conteúdo."
+                },
+                "usuario_id": {
+                  "type": "number",
+                  "example": 2
+                },
+                "categoria_id": {
+                  "type": "number",
+                  "example": 2
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Topico"
+        ],
+        "summary": "Consulta todos Topicos",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Sucesso!",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "number",
+                  "example": 1
+                },
+                "Topico": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number",
+                        "example": 2
+                      },
+                      "titulo": {
+                        "type": "string",
+                        "example": "Exemplo de topico"
+                      },
+                      "conteudo": {
+                        "type": "string",
+                        "example": "Este é um topico de conteúdo."
+                      },
+                      "data_criacao": {
+                        "type": "string",
+                        "example": "2023-06-01T03:00:00.000Z"
+                      },
+                      "usuario_id": {
+                        "type": "number",
+                        "example": 2
+                      },
+                      "categoria_id": {
+                        "type": "number",
+                        "example": 2
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "201": {
+            "description": "Criado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/topico/{id}": {
+      "delete": {
+        "tags": [
+          "Topico"
+        ],
+        "summary": "Efetua deleção de um Topico com parametro id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Nenhum Conteúdo"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Topico"
+        ],
+        "summary": "Efetua atualização parcial de um parcialmente com parametro id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados que podem ser passados para atualizar parcialmente um Topico",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "titulo": {
+                  "type": "string",
+                  "example": "TITULO"
+                },
+                "conteudo": {
+                  "type": "string",
+                  "example": "CONTEUDO"
+                },
+                "data_criacao": {
+                  "type": "string",
+                  "example": "DATA"
+                },
+                "usuario_id": {
+                  "type": "number",
+                  "example": 2
+                },
+                "categoria_id": {
+                  "type": "number",
+                  "example": 2
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Topico"
+        ],
+        "summary": "Efetua atualização parcial de um Topico com parametro id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados que podem ser passados para atualizar um Topico",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "titulo": {
+                  "type": "string",
+                  "example": "TITULO"
+                },
+                "conteudo": {
+                  "type": "string",
+                  "example": "CONTEUDO"
+                },
+                "data_criacao": {
+                  "type": "string",
+                  "example": "DATA"
+                },
+                "usuario_id": {
+                  "type": "number",
+                  "example": 2
+                },
+                "categoria_id": {
+                  "type": "number",
+                  "example": 2
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/resposta": {
+      "post": {
+        "tags": [
+          "Resposta"
+        ],
+        "summary": "Cadastro de Resposta",
+        "description": "Cadastro de Resposta do sistema da forum horus",
+        "parameters": [
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados para inserir um Resposta",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "conteudo": {
+                  "type": "string",
+                  "example": "TEXT"
+                },
+                "data_criacao": {
+                  "type": "string",
+                  "example": "DATE"
+                },
+                "usuario_id": {
+                  "type": "number",
+                  "example": 2
+                },
+                "topico_id": {
+                  "type": "number",
+                  "example": 2
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Resposta"
+        ],
+        "summary": "Consulta todos Resposta",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Sucesso!",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "number",
+                  "example": 1
+                },
+                "Resposta": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number",
+                        "example": 4
+                      },
+                      "conteudo": {
+                        "type": "string",
+                        "example": "Não está certo essa sua respota amigo"
+                      },
+                      "data_criacao": {
+                        "type": "string",
+                        "example": "DATE"
+                      },
+                      "usuario_id": {
+                        "type": "number",
+                        "example": 2
+                      },
+                      "topico_id": {
+                        "type": "number",
+                        "example": 2
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "201": {
+            "description": "Criado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/resposta/{id}": {
+      "delete": {
+        "tags": [
+          "Resposta"
+        ],
+        "summary": "Efetua deleção de uma resposta com parametro id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Nenhum Conteúdo"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Resposta"
+        ],
+        "summary": "Efetua atualização de todos os campos de um Resposta com parametro id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados que podem ser passados para atualizar totalmente um Resposta",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "example": 4
+                },
+                "conteudo": {
+                  "type": "string",
+                  "example": "Não está certo essa sua respota amigo"
+                },
+                "data_criacao": {
+                  "type": "string",
+                  "example": "DATE"
+                },
+                "usuario_id": {
+                  "type": "number",
+                  "example": 2
+                },
+                "topico_id": {
+                  "type": "number",
+                  "example": 2
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Resposta"
+        ],
+        "summary": "Efetua atualização parcial de um Resposta com parametro id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados que podem ser passados para atualizar um Resposta",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "conteudo": {
+                  "type": "string",
+                  "example": "Não está certo essa sua respota amigo"
+                },
+                "usuario_id": {
+                  "type": "number",
+                  "example": 2
+                },
+                "topico_id": {
+                  "type": "number",
+                  "example": 2
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/voto_resposta": {
+      "post": {
+        "tags": [
+          "Voto Resposta"
+        ],
+        "summary": "Efetua o voto das respostas.",
+        "description": "Efetua a postagem de um voto sendo eles 0 para Resposta incorreta e 1 para resposta correta.",
+        "parameters": [
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados para inserir um voto na resposta",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "usuario_id": {
+                  "type": "number",
+                  "example": 123
+                },
+                "resposta_id": {
+                  "type": "number",
+                  "example": 456
+                },
+                "tipo_voto": {
+                  "type": "number",
+                  "example": 1
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Criado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Voto Resposta"
+        ],
+        "summary": "Consulta todos os votos das respostas",
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Sucesso!",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "total": {
+                  "type": "number",
+                  "example": 1
+                },
+                "votos": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "usuario_id": {
+                        "type": "number",
+                        "example": 5
+                      },
+                      "resposta_id": {
+                        "type": "number",
+                        "example": 4
+                      },
+                      "tipo_voto": {
+                        "type": "number",
+                        "example": 0
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          },
+          "201": {
+            "description": "Criado"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "/voto_resposta/{id}": {
+      "delete": {
+        "tags": [
+          "Voto Resposta"
+        ],
+        "summary": "Efetua deleção de um Voto com parametro id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Nenhum Conteúdo"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    },
+    "voto_resposta/{id}": {
+      "put": {
+        "tags": [
+          "Voto Resposta"
+        ],
+        "summary": "Efetua atualização de todos os campos de um voto na resposta com parametro id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados que podem ser passados para atualizar totalmente um voto na resposta",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "usuario_id": {
+                  "type": "number",
+                  "example": 5
+                },
+                "resposta_id": {
+                  "type": "number",
+                  "example": 4
+                },
+                "tipo_voto": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Voto Resposta"
+        ],
+        "summary": "Efetua atualização parcial de um voto na resposta com parametro id.",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "json",
+            "in": "body",
+            "description": "Dados que podem ser passados para atualizar um voto na resposta",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "usuario_id": {
+                  "type": "number",
+                  "example": 5
+                },
+                "resposta_id": {
+                  "type": "number",
+                  "example": 4
+                },
+                "tipo_voto": {
+                  "type": "number",
+                  "example": 0
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Erro Interno do Servidor"
+          }
+        }
+      }
+    }
+  }
+}
