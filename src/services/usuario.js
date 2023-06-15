@@ -1,9 +1,9 @@
 const db = require('../configs/pg')
-const cript = require('../configs/crypto')
+
 
 const getUsuario = async () => {
     const sql_get = `select * from usuario`
-    return await db.query(sql_get, [])
+    return await db.query(sql_get)
 }
 
 

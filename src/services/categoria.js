@@ -15,7 +15,7 @@ const postCategoria = async (params) => {
 
 const getCategoria = async () => {
     const sql_get = `select * from categoria`
-    return await db.query(sql_get, [])
+    return await db.query(sql_get)
 }
 
 const deleteCategoria = async (params) => {

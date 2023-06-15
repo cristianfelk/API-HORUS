@@ -13,7 +13,7 @@ const postVoto = async (params) => {
 
 const getVoto = async () => {
     const sql_get = `select * from voto_resposta`
-    return await db.query(sql_get, [])
+    return await db.query(sql_get)
 }
 
 

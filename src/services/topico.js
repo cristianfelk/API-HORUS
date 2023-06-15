@@ -16,7 +16,7 @@ const postTopico = async (params) => {
 
 const getTopico = async () => {
     const sql_get = `select * from topico`
-    return await db.query(sql_get, [])
+    return await db.query(sql_get)
 }
 
 const deleteTopico = async (params) => {

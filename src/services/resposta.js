@@ -15,7 +15,7 @@ const postResposta = async (params) => {
 
 const getResposta = async () => {
     const sql_get = `select * from resposta`
-    return await db.query(sql_get, [])
+    return await db.query(sql_get)
 }
 
 const deleteResposta = async (params) => {
