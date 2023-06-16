@@ -16,26 +16,25 @@ const deleteUsuario = async (params) => {
 const postUsuario = async (params) => {
     try {
         const sql_post = `insert into usuario (nome, email, senha, data_cadastro, reputacao) values (
-            '${params.nome}' , 
+            '${params.nome}', 
             '${params.email}', 
             '${params.senha}', 
             current_date,
             '${params.reputacao}'
         )`
         await db.query(sql_post)
-        const salt = cript.generateSalt
     } catch (error) {   
     }
 }
 
 const putUsuario = async (params) => {
     const sql_put = `update usuario set
-            nome = $2, 
-            email = $3, 
+            nome = $2,
+            email = $3,
             senha = $4,
             data_cadastro = $5,
             reputacao = $6
-            where id = $1`
+            where id = $1 `
     const { id, nome, email, senha, data_cadastro, reputacao } = params 
     return await db.query(sql_put, [id, nome, email, senha, data_cadastro, reputacao])
 }

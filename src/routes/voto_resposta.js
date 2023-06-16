@@ -39,7 +39,7 @@ module.exports = (app) => {
   app.delete('/voto_resposta/:id', votorespostaController.deleteVoto
     /* #swagger.tags = ['Voto Resposta']
     #swagger.summary = 'Efetua deleção de um Voto com parametro id.'*/)
-  app.put('voto_resposta/:id', votorespostaController.putVoto
+  app.put('/voto_resposta/:id', votorespostaController.putVoto
     /* #swagger.tags = ['Voto Resposta']
     #swagger.summary = 'Efetua atualização de todos os campos de um voto na resposta com parametro id.'
     #swagger.parameters['json'] = {
@@ -54,7 +54,7 @@ module.exports = (app) => {
         }
     }
     */)
-  app.patch('voto_resposta/:id', votorespostaController.patchVoto
+  app.patch('/voto_resposta/:id', votorespostaController.patchVoto
     /* #swagger.tags = ['Voto Resposta']
     #swagger.summary = 'Efetua atualização parcial de um voto na resposta com parametro id.'
     #swagger.parameters['json'] = {

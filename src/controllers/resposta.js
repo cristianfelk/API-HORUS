@@ -32,7 +32,7 @@ const putResposta = async (req, res, next) => {
         let params = req.body
         params.id = req.params.id
         await respostaService.putResposta(params)
-            .then(ret => res.status(200).send(ret))
+            .then(ret => res.status(201).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
         next(err);
@@ -40,7 +40,7 @@ const putResposta = async (req, res, next) => {
 }
 
 const patchResposta = async (req, res, next) => {
-    try {
+    try { 
         let params = req.body
         params.id = req.params.id
         await respostaService.patchResposta(params)

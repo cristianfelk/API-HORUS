@@ -1,4 +1,4 @@
-const db = require('../configs/pg');
+const db = require('../configs/pg')
 
 const postVoto = async (params) => {
     try {

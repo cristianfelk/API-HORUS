@@ -27,8 +27,9 @@ const deleteCategoria = async (params) => {
 const putCategoria = async (params) => {
     const sql_put = `update categoria set
             nome = $2, 
-            descricao = $3, 
-            quatidade_topicos = $5
+            descricao = $3,
+            data_criacao = $4,
+            quantidade_topicos = $5
             where id = $1`
     const { id, nome, descricao, data_criacao, quantidade_topicos } = params 
     return await db.query(sql_put, [id, nome, descricao, data_criacao, quantidade_topicos])

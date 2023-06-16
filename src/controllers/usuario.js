@@ -32,7 +32,7 @@ const putUsuario = async (req, res, next) => {
         let params = req.body
         params.id = req.params.id
         await usuarioService.putUsuario(params)
-            .then(ret => res.status(200).send(ret))
+            .then(ret => res.status(201).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
         next(err);

@@ -197,8 +197,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Criado"
           },
           "500": {
             "description": "Erro Interno do Servidor"
@@ -427,8 +427,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Criado"
           },
           "500": {
             "description": "Erro Interno do Servidor"
@@ -903,8 +903,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Criado"
           },
           "500": {
             "description": "Erro Interno do Servidor"
@@ -1074,9 +1074,7 @@
             "description": "Erro Interno do Servidor"
           }
         }
-      }
-    },
-    "voto_resposta/{id}": {
+      },
       "put": {
         "tags": [
           "Voto Resposta"

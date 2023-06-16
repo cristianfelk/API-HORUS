@@ -26,13 +26,13 @@ const deleteResposta = async (params) => {
 
 
 const putResposta = async (params) => {
-    const sql_put = `update topico set
+    const sql_put = `update resposta set
             conteudo = $2, 
             data_criacao = $3, 
             usuario_id = $4,
             topico_id = $5
             where id = $1`
-    const { id, conteudo, data_criacao, usuario_id, topico_id } = params 
+    const { id, conteudo, data_criacao, usuario_id, topico_id} = params 
     return await db.query(sql_put, [id, conteudo, data_criacao, usuario_id, topico_id])
 }
 
