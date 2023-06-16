@@ -36,30 +36,13 @@ const putCategoria = async (params) => {
 }
 
 const patchCategoria = async (params) => {
-    const sql_patch = ` update categoria set `
-    let fields = ''
-    let binds = []
-    binds.push(params.id)
-    let countParams = 1
-    if (params.nome) {
-        countParams ++
-        fields += ` nome = $${countParams} `
-        binds.push(params.nome)
-    }
-    if (params.descricao) {
-        countParams ++
-        fields += ` descricao = $${countParams} `
-        binds.push(params.descricao)
-    }
-    if (params.quantidade_topicos) {
-        countParams ++
-        fields += ` quantidade_topicos = $${countParams} `
-        binds.push(params.quantidade_topicos)
-    }
-    let sql = sql_patch + fields + ' where id = $1 '
-    return await db.query(sql, binds)
+    let fields = [];
+    Object.keys(params).map(p => p).forEach(e => e !== 'id' && fields.push(`${e} = '${params[e]}'`));
+    fields = fields.join(', ');
+    console.log(params)
+    const sql = `update categoria set ${fields} where id = ${params.id}`;
+    await db.query(sql);
 }
-
 module.exports.postCategoria = postCategoria
 module.exports.getCategoria = getCategoria
 module.exports.deleteCategoria = deleteCategoria

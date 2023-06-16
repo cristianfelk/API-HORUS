@@ -38,33 +38,12 @@ const putTopico = async (params) => {
 }
 
 const patchTopico = async (params) => {
-    const sql_patch = ` update topico set `
-    let fields = ''
-    let binds = []
-    binds.push(params.id)
-    let countParams = 1
-    if (params.titulo) {
-        countParams ++
-        fields += ` titulo = $${countParams} `
-        binds.push(params.titulo)
-    }
-    if (params.conteudo) {
-        countParams ++
-        fields += ` conteudo = $${countParams} `
-        binds.push(params.conteudo)
-    }
-    if (params.usuario_id) {
-        countParams ++
-        fields += ` usuario_id = $${countParams} `
-        binds.push(params.usuario_id)
-    }
-    if (params.categoria_id) {
-        countParams ++
-        fields += ` categoria_id = $${countParams} `
-        binds.push(params.categoria_id)
-    }
-    let sql = sql_patch + fields + ' where id = $1 '
-    return await db.query(sql, binds)
+    let fields = [];
+    Object.keys(params).map(p => p).forEach(e => e !== 'id' && fields.push(`${e} = '${params[e]}'`));
+    fields = fields.join(', ');
+    console.log(params)
+    const sql = `update topico set ${fields} where id = ${params.id}`;
+    await db.query(sql);
 }
 
 module.exports.deleteTopico = deleteTopico

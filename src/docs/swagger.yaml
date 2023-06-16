@@ -243,8 +243,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Criado"
           },
           "500": {
             "description": "Erro Interno do Servidor"

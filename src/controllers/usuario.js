@@ -39,15 +39,15 @@ const putUsuario = async (req, res, next) => {
     }
 }
 
-const patchUsuario = async (req, res, next) => {
-    try {
+const patchUsuario = async(req,res,next) => {
+    try{
         let params = req.body
         params.id = req.params.id
         await usuarioService.patchUsuario(params)
-            .then(ret => res.status(200).send(ret))
-            .catch(err => res.status(500).send(err))
-    } catch (err) {
-        next(err);
+        .then(ret => res.status(201).send(ret))
+        .catch(err => res.status(500).send(err))
+    }catch(err){
+        next(err)
     }
 }
 

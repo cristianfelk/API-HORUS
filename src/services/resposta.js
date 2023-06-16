@@ -37,28 +37,12 @@ const putResposta = async (params) => {
 }
 
 const patchResposta = async (params) => {
-    const sql_patch = ` update resposta set `
-    let fields = ''
-    let binds = []
-    binds.push(params.id)
-    let countParams = 1
-    if (params.conteudo) {
-        countParams ++
-        fields += ` conteudo = $${countParams} `
-        binds.push(params.conteudo)
-    }
-    if (params.usuario_id) {
-        countParams ++
-        fields += ` usuario_id = $${countParams} `
-        binds.push(params.usuario_id)
-    }
-    if (params.topico_id) {
-        countParams ++
-        fields += ` topico_id = $${countParams} `
-        binds.push(params.topico_id)
-    }
-    let sql = sql_patch + fields + ' where id = $1 '
-    return await db.query(sql, binds)
+    let fields = [];
+    Object.keys(params).map(p => p).forEach(e => e !== 'id' && fields.push(`${e} = '${params[e]}'`));
+    fields = fields.join(', ');
+    console.log(params)
+    const sql = `update resposta set ${fields} where id = ${params.id}`;
+    await db.query(sql);
 }
 
 module.exports.postResposta = postResposta

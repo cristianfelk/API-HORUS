@@ -47,7 +47,7 @@ module.exports = (app) => {
         /* #swagger.tags = ['Topico']
         #swagger.summary = 'Efetua atualização parcial de um parcialmente com parametro id.'
         #swagger.parameters['json'] = {
-            in: 'body',
+            in: 'body',             
             description: 'Dados que podem ser passados para atualizar parcialmente um Topico',
             required: 'true',
             type: 'json',

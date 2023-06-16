@@ -39,29 +39,14 @@ const putUsuario = async (params) => {
     return await db.query(sql_put, [id, nome, email, senha, data_cadastro, reputacao])
 }
 
+
 const patchUsuario = async (params) => {
-    const sql_patch = ` update usuario set `
-    let fields = ''
-    let binds = []
-    binds.push(params.id)
-    let countParams = 1
-    if (params.nome) {
-        countParams ++
-        fields += ` nome = $${countParams} `
-        binds.push(params.nome)
-    }
-    if (params.email) {
-        countParams ++
-        fields += ` email = $${countParams} `
-        binds.push(params.email)
-    }
-    if (params.senha) {
-        countParams ++
-        fields += ` senha = $${countParams} `
-        binds.push(params.senha)
-    }
-    let sql = sql_patch + fields + ' where id = $1 '
-    return await db.query(sql, binds)
+    let fields = [];
+    Object.keys(params).map(p => p).forEach(e => e !== 'id' && fields.push(`${e} = '${params[e]}'`));
+    fields = fields.join(', ');
+    console.log(params)
+    const sql = `update usuario set ${fields} where id = ${params.id}`;
+    await db.query(sql);
 }
 
 module.exports.getUsuario = getUsuario

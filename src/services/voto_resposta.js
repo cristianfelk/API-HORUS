@@ -34,23 +34,12 @@ const putVoto = async (params) => {
 }
 
 const patchVoto = async (params) => {
-    const sql_patch = ` update voto_resposta set `
-    let fields = ''
-    let binds = []
-    binds.push(params.id)
-    let countParams = 1
-    if (params.resposta_id) {
-        countParams ++
-        fields += ` resposta_id = $${countParams} `
-        binds.push(params.resposta_id)
-    }
-    if (params.tipo_voto) {
-        countParams ++
-        fields += ` tipo_voto = $${countParams} `
-        binds.push(params.tipo_voto)
-    }
-    let sql = sql_patch + fields + ' where id = $1 '
-    return await db.query(sql, binds)
+    let fields = [];
+    Object.keys(params).map(p => p).forEach(e => e !== 'id' && fields.push(`${e} = '${params[e]}'`));
+    fields = fields.join(', ');
+    console.log(params)
+    const sql = `update voto_resposta set ${fields} where id = ${params.id}`;
+    await db.query(sql);
 }
 
 module.exports.postVoto = postVoto
