@@ -43,6 +43,7 @@ const patchCategoria = async (params) => {
     const sql = `update categoria set ${fields} where id = ${params.id}`;
     await db.query(sql);
 }
+
 module.exports.postCategoria = postCategoria
 module.exports.getCategoria = getCategoria
 module.exports.deleteCategoria = deleteCategoria

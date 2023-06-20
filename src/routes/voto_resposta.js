@@ -56,7 +56,7 @@ module.exports = (app) => {
     */)
   app.patch('/voto_resposta/:id', votorespostaController.patchVoto
     /* #swagger.tags = ['Voto Resposta']
-    #swagger.summary = 'Efetua atualização parcial de um voto na resposta com parametro id.'
+    #swagger.summary = 'Esta rota, atualiza dados de um voto de resposta, o voto da resposta é efetuado para que seja 1 - correta ou 0 - incorreta'
     #swagger.parameters['json'] = {
         in: 'body',
         description: 'Dados que podem ser passados para atualizar um voto na resposta',
