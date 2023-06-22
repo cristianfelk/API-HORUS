@@ -1125,7 +1125,7 @@
         "tags": [
           "Voto Resposta"
         ],
-        "summary": "Efetua atualização parcial de um voto na resposta com parametro id.",
+        "summary": "Esta rota, atualiza dados de um voto de resposta, o voto da resposta é efetuado para que seja 1 - correta ou 0 - incorreta",
         "description": "",
         "parameters": [
           {
