@@ -15,7 +15,7 @@ module.exports = (app) => {
         "nome": "Cristian",
         "email": "cristianfeldkircher@gmail.com",
         "senha": "Cristian123",
-        "data_cadastro": "2023-05-25T03:00:00.000Z",
+        "data_cadastro": "2023-05-25",
         "reputacao": 4
           }
         ]
@@ -52,7 +52,6 @@ module.exports = (app) => {
         required: 'true',
         type: 'json',
         schema: {
-          "id": "ID",
           "nome": "NOME",
           "email": "EMAIL",
           "senha": "SENHA",
@@ -70,9 +69,11 @@ module.exports = (app) => {
         required: 'true',
         type: 'json',
         schema: {
-            "nome": "NOME",
-            "email": "EMAIL",
-            "senha": "SENHA"
+        "nome": "Usuário 5",
+        "email": "usuario5@example.com",
+        "senha": "senhaxyz",
+        "data_cadastro": "2023-05-26",
+        "reputacao": 0
         }
     }*/)
 }

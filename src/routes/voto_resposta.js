@@ -12,7 +12,7 @@ module.exports = (app) => {
         type: 'json',
         schema: 
         {
-             "usuario_id": 123,
+              "usuario_id": 123,
               "resposta_id": 456,
               "tipo_voto": 1
         }
@@ -28,7 +28,8 @@ module.exports = (app) => {
         "votos": 
         [
           {
-        "usuario_id": 5,
+        "id": 5,
+        "usuario_id": 8,
         "resposta_id": 4,
         "tipo_voto": 0
           }
@@ -63,7 +64,7 @@ module.exports = (app) => {
         required: 'true',
         type: 'json',
         schema: {
-        "usuario_id": 5,
+        "usuario_id": 8,
         "resposta_id": 4,
         "tipo_voto": 0
         }

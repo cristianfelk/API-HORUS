@@ -11,10 +11,10 @@ module.exports = (app) => {
             required: 'true',
             type: 'json',
             schema:     {
-                "nome": "VARCHAR(100)",
-                "descricao": "TEXT",
-                "data_criacao": "DATE",
-                "quantidade_topicos": "INTEGER"
+        "nome": "Perguntas sobre programação",
+        "descricao": "Essa é uma descrição de exemplo",
+        "data_criacao": "2023-06-01",
+        "quantidade_topicos": 10
                         }
         } */)
     app.get('/categoria', categoriaController.getCategoria
@@ -27,11 +27,11 @@ module.exports = (app) => {
             "total": 1,
             "Categoria": [
                 {
-                    "id": "SERIAL PRIMARY KEY",
-                    "nome": "VARCHAR(100)",
-                    "descricao": "TEXT",
-                    "data_criacao": "DATE",
-                    "quantidade_topicos": "INTEGER"
+        "id": 2,
+        "nome": "Perguntas sobre programação",
+        "descricao": "Essa é uma descrição de exemplo",
+        "data_criacao": "2023-06-01",
+        "quantidade_topicos": 10
                 }
             ]
         }
@@ -50,11 +50,10 @@ module.exports = (app) => {
             required: 'true',
             type: 'json',
             schema: {
-                    "id": "SERIAL PRIMARY KEY",
-                    "nome": "VARCHAR(100)",
-                    "descricao": "TEXT",
-                    "data_criacao": "DATE",
-                    "quantidade_topicos": "INTEGER"
+        "nome": "Perguntas sobre programação",
+        "descricao": "Essa é uma descrição de exemplo",
+        "data_criacao": "2023-06-01",
+        "quantidade_topicos": 10
             }
         }
         */)
@@ -67,10 +66,10 @@ module.exports = (app) => {
             required: 'true',
             type: 'json',
             schema:             {
-                    "nome": "VARCHAR(100)",
-                    "descricao": "TEXT",
-                    "data_criacao": "DATE",
-                    "quantidade_topicos": "INTEGER"
+        "nome": "Perguntas sobre programação",
+        "descricao": "Essa é uma descrição de exemplo",
+        "data_criacao": "2023-06-01",
+        "quantidade_topicos": 10
                 }
         }*/)
 } 

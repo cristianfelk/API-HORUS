@@ -52,12 +52,11 @@ module.exports = (app) => {
             required: 'true',
             type: 'json',
             schema:     {
-    
-            "titulo": "TITULO",
-            "conteudo": "CONTEUDO",
-            "data_criacao": "DATA",
-            "usuario_id": 2,
-            "categoria_id": 2
+        "titulo": "exemplo",
+        "conteudo": "exemplo@example.com",
+        "data_criacao": "2023-06-11",
+        "usuario_id": 5,
+        "categoria_id": 3
         }
         }*/)
     app.patch('/topico/:id', topicoController.patchTopico
@@ -69,12 +68,11 @@ module.exports = (app) => {
             required: 'true',
             type: 'json',
             schema:     {
-    
-            "titulo": "TITULO",
-            "conteudo": "CONTEUDO",
-            "data_criacao": "DATA",
-            "usuario_id": 2,
-            "categoria_id": 2
+        "titulo": "exemplo",
+        "conteudo": "exemplo@example.com",
+        "data_criacao": "2023-06-11",
+        "usuario_id": 5,
+        "categoria_id": 3
         }
         }*/)
 }

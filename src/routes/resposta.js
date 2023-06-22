@@ -27,11 +27,11 @@ module.exports = (app) => {
             "total": 1,
             "Resposta": [    
             {
-                "id": 4,
-                "conteudo": "Não está certo essa sua respota amigo",
-                "data_criacao": "DATE",
-                "usuario_id": 2,
-                "topico_id": 2
+        "id": 8,
+        "conteudo": "Não está certo essa sua respota amigo",
+        "data_criacao": "2023-06-15",
+        "usuario_id": 2,
+        "topico_id": 1
             }    
             ]
         }
@@ -49,11 +49,10 @@ module.exports = (app) => {
             required: 'true',
             type: 'json',
             schema: {
-                "id": 4,
-                "conteudo": "Não está certo essa sua respota amigo",
-                "data_criacao": "DATE",
-                "usuario_id": 2,
-                "topico_id": 2
+        "conteudo": "Não está certo essa sua respota amigo",
+        "data_criacao": "2023-06-15",
+        "usuario_id": 2,
+        "topico_id": 1
             }
         }
         */)
@@ -66,9 +65,10 @@ module.exports = (app) => {
             required: 'true',
             type: 'json',
             schema:     {
-                "conteudo": "Não está certo essa sua respota amigo",
-                "usuario_id": 2,
-                "topico_id": 2
+        "conteudo": "Não está certo essa sua respota amigo",
+        "data_criacao": "2023-06-15",
+        "usuario_id": 2,
+        "topico_id": 1
         }
         }*/)
 }

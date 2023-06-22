@@ -58,7 +58,7 @@
                       },
                       "data_cadastro": {
                         "type": "string",
-                        "example": "2023-05-25T03:00:00.000Z"
+                        "example": "2023-05-25"
                       },
                       "reputacao": {
                         "type": "number",
@@ -168,10 +168,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "id": {
-                  "type": "string",
-                  "example": "ID"
-                },
                 "nome": {
                   "type": "string",
                   "example": "NOME"
@@ -228,15 +224,23 @@
               "properties": {
                 "nome": {
                   "type": "string",
-                  "example": "NOME"
+                  "example": "Usuário 5"
                 },
                 "email": {
                   "type": "string",
-                  "example": "EMAIL"
+                  "example": "usuario5@example.com"
                 },
                 "senha": {
                   "type": "string",
-                  "example": "SENHA"
+                  "example": "senhaxyz"
+                },
+                "data_cadastro": {
+                  "type": "string",
+                  "example": "2023-05-26"
+                },
+                "reputacao": {
+                  "type": "number",
+                  "example": 0
                 }
               }
             }
@@ -270,19 +274,19 @@
               "properties": {
                 "nome": {
                   "type": "string",
-                  "example": "VARCHAR(100)"
+                  "example": "Perguntas sobre programação"
                 },
                 "descricao": {
                   "type": "string",
-                  "example": "TEXT"
+                  "example": "Essa é uma descrição de exemplo"
                 },
                 "data_criacao": {
                   "type": "string",
-                  "example": "DATE"
+                  "example": "2023-06-01"
                 },
                 "quantidade_topicos": {
-                  "type": "string",
-                  "example": "INTEGER"
+                  "type": "number",
+                  "example": 10
                 }
               }
             }
@@ -320,24 +324,24 @@
                     "type": "object",
                     "properties": {
                       "id": {
-                        "type": "string",
-                        "example": "SERIAL PRIMARY KEY"
+                        "type": "number",
+                        "example": 2
                       },
                       "nome": {
                         "type": "string",
-                        "example": "VARCHAR(100)"
+                        "example": "Perguntas sobre programação"
                       },
                       "descricao": {
                         "type": "string",
-                        "example": "TEXT"
+                        "example": "Essa é uma descrição de exemplo"
                       },
                       "data_criacao": {
                         "type": "string",
-                        "example": "DATE"
+                        "example": "2023-06-01"
                       },
                       "quantidade_topicos": {
-                        "type": "string",
-                        "example": "INTEGER"
+                        "type": "number",
+                        "example": 10
                       }
                     }
                   }
@@ -402,25 +406,21 @@
             "schema": {
               "type": "object",
               "properties": {
-                "id": {
-                  "type": "string",
-                  "example": "SERIAL PRIMARY KEY"
-                },
                 "nome": {
                   "type": "string",
-                  "example": "VARCHAR(100)"
+                  "example": "Perguntas sobre programação"
                 },
                 "descricao": {
                   "type": "string",
-                  "example": "TEXT"
+                  "example": "Essa é uma descrição de exemplo"
                 },
                 "data_criacao": {
                   "type": "string",
-                  "example": "DATE"
+                  "example": "2023-06-01"
                 },
                 "quantidade_topicos": {
-                  "type": "string",
-                  "example": "INTEGER"
+                  "type": "number",
+                  "example": 10
                 }
               }
             }
@@ -458,19 +458,19 @@
               "properties": {
                 "nome": {
                   "type": "string",
-                  "example": "VARCHAR(100)"
+                  "example": "Perguntas sobre programação"
                 },
                 "descricao": {
                   "type": "string",
-                  "example": "TEXT"
+                  "example": "Essa é uma descrição de exemplo"
                 },
                 "data_criacao": {
                   "type": "string",
-                  "example": "DATE"
+                  "example": "2023-06-01"
                 },
                 "quantidade_topicos": {
-                  "type": "string",
-                  "example": "INTEGER"
+                  "type": "number",
+                  "example": 10
                 }
               }
             }
@@ -642,23 +642,23 @@
               "properties": {
                 "titulo": {
                   "type": "string",
-                  "example": "TITULO"
+                  "example": "exemplo"
                 },
                 "conteudo": {
                   "type": "string",
-                  "example": "CONTEUDO"
+                  "example": "exemplo@example.com"
                 },
                 "data_criacao": {
                   "type": "string",
-                  "example": "DATA"
+                  "example": "2023-06-11"
                 },
                 "usuario_id": {
                   "type": "number",
-                  "example": 2
+                  "example": 5
                 },
                 "categoria_id": {
                   "type": "number",
-                  "example": 2
+                  "example": 3
                 }
               }
             }
@@ -696,23 +696,23 @@
               "properties": {
                 "titulo": {
                   "type": "string",
-                  "example": "TITULO"
+                  "example": "exemplo"
                 },
                 "conteudo": {
                   "type": "string",
-                  "example": "CONTEUDO"
+                  "example": "exemplo@example.com"
                 },
                 "data_criacao": {
                   "type": "string",
-                  "example": "DATA"
+                  "example": "2023-06-11"
                 },
                 "usuario_id": {
                   "type": "number",
-                  "example": 2
+                  "example": 5
                 },
                 "categoria_id": {
                   "type": "number",
-                  "example": 2
+                  "example": 3
                 }
               }
             }
@@ -797,7 +797,7 @@
                     "properties": {
                       "id": {
                         "type": "number",
-                        "example": 4
+                        "example": 8
                       },
                       "conteudo": {
                         "type": "string",
@@ -805,7 +805,7 @@
                       },
                       "data_criacao": {
                         "type": "string",
-                        "example": "DATE"
+                        "example": "2023-06-15"
                       },
                       "usuario_id": {
                         "type": "number",
@@ -813,7 +813,7 @@
                       },
                       "topico_id": {
                         "type": "number",
-                        "example": 2
+                        "example": 1
                       }
                     }
                   }
@@ -878,17 +878,13 @@
             "schema": {
               "type": "object",
               "properties": {
-                "id": {
-                  "type": "number",
-                  "example": 4
-                },
                 "conteudo": {
                   "type": "string",
                   "example": "Não está certo essa sua respota amigo"
                 },
                 "data_criacao": {
                   "type": "string",
-                  "example": "DATE"
+                  "example": "2023-06-15"
                 },
                 "usuario_id": {
                   "type": "number",
@@ -896,7 +892,7 @@
                 },
                 "topico_id": {
                   "type": "number",
-                  "example": 2
+                  "example": 1
                 }
               }
             }
@@ -936,13 +932,17 @@
                   "type": "string",
                   "example": "Não está certo essa sua respota amigo"
                 },
+                "data_criacao": {
+                  "type": "string",
+                  "example": "2023-06-15"
+                },
                 "usuario_id": {
                   "type": "number",
                   "example": 2
                 },
                 "topico_id": {
                   "type": "number",
-                  "example": 2
+                  "example": 1
                 }
               }
             }
@@ -1021,9 +1021,13 @@
                   "items": {
                     "type": "object",
                     "properties": {
-                      "usuario_id": {
+                      "id": {
                         "type": "number",
                         "example": 5
+                      },
+                      "usuario_id": {
+                        "type": "number",
+                        "example": 8
                       },
                       "resposta_id": {
                         "type": "number",
@@ -1144,7 +1148,7 @@
               "properties": {
                 "usuario_id": {
                   "type": "number",
-                  "example": 5
+                  "example": 8
                 },
                 "resposta_id": {
                   "type": "number",
