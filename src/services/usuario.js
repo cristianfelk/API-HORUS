@@ -1,11 +1,9 @@
 const db = require('../configs/pg')
 
-
 const getUsuario = async () => {
     const sql_get = `select * from usuario`
     return await db.query(sql_get)
 }
-
 
 const deleteUsuario = async (params) => {
     const sql_delete = `delete from usuario where id = $1`
@@ -38,7 +36,6 @@ const putUsuario = async (params) => {
     const { id, nome, email, senha, data_cadastro, reputacao } = params 
     return await db.query(sql_put, [id, nome, email, senha, data_cadastro, reputacao])
 }
-
 
 const patchUsuario = async (params) => {
     let fields = [];

@@ -24,7 +24,6 @@ const deleteResposta = async (params) => {
     await db.query(sql_delete, [id])
 }
 
-
 const putResposta = async (params) => {
     const sql_put = `update resposta set
             conteudo = $2, 
