@@ -65,7 +65,7 @@ module.exports = (app) => {
         type: 'json',
         schema: {
         "usuario_id": 8,
-         "resposta_id": 4,
+        "resposta_id": 4,
         "tipo_voto": 0
         }
     }*/)
