@@ -1,5 +1,19 @@
 const db = require('../configs/pg')
 
+const postUsuario = async (params) => {
+    try {
+        const sql_post = ` insert into usuario (nome, login, senha, email, data_cadastro)
+            values ('${params.nome}', 
+                    '${params.login}',
+                    '${params.senha}',
+                    '${params.email}',
+                    current_date)`
+        await db.query(sql_post)
+    } catch (error) {
+
+    }
+}
+
 const getUsuario = async () => {
     const sql_get = `select * from usuario`
     return await db.query(sql_get)
@@ -11,30 +25,15 @@ const deleteUsuario = async (params) => {
     await db.query(sql_delete, [id])
 }
 
-const postUsuario = async (params) => {
-    try {
-        const sql_post = `insert into usuario (nome, email, senha, data_cadastro, reputacao) values (
-            '${params.nome}', 
-            '${params.email}', 
-            '${params.senha}', 
-            current_date,
-            '${params.reputacao}'
-        )`
-        await db.query(sql_post)
-    } catch (error) {   
-    }
-}
-
 const putUsuario = async (params) => {
     const sql_put = `update usuario set
-            nome = $2,
-            email = $3,
+            nome = $2, 
+            login = $3,
             senha = $4,
-            data_cadastro = $5,
-            reputacao = $6
-            where id = $1 `
-    const { id, nome, email, senha, data_cadastro, reputacao } = params 
-    return await db.query(sql_put, [id, nome, email, senha, data_cadastro, reputacao])
+            email = $5
+            where id = $1`
+    const { id, nome, login, senha, email } = params 
+    return await db.query(sql_put, [id, nome, login, senha, email])
 }
 
 const patchUsuario = async (params) => {
@@ -46,8 +45,8 @@ const patchUsuario = async (params) => {
     await db.query(sql);
 }
 
+module.exports.postUsuario = postUsuario
 module.exports.getUsuario = getUsuario
 module.exports.deleteUsuario = deleteUsuario
-module.exports.postUsuario = postUsuario
 module.exports.putUsuario = putUsuario
 module.exports.patchUsuario = patchUsuario

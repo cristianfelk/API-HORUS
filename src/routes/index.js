@@ -1,13 +1,15 @@
 const usuario = require('./usuario');
-const categoria = require('./categoria');
-const resposta = require('./resposta');
-const topico = require('./topico');
-const voto_resposta = require('./voto_resposta');
+const fiscalizacao = require('./fiscalizacao');
+const fiscalizacao_dados = require('./fiscalizacao_dados');
+const bairro = require('./bairro');
+const denuncia = require('./denuncia');
+const municipio = require('./municipio');
 
 module.exports = (app) => {
-    usuario(app)
-    categoria(app)
-    resposta(app)
-    topico(app)
-    voto_resposta(app)
+    usuario(app),
+    fiscalizacao(app),
+    fiscalizacao_dados(app),
+    bairro(app),
+    denuncia(app),
+    municipio(app)
 }

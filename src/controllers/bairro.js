@@ -1,14 +1,14 @@
-const usuarioService = require('../services/usuario')
+const bairroService = require('../services/bairro')
 
-const postUsuario = async (req, res, next) => {
-    await usuarioService.postUsuario(req.body)
+const postBairro = async (req, res, next) => {
+    await bairroService.postBairro(req.body)
         .then(ret => res.status(201).send(ret))
         .catch(err => res.status(500).send(err))
 }
 
-const getUsuario = async (req, res, next) => {
+const getBairro = async (req, res, next) => {
     try {
-        await usuarioService.getUsuario()
+        await bairroService.getBairro()
             .then(ret => res.status(201).send(ret.rows))
             .catch(err => res.status(500).send(err.message))
     } catch (err) {
@@ -16,9 +16,9 @@ const getUsuario = async (req, res, next) => {
     } 
 }
 
-const deleteUsuario = async (req, res, next) => {
+const deleteBairro = async (req, res, next) => {
     try {
-        await usuarioService.deleteUsuario(req.params)
+        await bairroService.deleteBairro(req.params)
             .then(ret => res.status(204).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
@@ -26,11 +26,11 @@ const deleteUsuario = async (req, res, next) => {
     }
 }
 
-const putUsuario = async (req, res, next) => {
+const putBairro = async (req, res, next) => {
     try {
         let params = req.body
         params.id = req.params.id
-        await usuarioService.putUsuario(params)
+        await bairroService.putBairro(params)
             .then(ret => res.status(201).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
@@ -38,11 +38,11 @@ const putUsuario = async (req, res, next) => {
     }
 }
 
-const patchUsuario = async (req, res, next) => {
+const patchBairro = async (req, res, next) => {
     try {
         let params = req.body
         params.id = req.params.id
-        await usuarioService.patchUsuario(params)
+        await bairroService.patchBairro(params)
             .then(ret => res.status(200).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
@@ -50,8 +50,8 @@ const patchUsuario = async (req, res, next) => {
     }
 }
 
-module.exports.postUsuario = postUsuario
-module.exports.getUsuario = getUsuario
-module.exports.deleteUsuario = deleteUsuario
-module.exports.putUsuario = putUsuario
-module.exports.patchUsuario = patchUsuario
+module.exports.postBairro = postBairro
+module.exports.getBairro = getBairro
+module.exports.deleteBairro = deleteBairro
+module.exports.putBairro = putBairro
+module.exports.patchBairro = patchBairro

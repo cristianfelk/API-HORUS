@@ -1,46 +1,54 @@
-CREATE TABLE usuario (
-  id SERIAL PRIMARY KEY,
-  nome VARCHAR(100),
-  email VARCHAR(100),
-  senha VARCHAR(100),
-  data_cadastro DATE,
-  reputacao INTEGER
+create table usuario (
+  id serial primary key not null,
+  nome varchar(100) not null,
+  login varchar(100) unique not null,
+  senha text not null,
+  email varchar(250) unique not null,
+  data_cadastro date
 );
 
-CREATE TABLE categoria (
-  id SERIAL PRIMARY KEY,
-  nome VARCHAR(100),
-  descricao TEXT,
-  data_criacao DATE,
-  quantidade_topicos INTEGER
+create table fiscalizacao (
+  id serial primary key not null,
+  usuario_id integer not null,
+  data_fiscalizacao timestamp,
+  bairro_fiscalizacao integer,
+  foreign key (usuario_id) references usuario (id),
+  foreign key (bairro_fiscalizacao) references bairro (id)
 );
 
-CREATE TABLE topico (
-  id SERIAL PRIMARY KEY,
-  titulo VARCHAR(200),
-  conteudo TEXT,
-  data_criacao DATE,
-  usuario_id INTEGER,
-  categoria_id INTEGER,
-  FOREIGN KEY (usuario_id) REFERENCES usuario (id),
-  FOREIGN KEY (categoria_id) REFERENCES categoria (id)
+create table fiscalizacao_dados (
+  id serial primary key not null,
+  id_fiscalizacao integer not null,
+  dados json,
+  foreign key (id_fiscalizacao) references fiscalizacao (id)
 );
 
-CREATE TABLE resposta (
-  id SERIAL PRIMARY KEY,
-  conteudo TEXT,
-  data_criacao DATE,
-  usuario_id INTEGER,
-  topico_id INTEGER,
-  FOREIGN KEY (usuario_id) REFERENCES usuario (id),
-  FOREIGN KEY (topico_id) REFERENCES topico (id)
+create table denuncia (
+  id integer primary key not null,
+  anonima boolean not null,
+  dados_denuncia json,
+  chave_denuncia text unique
 );
 
-CREATE TABLE voto_resposta (
-  id SERIAL PRIMARY KEY,
-  usuario_id INTEGER,
-  resposta_id INTEGER,
-  tipo_voto INTEGER,
-  FOREIGN KEY (usuario_id) REFERENCES usuario (id),
-  FOREIGN KEY (resposta_id) REFERENCES resposta (id)
+create table bairro (
+  id integer primary key not null,
+  descricao varchar(120) not null,
+  municipio_id integer,
+  foreign key (municipio_id) references municipio (id)
+
+);
+
+create table municipio (
+  id integer primary key not null,
+  nome varchar(250) not null,
+  cep varchar(10)
+);
+
+create table log (
+  id integer primary key not null,
+  acao varchar(20),
+  tabela varchar(100),
+  usuario_acao integer,
+  dados_alterados text,
+  foreign key (usuario_acao) references usuario (id)
 );

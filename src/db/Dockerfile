@@ -4,4 +4,4 @@ COPY init.sql /docker-entrypoint-initdb.d/
 
 ENV POSTGRES_USER admin
 ENV POSTGRES_PASSWORD admin
-ENV POSTGRES_DB forumhorusdoec
+ENV POSTGRES_DB APP_SECRETARIA

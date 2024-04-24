@@ -1,14 +1,14 @@
-const usuarioService = require('../services/usuario')
+const fiscalizacaoService = require('../services/fiscalizacao')
 
-const postUsuario = async (req, res, next) => {
-    await usuarioService.postUsuario(req.body)
+const postFiscalizacao = async (req, res, next) => {
+    await fiscalizacaoService.postFiscalizacao(req.body)
         .then(ret => res.status(201).send(ret))
         .catch(err => res.status(500).send(err))
 }
 
-const getUsuario = async (req, res, next) => {
+const getFiscalizacao = async (req, res, next) => {
     try {
-        await usuarioService.getUsuario()
+        await fiscalizacaoService.getFiscalizacao()
             .then(ret => res.status(201).send(ret.rows))
             .catch(err => res.status(500).send(err.message))
     } catch (err) {
@@ -16,9 +16,9 @@ const getUsuario = async (req, res, next) => {
     } 
 }
 
-const deleteUsuario = async (req, res, next) => {
+const deleteFiscalizacao = async (req, res, next) => {
     try {
-        await usuarioService.deleteUsuario(req.params)
+        await fiscalizacaoService.deleteFiscalizacao(req.params)
             .then(ret => res.status(204).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
@@ -26,11 +26,11 @@ const deleteUsuario = async (req, res, next) => {
     }
 }
 
-const putUsuario = async (req, res, next) => {
+const putFiscalizacao = async (req, res, next) => {
     try {
         let params = req.body
         params.id = req.params.id
-        await usuarioService.putUsuario(params)
+        await fiscalizacaoService.putFiscalizacao(params)
             .then(ret => res.status(201).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
@@ -38,11 +38,11 @@ const putUsuario = async (req, res, next) => {
     }
 }
 
-const patchUsuario = async (req, res, next) => {
+const patchFiscalizacao = async (req, res, next) => {
     try {
         let params = req.body
         params.id = req.params.id
-        await usuarioService.patchUsuario(params)
+        await fiscalizacaoService.patchFiscalizacao(params)
             .then(ret => res.status(200).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
@@ -50,8 +50,8 @@ const patchUsuario = async (req, res, next) => {
     }
 }
 
-module.exports.postUsuario = postUsuario
-module.exports.getUsuario = getUsuario
-module.exports.deleteUsuario = deleteUsuario
-module.exports.putUsuario = putUsuario
-module.exports.patchUsuario = patchUsuario
+module.exports.postFiscalizacao = postFiscalizacao
+module.exports.getFiscalizacao = getFiscalizacao
+module.exports.deleteFiscalizacao = deleteFiscalizacao
+module.exports.putFiscalizacao = putFiscalizacao
+module.exports.patchFiscalizacao = patchFiscalizacao
