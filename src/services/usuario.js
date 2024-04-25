@@ -1,16 +1,21 @@
-const db = require('../configs/pg')
+const db = require('../configs/pg');
+const crypto = require('crypto');
 
 const postUsuario = async (params) => {
     try {
-        const sql_post = ` insert into usuario (nome, login, senha, email, data_cadastro)
-            values ('${params.nome}', 
-                    '${params.login}',
-                    '${params.senha}',
-                    '${params.email}',
-                    current_date)`
-        await db.query(sql_post)
-    } catch (error) {
+        const salt = crypto.randomBytes(16).toString('hex');
+        const senhaCriptografada = crypto.createHash('sha256').update(params.senha + salt).digest('hex');
 
+        const sql_post = `insert into usuario (nome, login, senha, salt, email, data_cadastro)
+                          values ('${params.nome}', 
+                                  '${params.login}',
+                                  '${senhaCriptografada}',
+                                  '${salt}',
+                                  '${params.email}',
+                                  current_date)`;
+        await db.query(sql_post);
+    } catch (error) {
+        
     }
 }
 

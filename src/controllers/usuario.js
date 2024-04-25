@@ -1,9 +1,16 @@
-const usuarioService = require('../services/usuario')
+const usuarioService = require('../services/usuario');
 
-const postUsuario = async (req, res, next) => {
+const postUsuario = async (req, res) => {
     try {
-        const novoUsuario = await usuarioService.postUsuario(req.body);
-        res.status(201).json({ message: "Usuário cadastrado com sucesso", usuario: novoUsuario });
+        const emailIvalido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailIvalido.test(req.body.email)) {
+            return res.status(400).json({ error: "Formato de email inválido" });
+        }
+
+        await usuarioService.postUsuario(req.body);
+        res.status(201).json({ message: "Usuário cadastrado com sucesso" });
+
     } catch (err) {
         res.status(500).json({ error: "Erro ao cadastrar usuário", message: err.message });
     }

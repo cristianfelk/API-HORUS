@@ -16,6 +16,7 @@ create table usuario (
   nome varchar(100) not null,
   login varchar(100) unique not null,
   senha text not null,
+  salt text not null,
   email varchar(250) unique not null,
   data_cadastro date
 );
