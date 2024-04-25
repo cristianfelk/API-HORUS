@@ -1,9 +1,12 @@
 const usuarioService = require('../services/usuario')
 
 const postUsuario = async (req, res, next) => {
-    await usuarioService.postUsuario(req.body)
-        .then(ret => res.status(201).send(ret))
-        .catch(err => res.status(500).send(err))
+    try {
+        const novoUsuario = await usuarioService.postUsuario(req.body);
+        res.status(201).json({ message: "Usuário cadastrado com sucesso", usuario: novoUsuario });
+    } catch (err) {
+        res.status(500).json({ error: "Erro ao cadastrar usuário", message: err.message });
+    }
 }
 
 const getUsuario = async (req, res, next) => {
