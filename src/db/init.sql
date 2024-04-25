@@ -1,3 +1,16 @@
+create table municipio (
+  id integer primary key not null,
+  nome varchar(250) not null,
+  cep varchar(10)
+);
+
+create table bairro (
+  id integer primary key not null,
+  descricao varchar(120) not null,
+  municipio_id integer,
+  foreign key (municipio_id) references municipio (id)
+);
+
 create table usuario (
   id serial primary key not null,
   nome varchar(100) not null,
@@ -11,7 +24,7 @@ create table fiscalizacao (
   id serial primary key not null,
   usuario_id integer not null,
   data_fiscalizacao timestamp,
-  bairro_fiscalizacao integer,
+  bairro_fiscalizacao integer not null,
   foreign key (usuario_id) references usuario (id),
   foreign key (bairro_fiscalizacao) references bairro (id)
 );
@@ -19,33 +32,19 @@ create table fiscalizacao (
 create table fiscalizacao_dados (
   id serial primary key not null,
   id_fiscalizacao integer not null,
-  dados json,
+  dados jsonb,
   foreign key (id_fiscalizacao) references fiscalizacao (id)
 );
 
 create table denuncia (
-  id integer primary key not null,
+  id serial primary key not null,
   anonima boolean not null,
-  dados_denuncia json,
+  dados_denuncia jsonb,
   chave_denuncia text unique
 );
 
-create table bairro (
-  id integer primary key not null,
-  descricao varchar(120) not null,
-  municipio_id integer,
-  foreign key (municipio_id) references municipio (id)
-
-);
-
-create table municipio (
-  id integer primary key not null,
-  nome varchar(250) not null,
-  cep varchar(10)
-);
-
 create table log (
-  id integer primary key not null,
+  id serial primary key not null,
   acao varchar(20),
   tabela varchar(100),
   usuario_acao integer,

@@ -16,9 +16,9 @@ const getDenuncia = async (req, res, next) => {
     } 
 }
 
-const deleteFiscalizacao = async (req, res, next) => {
+const deleteDenuncia = async (req, res, next) => {
     try {
-        await denunciaService.deleteFiscalizacao(req.params)
+        await denunciaService.deleteDenuncia(req.params)
             .then(ret => res.status(204).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
@@ -52,6 +52,6 @@ const patchDenuncia = async (req, res, next) => {
 
 module.exports.postDenuncia = postDenuncia
 module.exports.getDenuncia = getDenuncia
-module.exports.deleteFiscalizacao = deleteFiscalizacao
+module.exports.deleteDenuncia = deleteDenuncia
 module.exports.putDenuncia = putDenuncia
 module.exports.patchDenuncia = patchDenuncia
