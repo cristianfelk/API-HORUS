@@ -42,13 +42,20 @@ const putUsuario = async (params) => {
 }
 
 const patchUsuario = async (params) => {
+    const salt = crypto.randomBytes(16).toString('hex');
+    const senhaCriptografada = crypto.createHash('sha256').update(params.senha + salt).digest('hex');
+    const { senha, ...paramsSemSenha } = params; //remove a senha pra nao atualizar diretamente
+
     let fields = [];
-    Object.keys(params).map(p => p).forEach(e => e !== 'id' && fields.push(`${e} = '${params[e]}'`));
+    Object.keys(paramsSemSenha).forEach(e => e !== 'id' && fields.push(`${e} = '${paramsSemSenha[e]}'`));
+    fields.push(`senha = '${senhaCriptografada}'`);
     fields = fields.join(', ');
-    console.log(params)
-    const sql = `update usuario set ${fields} where id = ${params.id}`;
+
+    const sql = ` update usuario set ${fields} where id = ${params.id}`;
     await db.query(sql);
-}
+
+};
+
 
 module.exports.postUsuario = postUsuario
 module.exports.getUsuario = getUsuario
