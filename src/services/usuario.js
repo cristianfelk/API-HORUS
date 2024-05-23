@@ -5,6 +5,7 @@ const postUsuario = async (params) => {
     try {
         const salt = crypto.randomBytes(16).toString('hex');
         const senhaCriptografada = crypto.createHash('sha256').update(params.senha + salt).digest('hex');
+        //gera a criptografia da senha do usuario
 
         const sql_post = `insert into usuario (nome, login, senha, salt, email, data_cadastro)
                           values ('${params.nome}', 
@@ -19,9 +20,17 @@ const postUsuario = async (params) => {
     }
 }
 
+// busca todos usuários
 const getUsuario = async () => {
     const sql_get = `select * from usuario`
     return await db.query(sql_get)
+}
+
+//consulta usuario por id
+const getUsuarioById = async (params) => {
+    const sql_get = `select * from usuario where id = $1`
+    const { id } = params 
+    return await db.query(sql_get, [id])
 }
 
 const deleteUsuario = async (params) => {
@@ -59,6 +68,7 @@ const patchUsuario = async (params) => {
 
 module.exports.postUsuario = postUsuario
 module.exports.getUsuario = getUsuario
+module.exports.getUsuarioById = getUsuarioById
 module.exports.deleteUsuario = deleteUsuario
 module.exports.putUsuario = putUsuario
 module.exports.patchUsuario = patchUsuario

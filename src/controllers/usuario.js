@@ -2,7 +2,7 @@ const usuarioService = require('../services/usuario');
 
 const postUsuario = async (req, res) => {
     try {
-        const emailIvalido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailIvalido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //valida formato do email
 
         if (!emailIvalido.test(req.body.email)) {
             return res.status(400).json({ error: "Formato de email inválido" });
@@ -16,7 +16,7 @@ const postUsuario = async (req, res) => {
     }
 }
 
-const getUsuario = async (req, res, next) => {
+const getUsuario = async  (res, next) => {
     try {
         await usuarioService.getUsuario()
             .then(ret => res.status(201).send(ret.rows))
@@ -24,6 +24,16 @@ const getUsuario = async (req, res, next) => {
     } catch (err) {
         next(err);
     } 
+}
+
+const getUsuarioById = async (req, res, next) => {
+    try {
+        await usuarioService.getUsuarioById(req.params)
+            .then(ret => res.status(204).send(ret))
+            .catch(err => res.status(500).send(err))
+    } catch (err) {
+        next(err);
+    }
 }
 
 const deleteUsuario = async (req, res, next) => {
@@ -62,6 +72,7 @@ const patchUsuario = async (req, res, next) => {
 
 module.exports.postUsuario = postUsuario
 module.exports.getUsuario = getUsuario
+module.exports.getUsuarioById = getUsuarioById
 module.exports.deleteUsuario = deleteUsuario
 module.exports.putUsuario = putUsuario
 module.exports.patchUsuario = patchUsuario
