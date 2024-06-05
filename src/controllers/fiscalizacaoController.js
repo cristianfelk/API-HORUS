@@ -1,4 +1,4 @@
-const fiscalizacaoService = require('../services/fiscalizacao')
+const fiscalizacaoService = require('../services/fiscalizacaoService')
 
 const postFiscalizacao = async (req, res, next) => {
     await fiscalizacaoService.postFiscalizacao(req.body)

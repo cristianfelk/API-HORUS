@@ -1,4 +1,4 @@
-const municipioService = require('../services/municipio')
+const municipioService = require('../services/municipioService')
 
 const postMunicipio = async (req, res, next) => {
     await municipioService.postMunicipio(req.body)

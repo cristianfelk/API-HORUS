@@ -1,4 +1,4 @@
-const usuarioService = require('../services/usuario');
+const usuarioService = require('../services/usuarioService');
 
 const postUsuario = async (req, res) => {
     try {

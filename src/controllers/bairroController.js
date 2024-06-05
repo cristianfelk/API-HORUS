@@ -1,4 +1,4 @@
-const bairroService = require('../services/bairro')
+const bairroService = require('../services/bairroService')
 
 const postBairro = async (req, res, next) => {
     await bairroService.postBairro(req.body)

@@ -1,4 +1,4 @@
-const fiscalizacaoDadosController = require('../controllers/fiscalizacao_dados');
+const fiscalizacaoDadosController = require('../controllers/fiscalizacaoDadosController');
 
 module.exports = (app) => { 
     app.post('/fiscalizacao_dados', fiscalizacaoDadosController.postFiscalizacaoDados)

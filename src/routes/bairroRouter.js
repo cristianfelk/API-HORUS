@@ -1,4 +1,4 @@
-const bairroController = require('../controllers/bairro');
+const bairroController = require('../controllers/bairroController');
 
 module.exports = (app) => { 
     app.post('/bairro', bairroController.postBairro)

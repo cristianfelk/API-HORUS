@@ -1,4 +1,4 @@
-const denunciaService = require('../services/denuncia')
+const denunciaService = require('../services/denunciaService')
 
 const postDenuncia = async (req, res, next) => {
     await denunciaService.postDenuncia(req.body)

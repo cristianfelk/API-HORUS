@@ -1,4 +1,4 @@
-const municipioController = require('../controllers/municipio');
+const municipioController = require('../controllers/municipioController');
 
 module.exports = (app) => { 
     app.post('/municipio', municipioController.postMunicipio)

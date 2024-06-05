@@ -1,4 +1,4 @@
-const denunciaController = require('../controllers/denuncia');
+const denunciaController = require('../controllers/denunciaController');
 
 module.exports = (app) => { 
     app.post('/denuncia', denunciaController.postDenuncia)
