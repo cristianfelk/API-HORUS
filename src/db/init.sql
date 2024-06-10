@@ -1,14 +1,15 @@
-create table municipio (
-  id integer primary key not null,
-  nome varchar(250) not null,
-  cep varchar(10),
-  uf varchar(2)
-);
-
 create table uf (
     id integer primary key not null,
     descricao varchar(250),
     sigla_uf varchar(2)
+);
+
+create table municipio (
+  id integer primary key not null,
+  nome varchar(250) not null,
+  cep varchar(10),
+  uf integer,
+  foreign key (uf) references uf (id)
 );
 
 create table bairro (
@@ -47,12 +48,22 @@ create table fiscalizacao_dados (
   foreign key (id_fiscalizacao) references fiscalizacao (id)
 );
 
+create table status (
+  id integer primary key not null,
+  descricao varchar(50) not null
+);
+
 create table denuncia (
   id serial primary key not null,
   anonima boolean not null,
+  id_municipio integer not null,
+  id_bairro integer not null,
   dados_denuncia jsonb,
-  status varchar(50),
-  chave_denuncia text unique
+  id_status integer,
+  chave_denuncia text unique,
+  foreign key (id_status) references status (id),
+  foreign key (id_municipio) references municipio (id),
+  foreign key (id_bairro) references bairro (id)
 );
 
 create table log (

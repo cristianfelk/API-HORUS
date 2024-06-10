@@ -1,9 +1,9 @@
-const usuario = require('./usuario');
-const fiscalizacao = require('./fiscalizacao');
-const fiscalizacao_dados = require('./fiscalizacao_dados');
-const bairro = require('./bairro');
-const denuncia = require('./denuncia');
-const municipio = require('./municipio');
+const usuario = require('./usuarioRouter');
+const fiscalizacao = require('./fiscalizacaoRouter');
+const fiscalizacao_dados = require('./fiscalizacaoDadosRouter');
+const bairro = require('./bairroRouter');
+const denuncia = require('./denunciaRouter');
+const municipio = require('./municipioRouter');
 
 module.exports = (app) => {
     usuario(app),
