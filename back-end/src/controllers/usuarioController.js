@@ -16,15 +16,14 @@ const postUsuario = async (req, res) => {
     }
 }
 
-const getUsuario = async  (res, next) => {
+const getUsuario = async (req, res, next) => {
     try {
-        await usuarioService.getUsuario()
-            .then(ret => res.status(201).send(ret.rows))
-            .catch(err => res.status(500).send(err.message))
+        const ret = await usuarioService.getUsuario();
+        res.status(200).send(ret.rows); 
     } catch (err) {
-        next(err);
-    } 
-}
+        res.status(500).send({ error: err.message }); 
+    }
+};
 
 const getUsuarioById = async (req, res, next) => {
     try {

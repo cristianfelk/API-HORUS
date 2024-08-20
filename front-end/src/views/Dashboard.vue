@@ -1,11 +1,35 @@
 <template>
-  <div>
-    <div class="navbar">
-      <div class="navbar-title">Bem-vindo ao Sistema!</div>
-      <button @click="logout" class="logout-button">Sair</button>
+  <div class="dashboard-container">
+    <div class="sidebar">
+      <div class="sidebar-title">Menu</div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-item">
+          <a href="#">
+            <img src="https://img.icons8.com/ios-filled/50/user.png" alt="Usuário" class="menu-icon" />
+            Usuário
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="#">
+            <img src="https://img.icons8.com/ios-filled/50/map.png" alt="Bairro" class="menu-icon" />
+            Bairro
+          </a>
+        </li>
+        <li class="sidebar-item">
+          <a href="#">
+            <img src="https://img.icons8.com/ios-filled/50/earth-planet.png" alt="Município" class="menu-icon" />
+            Município
+          </a>
+        </li>
+      </ul>
     </div>
-    <div class="dashboard-content">
-      <!-- Aqui você pode adicionar o conteúdo do seu dashboard -->
+    <div class="content">
+      <div class="navbar">
+        <div class="navbar-title">Bem-vindo ao Sistema!</div>
+        <button @click="logout" class="logout-button">Sair</button>
+      </div>
+      <div class="dashboard-content">
+      </div>
     </div>
   </div>
 </template>
@@ -23,12 +47,12 @@ export default {
 </script>
 
 <style scoped>
-/* Remove qualquer margem padrão no corpo da página */
-body {
-  margin: 0;
+.dashboard-container {
+  display: flex;
+  height: 90vh;
+  flex-direction: column;
 }
 
-/* Estilos para a navbar */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -36,36 +60,74 @@ body {
   background-color: rgba(34, 139, 34, 1); /* Verde igual ao botão de login */
   padding: 10px 20px;
   color: white;
-  position: fixed; /* Fixa a navbar no topo da página */
-  width: 100%;
+  z-index: 1000; /* Garante que a navbar fique sobre outros conteúdos */
+  position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000; /* Garante que a navbar fique sobre outros conteúdos */
+  right: 0;
+  height: 60px; /* Ajuste conforme necessário */
 }
 
-.navbar-title {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.logout-button {
+.sidebar {
+  width: 220px;
   background-color: rgba(34, 139, 34, 1); /* Verde igual ao botão de login */
   color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  margin-right: 10px; /* Ajusta a posição do botão para a esquerda */
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  position: fixed;
+  top: 60px; /* Alinha o sidebar logo abaixo da navbar */
+  left: 0;
+  bottom: 0;
 }
 
-.logout-button:hover {
+.sidebar-title {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-item {
+  margin-bottom: 5px;
+}
+
+.sidebar-item a {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.sidebar-item a:hover {
   background-color: rgba(34, 139, 34, 0.8); /* Efeito hover */
 }
 
-/* Ajusta o conteúdo para que não fique oculto atrás da navbar fixa */
-.dashboard-content {
-  padding: 80px 20px 20px; /* Espaço no topo para a navbar */
+.menu-icon {
+  margin-right: 10px;
+  width: 24px;
+  height: 24px;
 }
+
+/* Estilo do conteúdo do dashboard */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 220px; /* Compensa a largura do sidebar */
+  margin-top: 60px; /* Compensa a altura da navbar */
+  padding: 20px;
+}
+
+.dashboard-content {
+  padding: 20px;
+}
+
 </style>
