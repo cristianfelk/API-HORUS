@@ -5,17 +5,14 @@ const postLogin = async (params) => {
     try {
         const { login, senha } = params;
 
-        // Busca o usuário no banco de dados
         const sql_get = `SELECT senha, salt FROM usuario WHERE login = $1`;
         const result = await db.query(sql_get, [login]);
 
         if (result.rows.length > 0) {
             const { senha: senhaArmazenada, salt } = result.rows[0];
             
-            // Recria a senha criptografada usando o salt
             const senhaCriptografada = crypto.createHash('sha256').update(senha + salt).digest('hex');
 
-            // Compara a senha criptografada com a senha armazenada
             if (senhaCriptografada === senhaArmazenada) {
                 return { success: true, message: 'Login bem-sucedido' };
             } else {

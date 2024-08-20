@@ -1,5 +1,5 @@
 const loginController = require('../controllers/loginController');
 
 module.exports = (app) => { 
-    app.post('/login', loginController.postLogin); // Mudando de GET para POST
+    app.post('/login', loginController.postLogin);
 };

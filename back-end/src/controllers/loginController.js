@@ -2,13 +2,13 @@ const loginService = require('../services/loginService');
 
 const postLogin = async (req, res, next) => {
   try {
-      const params = req.body; // Pegando os dados do corpo da requisição
+      const params = req.body; 
       const result = await loginService.postLogin(params);
       
       if (result.success) {
-          res.status(200).send(result); // Login bem-sucedido
+          res.status(200).send(result); 
       } else {
-          res.status(401).send(result); // Credenciais inválidas
+          res.status(401).send(result);
       }
   } catch (err) {
       next(err);
