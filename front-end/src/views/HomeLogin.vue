@@ -29,12 +29,12 @@ export default {
     return {
       login: '',
       senha: '',
-      errorMessage: '' // Adiciona um campo para a mensagem de erro
+      errorMessage: ''
     };
   },
   methods: {
     async postLogin() {
-      this.errorMessage = ''; // Limpa a mensagem de erro ao tentar fazer login
+      this.errorMessage = '';
       try {
         const response = await axios.post('http://localhost:3000/login', {
           login: this.login,
@@ -42,13 +42,13 @@ export default {
         });
 
         if (response.data.success) {
-          localStorage.setItem('authToken', 'exampleToken'); // Armazena o token
-          this.$router.push('/dashboard'); // Redireciona para a tela inicial do sistema
+          localStorage.setItem('authToken', 'exampleToken'); 
+          this.$router.push('/dashboard');
         } else {
-          this.errorMessage = 'Login ou senha incorretos'; // Atualiza a mensagem de erro
+          this.errorMessage = 'Login ou senha incorretos';
         }
       } catch (error) {
-        this.errorMessage = 'Erro ao fazer login. Verifique suas credenciais.'; // Atualiza a mensagem de erro
+        this.errorMessage = 'Usuário ou senha incorreto. Verifique suas credenciais.';
       }
     }
   }
@@ -125,7 +125,6 @@ html, body {
   background-color: rgba(34, 139, 34, 1);
 }
 
-/* Estilo para a mensagem de erro */
 .error-message {
   color: red;
   margin-top: 10px;

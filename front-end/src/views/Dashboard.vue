@@ -4,10 +4,10 @@
       <div class="sidebar-title">Menu</div>
       <ul class="sidebar-menu">
         <li class="sidebar-item">
-          <a href="#">
+          <router-link to="/usuarios">
             <img src="https://img.icons8.com/ios-filled/50/user.png" alt="Usuário" class="menu-icon" />
             Usuário
-          </a>
+          </router-link>
         </li>
         <li class="sidebar-item">
           <a href="#">
@@ -25,7 +25,7 @@
     </div>
     <div class="content">
       <div class="navbar">
-        <div class="navbar-title">Bem-vindo ao Sistema!</div>
+        <img src="@/assets/logoPzo.png" alt="Logo" class="navbar-logo">
         <button @click="logout" class="logout-button">Sair</button>
       </div>
       <div class="dashboard-content">
@@ -34,13 +34,14 @@
   </div>
 </template>
 
+
 <script>
 export default {
   name: 'Dashboard',
   methods: {
     logout() {
-      localStorage.removeItem('authToken'); // Remove o token do localStorage
-      this.$router.push('/'); // Redireciona para a página de login
+      localStorage.removeItem('authToken'); 
+      this.$router.push('/'); 
     }
   }
 }
@@ -57,26 +58,31 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(34, 139, 34, 1); /* Verde igual ao botão de login */
+  background-color: rgba(34, 139, 34, 1); 
   padding: 10px 20px;
   color: white;
-  z-index: 1000; /* Garante que a navbar fique sobre outros conteúdos */
+  z-index: 1000; 
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 60px; /* Ajuste conforme necessário */
+  height: 60px;
+}
+
+.navbar-logo {
+  height: 60px; 
+  margin-right: auto; 
 }
 
 .sidebar {
   width: 220px;
-  background-color: rgba(34, 139, 34, 1); /* Verde igual ao botão de login */
+  background-color: rgba(34, 139, 34, 1);
   color: white;
   display: flex;
   flex-direction: column;
   padding-top: 20px;
   position: fixed;
-  top: 60px; /* Alinha o sidebar logo abaixo da navbar */
+  top: 60px;
   left: 0;
   bottom: 0;
 }
@@ -107,7 +113,7 @@ export default {
 }
 
 .sidebar-item a:hover {
-  background-color: rgba(34, 139, 34, 0.8); /* Efeito hover */
+  background-color: rgba(34, 139, 34, 0.8);
 }
 
 .menu-icon {
@@ -116,18 +122,16 @@ export default {
   height: 24px;
 }
 
-/* Estilo do conteúdo do dashboard */
 .content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 220px; /* Compensa a largura do sidebar */
-  margin-top: 60px; /* Compensa a altura da navbar */
+  margin-left: 220px;
+  margin-top: 60px;
   padding: 20px;
 }
 
 .dashboard-content {
   padding: 20px;
 }
-
 </style>

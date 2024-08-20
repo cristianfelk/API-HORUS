@@ -7,12 +7,13 @@ const postUsuario = async (params) => {
         const senhaCriptografada = crypto.createHash('sha256').update(params.senha + salt).digest('hex');
         //gera a criptografia da senha do usuario
 
-        const sql_post = `insert into usuario (nome, login, senha, salt, email, data_cadastro)
+        const sql_post = `insert into usuario (nome, login, senha, salt, email, status, data_cadastro)
                           values ('${params.nome}', 
                                   '${params.login}',
                                   '${senhaCriptografada}',
                                   '${salt}',
                                   '${params.email}',
+                                  '${params.status}',
                                   current_date)`;
         await db.query(sql_post);
     } catch (error) {
@@ -20,7 +21,6 @@ const postUsuario = async (params) => {
     }
 }
 
-// busca todos usuários
 const getUsuario = async () => {
     const sql_get = `select * from usuario`
     return await db.query(sql_get)
@@ -40,14 +40,31 @@ const deleteUsuario = async (params) => {
 }
 
 const putUsuario = async (params) => {
-    const sql_put = `update usuario set
+    let sql_put = `update usuario set
             nome = $2, 
             login = $3,
-            senha = $4,
-            email = $5
-            where id = $1`
-    const { id, nome, login, senha, email } = params 
-    return await db.query(sql_put, [id, nome, login, senha, email])
+            email = $4,
+            status = $5
+            where id = $1`;
+    
+    const values = [params.id, params.nome, params.login, params.email, params.status];
+
+    if (params.senha) {
+        const salt = crypto.randomBytes(16).toString('hex');
+        const senhaCriptografada = crypto.createHash('sha256').update(params.senha + salt).digest('hex');
+        sql_put = `update usuario set
+                    nome = $2, 
+                    login = $3,
+                    senha = $4,
+                    salt = $5,
+                    email = $6,
+                    status = $7
+                    where id = $1`;
+        values.splice(3, 0, senhaCriptografada); // Adiciona a senha criptografada
+        values.splice(4, 0, salt); // Adiciona o salt
+    }
+
+    return await db.query(sql_put, values);
 }
 
 const patchUsuario = async (params) => {
