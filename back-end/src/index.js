@@ -4,7 +4,7 @@ const cors = require('cors')
 
 app.use(express.json())
 
-let domains = ['http://localhost:9000']
+let domains = ['http://localhost:5173']
 const corsOptions = {
     origin: function (origin, callback) {
         if (domains.indexOf(origin) !== -1 || !origin) {
@@ -17,7 +17,11 @@ const corsOptions = {
     credentials: true
 }
 
-app.use(cors(corsOptions))
+app.use(cors({
+    origin: '*', // Permitir todas as origens
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true
+}));
 
 require('./routes')(app)
 app.get('/', (req, res) => { res.send('Executando aplicativo!'); })

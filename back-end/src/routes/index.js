@@ -4,6 +4,7 @@ const fiscalizacao_dados = require('./fiscalizacaoDadosRouter');
 const bairro = require('./bairroRouter');
 const denuncia = require('./denunciaRouter');
 const municipio = require('./municipioRouter');
+const login = require('./loginRouter');
 
 module.exports = (app) => {
     usuario(app),
@@ -11,5 +12,6 @@ module.exports = (app) => {
     fiscalizacao_dados(app),
     bairro(app),
     denuncia(app),
-    municipio(app)
+    municipio(app),
+    login(app)
 }

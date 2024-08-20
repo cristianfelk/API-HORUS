@@ -31,7 +31,7 @@ const putBairro = async (params) => {
     return await db.query(sql_put, [id, descricao, municipio_id])
 }
 
-const patchBairoo = async (params) => {
+const patchBairro = async (params) => {
     let fields = [];
     Object.keys(params).map(p => p).forEach(e => e !== 'id' && fields.push(`${e} = '${params[e]}'`));
     fields = fields.join(', ');
@@ -44,4 +44,4 @@ module.exports.postBairro = postBairro
 module.exports.getBairro = getBairro
 module.exports.deleteBairro = deleteBairro
 module.exports.putBairro = putBairro
-module.exports.patchBairoo = patchBairoo
+module.exports.patchBairro = patchBairro
