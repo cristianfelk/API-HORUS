@@ -80,9 +80,11 @@ const patchUsuario = async (params) => {
 
 };
 
-module.exports.postUsuario = postUsuario
-module.exports.getUsuario = getUsuario
-module.exports.getUsuarioById = getUsuarioById
-module.exports.deleteUsuario = deleteUsuario
-module.exports.putUsuario = putUsuario
-module.exports.patchUsuario = patchUsuario
+module.exports = {
+    postUsuario,
+    getUsuario,
+    getUsuarioById,
+    deleteUsuario,
+    putUsuario,
+    patchUsuario
+};

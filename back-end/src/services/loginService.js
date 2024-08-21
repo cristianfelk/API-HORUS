@@ -27,4 +27,6 @@ const postLogin = async (params) => {
     }
 };
 
-module.exports.postLogin = postLogin;
+module.exports = {
+    postLogin
+};

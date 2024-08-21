@@ -50,8 +50,10 @@ const patchLogradouro = async (req, res, next) => {
     }
 }
 
-module.exports.postLogradouro = postLogradouro
-module.exports.getLogradouro = getLogradouro
-module.exports.deleteLogradouro = deleteLogradouro
-module.exports.putLogradouro = putLogradouro
-module.exports.patchLogradouro = patchLogradouro
+module.exports = {
+    postLogradouro,
+    getLogradouro,
+    deleteLogradouro,
+    putLogradouro,
+    patchLogradouro
+};

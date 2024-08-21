@@ -50,8 +50,10 @@ const patchFiscalizacao = async (req, res, next) => {
     }
 }
 
-module.exports.postFiscalizacao = postFiscalizacao
-module.exports.getFiscalizacao = getFiscalizacao
-module.exports.deleteFiscalizacao = deleteFiscalizacao
-module.exports.putFiscalizacao = putFiscalizacao
-module.exports.patchFiscalizacao = patchFiscalizacao
+module.exports = {
+    postFiscalizacao,
+    getFiscalizacao,
+    deleteFiscalizacao,
+    putFiscalizacao,
+    patchFiscalizacao
+};

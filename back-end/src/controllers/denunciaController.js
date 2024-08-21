@@ -50,8 +50,10 @@ const patchDenuncia = async (req, res, next) => {
     }
 }
 
-module.exports.postDenuncia = postDenuncia
-module.exports.getDenuncia = getDenuncia
-module.exports.deleteDenuncia = deleteDenuncia
-module.exports.putDenuncia = putDenuncia
-module.exports.patchDenuncia = patchDenuncia
+module.exports = {
+    postDenuncia,
+    getDenuncia,
+    deleteDenuncia,
+    putDenuncia,
+    patchDenuncia
+};

@@ -42,8 +42,11 @@ const patchMunicipio = async (params) => {
     await db.query(sql);
 }
 
-module.exports.postMunicipio = postMunicipio
-module.exports.getMunicipio = getMunicipio
-module.exports.deleteMunicipio = deleteMunicipio
-module.exports.putMunicipio = putMunicipio
-module.exports.patchMunicipio = patchMunicipio
+module.exports = {
+    postMunicipio,
+    getMunicipio,
+    deleteMunicipio,
+    putMunicipio,
+    patchMunicipio
+};
+

@@ -15,4 +15,6 @@ const postLogin = async (req, res, next) => {
   } 
 }
 
-module.exports.postLogin = postLogin;
+module.exports = {
+    postLogin
+};

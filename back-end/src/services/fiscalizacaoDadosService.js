@@ -40,8 +40,10 @@ const patchFiscalizacaoDados = async (params) => {
     await db.query(sql);
 }
 
-module.exports.postFiscalizacaoDados = postFiscalizacaoDados
-module.exports.getFiscalizacaoDados = getFiscalizacaoDados
-module.exports.deleteFiscalizacaoDados = deleteFiscalizacaoDados
-module.exports.putFiscalizacaoDados = putFiscalizacaoDados
-module.exports.patchFiscalizacaoDados = patchFiscalizacaoDados
+module.exports = {
+    postFiscalizacaoDados,
+    getFiscalizacaoDados,
+    deleteFiscalizacaoDados,
+    putFiscalizacaoDados,
+    patchFiscalizacaoDados
+};

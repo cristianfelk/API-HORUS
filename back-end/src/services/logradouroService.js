@@ -46,8 +46,10 @@ const patchLogradouro = async (params) => {
     await db.query(sql);
 }
 
-module.exports.postLogradouro = postLogradouro
-module.exports.getLogradouro = getLogradouro
-module.exports.deleteLogradouro = deleteLogradouro
-module.exports.putLogradouro = putLogradouro
-module.exports.patchLogradouro = patchLogradouro
+module.exports = {
+    postLogradouro,
+    getLogradouro,
+    deleteLogradouro,
+    putLogradouro,
+    patchLogradouro
+};
