@@ -3,23 +3,31 @@
     <div class="sidebar">
       <div class="sidebar-title">Menu</div>
       <ul class="sidebar-menu">
-        <li class="sidebar-item">
-          <router-link to="/usuarios">
-            <img src="https://img.icons8.com/ios-filled/50/user.png" alt="Usuário" class="menu-icon" />
-            Usuário
-          </router-link>
-        </li>
-        <li class="sidebar-item">
-          <a href="#">
-            <img src="https://img.icons8.com/ios-filled/50/map.png" alt="Bairro" class="menu-icon" />
-            Bairro
+        <li class="sidebar-item dropdown">
+          <a href="#" class="dropdown-toggle">
+            <img src="https://img.icons8.com/ios-filled/50/database.png" alt="Cadastros" class="menu-icon" />
+            Cadastros
           </a>
-        </li>
-        <li class="sidebar-item">
-          <a href="#">
-            <img src="https://img.icons8.com/ios-filled/50/earth-planet.png" alt="Município" class="menu-icon" />
-            Município
-          </a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-item">
+              <router-link to="/usuarios">
+                <img src="https://img.icons8.com/ios-filled/50/user.png" alt="Usuário" class="menu-icon" />
+                Usuário
+              </router-link>
+            </li>
+            <li class="dropdown-item">
+              <a href="#">
+                <img src="https://img.icons8.com/ios-filled/50/map.png" alt="Bairro" class="menu-icon" />
+                Bairro
+              </a>
+            </li>
+            <li class="dropdown-item">
+              <a href="#">
+                <img src="https://img.icons8.com/ios-filled/50/earth-planet.png" alt="Município" class="menu-icon" />
+                Município
+              </a>
+            </li>
+          </ul>
         </li>
       </ul>
     </div>
@@ -29,11 +37,11 @@
         <button @click="logout" class="logout-button">Sair</button>
       </div>
       <div class="dashboard-content">
+        <!-- Conteúdo principal aqui -->
       </div>
     </div>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -58,25 +66,41 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(34, 139, 34, 1); 
+  background-color: #228B22; /* Verde floresta */
   padding: 10px 20px;
   color: white;
-  z-index: 1000; 
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   height: 60px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000; 
 }
 
 .navbar-logo {
-  height: 60px; 
+  height: 50px; 
   margin-right: auto; 
+}
+
+.logout-button {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #ff3333;
 }
 
 .sidebar {
   width: 220px;
-  background-color: rgba(34, 139, 34, 1);
+  background-color: #228B22; /* Verde floresta */
   color: white;
   display: flex;
   flex-direction: column;
@@ -85,10 +109,11 @@ export default {
   top: 60px;
   left: 0;
   bottom: 0;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar-title {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: bold;
   text-align: center;
   margin-bottom: 20px;
@@ -100,7 +125,7 @@ export default {
 }
 
 .sidebar-item {
-  margin-bottom: 5px;
+  position: relative;
 }
 
 .sidebar-item a {
@@ -110,10 +135,12 @@ export default {
   align-items: center;
   padding: 10px 20px;
   font-size: 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
 .sidebar-item a:hover {
-  background-color: rgba(34, 139, 34, 0.8);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .menu-icon {
@@ -133,5 +160,45 @@ export default {
 
 .dashboard-content {
   padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu {
+  display: none;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  left: 100%;
+  background-color: #228B22; /* Verde floresta */
+  width: 200px;
+  border-radius: 5px;
+  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.dropdown-item {
+  margin-bottom: 0;
+}
+
+.dropdown-item a {
+  padding: 10px 20px;
+  color: white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dropdown-item a:last-child {
+  border-bottom: none;
+}
+
+.dropdown-item a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
 }
 </style>
