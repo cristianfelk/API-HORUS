@@ -1,14 +1,14 @@
-const bairroService = require('../services/bairroService')
+const logradouroService = require('../services/logradouroService')
 
-const postBairro = async (req, res, next) => {
-    await bairroService.postBairro(req.body)
+const postLogradouro = async (req, res, next) => {
+    await logradouroService.postLogradouro(req.body)
         .then(ret => res.status(201).send(ret))
         .catch(err => res.status(500).send(err))
 }
 
-const getBairro = async (req, res, next) => {
+const getLogradouro = async (req, res, next) => {
     try {
-        await bairroService.getBairro()
+        await logradouroService.getLogradouro()
             .then(ret => res.status(201).send(ret.rows))
             .catch(err => res.status(500).send(err.message))
     } catch (err) {
@@ -16,9 +16,9 @@ const getBairro = async (req, res, next) => {
     } 
 }
 
-const deleteBairro = async (req, res, next) => {
+const deleteLogradouro = async (req, res, next) => {
     try {
-        await bairroService.deleteBairro(req.params)
+        await logradouroService.deleteLogradouro(req.params)
             .then(ret => res.status(204).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
@@ -26,11 +26,11 @@ const deleteBairro = async (req, res, next) => {
     }
 }
 
-const putBairro = async (req, res, next) => {
+const putLogradouro = async (req, res, next) => {
     try {
         let params = req.body
         params.id = req.params.id
-        await bairroService.putBairro(params)
+        await logradouroService.putLogradouro(params)
             .then(ret => res.status(201).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
@@ -38,11 +38,11 @@ const putBairro = async (req, res, next) => {
     }
 }
 
-const patchBairro = async (req, res, next) => {
+const patchLogradouro = async (req, res, next) => {
     try {
         let params = req.body
         params.id = req.params.id
-        await bairroService.patchBairro(params)
+        await logradouroService.patchLogradouro(params)
             .then(ret => res.status(200).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
@@ -50,8 +50,8 @@ const patchBairro = async (req, res, next) => {
     }
 }
 
-module.exports.postBairro = postBairro
-module.exports.getBairro = getBairro
-module.exports.deleteBairro = deleteBairro
-module.exports.putBairro = putBairro
-module.exports.patchBairro = patchBairro
+module.exports.postLogradouro = postLogradouro
+module.exports.getLogradouro = getLogradouro
+module.exports.deleteLogradouro = deleteLogradouro
+module.exports.putLogradouro = putLogradouro
+module.exports.patchLogradouro = patchLogradouro
