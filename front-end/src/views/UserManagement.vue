@@ -8,7 +8,10 @@
     </div>
     <div class="user-management">
       <h2 class="title">Gerenciamento de Usuários</h2>
-      <button @click="createUser" class="create-button">Cadastrar Novo Usuário</button>
+      <div class="button-container">
+        <button @click="createUser" class="create-button">Cadastrar Novo Usuário</button>
+        <button @click="generatePDF" class="generate-pdf-button">Gerar Relatório PDF</button>
+      </div>
       <div class="user-table-container">
         <table class="user-table">
           <thead>
@@ -48,6 +51,8 @@
 
 <script>
 import axios from 'axios';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 export default {
   name: 'UserManagement',
@@ -96,6 +101,27 @@ export default {
     },
     goHome() {
       this.$router.push('/dashboard'); // Redireciona para a página inicial
+    },
+    generatePDF() {
+      const doc = new jsPDF();
+
+      doc.setFontSize(18);
+      doc.text('Relatório de Usuários', 14, 20);
+
+      doc.autoTable({
+        startY: 30,
+        head: [['Id', 'Nome', 'Login', 'Email', 'Status']],
+        body: this.users.map(user => [
+          user.id,
+          user.nome,
+          user.login,
+          user.email,
+          user.status
+        ]),
+        theme: 'striped'
+      });
+
+      doc.save('relatorio_usuarios.pdf');
     }
   },
   mounted() {
@@ -171,11 +197,15 @@ export default {
   color: #333;
 }
 
-.create-button {
-  margin-bottom: 20px;
+.button-container {
+  display: flex;
+  gap: 10px; /* Espaçamento entre os botões */
+  margin-bottom: 20px; /* Espaço abaixo dos botões */
+}
+
+.create-button,
+.generate-pdf-button {
   padding: 10px 20px;
-  background-color: #28a745;
-  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -183,14 +213,29 @@ export default {
   transition: background-color 0.3s ease;
 }
 
+.create-button {
+  background-color: #28a745;
+  color: white;
+}
+
 .create-button:hover {
   background-color: #218838;
+}
+
+.generate-pdf-button {
+  background-color: #007bff;
+  color: white;
+}
+
+.generate-pdf-button:hover {
+  background-color: #0056b3;
 }
 
 .user-table-container {
   width: 100%;
   display: flex;
   justify-content: center;
+  margin-bottom: 20px; /* Espaço abaixo da tabela */
 }
 
 .user-table {
@@ -260,28 +305,35 @@ export default {
   background-color: #fff;
   border: 1px solid #ddd;
   padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 1000;
-  text-align: center;
 }
 
-.confirm-button {
-  margin-right: 10px;
-  background-color: #28a745;
+.confirmation-popup p {
+  margin-bottom: 20px;
+}
+
+.confirm-button,
+.cancel-button {
+  background-color: #007bff;
   color: white;
-  padding: 10px 20px;
   border: none;
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
 }
 
 .cancel-button {
-  background-color: #6c757d;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  background-color: #dc3545;
+}
+
+.confirm-button:hover {
+  background-color: #0056b3;
+}
+
+.cancel-button:hover {
+  background-color: #c82333;
 }
 </style>
