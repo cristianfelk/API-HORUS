@@ -2,7 +2,7 @@ const usuarioService = require('../services/usuarioService');
 
 const postUsuario = async (req, res) => {
     try {
-        const emailIvalido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; //valida formato do email
+        const emailIvalido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         if (!emailIvalido.test(req.body.email)) {
             return res.status(400).json({ error: "Formato de email inválido" });

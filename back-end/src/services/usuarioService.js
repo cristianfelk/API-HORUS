@@ -5,7 +5,6 @@ const postUsuario = async (params) => {
     try {
         const salt = crypto.randomBytes(16).toString('hex');
         const senhaCriptografada = crypto.createHash('sha256').update(params.senha + salt).digest('hex');
-        //gera a criptografia da senha do usuario
 
         const sql_post = `insert into usuario (nome, login, senha, salt, email, status, data_cadastro)
                           values ('${params.nome}', 
@@ -26,7 +25,6 @@ const getUsuario = async () => {
     return await db.query(sql_get)
 }
 
-//consulta usuario por id
 const getUsuarioById = async (params) => {
     const sql_get = `select * from usuario where id = $1`
     const { id } = params 
@@ -60,8 +58,8 @@ const putUsuario = async (params) => {
                     email = $6,
                     status = $7
                     where id = $1`;
-        values.splice(3, 0, senhaCriptografada); // Adiciona a senha criptografada
-        values.splice(4, 0, salt); // Adiciona o salt
+        values.splice(3, 0, senhaCriptografada); 
+        values.splice(4, 0, salt);
     }
 
     return await db.query(sql_put, values);
@@ -70,7 +68,7 @@ const putUsuario = async (params) => {
 const patchUsuario = async (params) => {
     const salt = crypto.randomBytes(16).toString('hex');
     const senhaCriptografada = crypto.createHash('sha256').update(params.senha + salt).digest('hex');
-    const { senha, ...paramsSemSenha } = params; //remove a senha pra nao atualizar diretamente
+    const { senha, ...paramsSemSenha } = params;
 
     let fields = [];
     Object.keys(paramsSemSenha).forEach(e => e !== 'id' && fields.push(`${e} = '${paramsSemSenha[e]}'`));
@@ -81,7 +79,6 @@ const patchUsuario = async (params) => {
     await db.query(sql);
 
 };
-
 
 module.exports.postUsuario = postUsuario
 module.exports.getUsuario = getUsuario

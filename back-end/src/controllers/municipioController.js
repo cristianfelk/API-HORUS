@@ -5,7 +5,7 @@ const postMunicipio = async (req, res, next) => {
         await municipioService.postMunicipio(req.body);
         res.status(201).send('Município criado com sucesso');
     } catch (err) {
-        next(err); // Passa o erro para o middleware de tratamento de erros
+        next(err);
     }
 }
 
@@ -14,16 +14,16 @@ const getMunicipio = async (req, res, next) => {
         const result = await municipioService.getMunicipio();
         res.status(200).json(result.rows);
     } catch (err) {
-        next(err); // Passa o erro para o middleware de tratamento de erros
+        next(err); 
     }
 }
 
 const deleteMunicipio = async (req, res, next) => {
     try {
         await municipioService.deleteMunicipio({ id: req.params.id });
-        res.status(204).send(); // Código 204 indica que a operação foi bem-sucedida e não há conteúdo para retornar
+        res.status(204).send();
     } catch (err) {
-        next(err); // Passa o erro para o middleware de tratamento de erros
+        next(err);
     }
 }
 
@@ -33,7 +33,7 @@ const putMunicipio = async (req, res, next) => {
         await municipioService.putMunicipio(params);
         res.status(200).send('Município atualizado com sucesso');
     } catch (err) {
-        next(err); // Passa o erro para o middleware de tratamento de erros
+        next(err);
     }
 }
 
@@ -43,7 +43,7 @@ const patchMunicipio = async (req, res, next) => {
         await municipioService.patchMunicipio(params);
         res.status(200).send('Município atualizado parcialmente com sucesso');
     } catch (err) {
-        next(err); // Passa o erro para o middleware de tratamento de erros
+        next(err);
     }
 }
 

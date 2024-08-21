@@ -5,7 +5,7 @@ const postLogin = async (params) => {
     try {
         const { login, senha } = params;
 
-        const sql_get = `SELECT senha, salt FROM usuario WHERE login = $1`;
+        const sql_get = `select senha, salt from usuario where login = $1`;
         const result = await db.query(sql_get, [login]);
 
         if (result.rows.length > 0) {
