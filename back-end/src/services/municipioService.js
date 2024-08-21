@@ -2,9 +2,10 @@ const db = require('../configs/pg')
 
 const postMunicipio = async (params) => {
     try {
-        const sql_post = ` insert into municipio (nome, cep)
+        const sql_post = ` insert into municipio (nome, cep, uf)
             values ('${params.nome}', 
-                    '${params.cep}')`
+                    '${params.cep}',
+                    '${params.uf}')`
         await db.query(sql_post)
     } catch (error) {
 
@@ -26,9 +27,10 @@ const putMunicipio = async (params) => {
     const sql_put = `update municipio set
             nome = $2, 
             cep = $3,
+            uf = $4
             where id = $1`
-    const { id, nome, cep } = params 
-    return await db.query(sql_put, [id, nome, cep])
+    const { id, nome, cep, uf } = params 
+    return await db.query(sql_put, [id, nome, cep, uf])
 }
 
 const patchMunicipio = async (params) => {

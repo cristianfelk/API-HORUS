@@ -3,7 +3,10 @@ import HomeLogin from '@/views/HomeLogin.vue';
 import Dashboard from '@/views/Dashboard.vue';
 import UserManagement from '@/views/UserManagement.vue';
 import CreateUser from '@/views/CreateUser.vue';
-import EditUser from '@/views/EditUser.vue'; // Importe o componente EditUser
+import EditUser from '@/views/EditUser.vue';
+import MunicipioManagement from '@/views/MunicipioManagement.vue'; // Importe o componente MunicipioManagement.vue
+import CreateMunicipio from '@/views/CreateMunicipio.vue'; // Importe o componente CreateMunicipio.vue
+import EditMunicipio from '@/views/EditMunicipio.vue'; // Importe o componente EditMunicipio.vue
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -36,7 +39,26 @@ const router = createRouter({
       name: 'edit-user',
       component: EditUser,
       meta: { requiresAuth: true },
-      props: true, // Permite que o ID seja passado como prop
+      props: true,
+    },
+    {
+      path: '/municipios',
+      name: 'municipio-management',
+      component: MunicipioManagement,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/municipios/novo',
+      name: 'create-municipio',
+      component: CreateMunicipio,
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/municipios/:id/editar',
+      name: 'edit-municipio',
+      component: EditMunicipio,
+      meta: { requiresAuth: true },
+      props: true,
     },
   ],
 });

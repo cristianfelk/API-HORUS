@@ -22,10 +22,10 @@
               </a>
             </li>
             <li class="dropdown-item">
-              <a href="#">
+              <router-link to="/municipios">
                 <img src="https://img.icons8.com/ios-filled/50/earth-planet.png" alt="Município" class="menu-icon" />
                 Município
-              </a>
+              </router-link>
             </li>
           </ul>
         </li>
@@ -37,7 +37,15 @@
         <button @click="logout" class="logout-button">Sair</button>
       </div>
       <div class="dashboard-content">
-        <!-- Conteúdo principal aqui -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Registrar nova fiscalização</h3>
+          </div>
+          <div class="card-body">
+            <button @click="registerInspection" class="register-button">Registrar +</button>
+          </div>
+        </div>
+        <!-- Outros conteúdos podem ser adicionados aqui -->
       </div>
     </div>
   </div>
@@ -50,6 +58,10 @@ export default {
     logout() {
       localStorage.removeItem('authToken'); 
       this.$router.push('/'); 
+    },
+    registerInspection() {
+      // Lógica para registrar nova fiscalização
+      this.$router.push('/fiscalizacao/novo'); // Exemplo de redirecionamento
     }
   }
 }
@@ -59,7 +71,7 @@ export default {
 .dashboard-container {
   display: flex;
   height: 90vh;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .navbar {
@@ -110,6 +122,7 @@ export default {
   left: 0;
   bottom: 0;
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
 }
 
 .sidebar-title {
@@ -149,22 +162,6 @@ export default {
   height: 24px;
 }
 
-.content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  margin-left: 220px;
-  margin-top: 60px;
-  padding: 20px;
-}
-
-.dashboard-content {
-  padding: 20px;
-  background-color: #f5f5f5;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
 .dropdown-menu {
   display: none;
   list-style: none;
@@ -200,5 +197,59 @@ export default {
 
 .dropdown:hover .dropdown-menu {
   display: block;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 220px;
+  margin-top: 60px;
+  padding: 20px;
+}
+
+.dashboard-content {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  max-width: 400px;
+}
+
+.card-header {
+  margin-bottom: 15px;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.card-body {
+  text-align: center;
+}
+
+.register-button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #218838;
 }
 </style>

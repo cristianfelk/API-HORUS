@@ -1,52 +1,49 @@
-const municipioService = require('../services/municipioService')
+const municipioService = require('../services/municipioService');
 
 const postMunicipio = async (req, res, next) => {
-    await municipioService.postMunicipio(req.body)
-        .then(ret => res.status(201).send(ret))
-        .catch(err => res.status(500).send(err))
+    try {
+        await municipioService.postMunicipio(req.body);
+        res.status(201).send('Município criado com sucesso');
+    } catch (err) {
+        next(err); // Passa o erro para o middleware de tratamento de erros
+    }
 }
 
 const getMunicipio = async (req, res, next) => {
     try {
-        await usuarioService.getMunicipio()
-            .then(ret => res.status(201).send(ret.rows))
-            .catch(err => res.status(500).send(err.message))
+        const result = await municipioService.getMunicipio();
+        res.status(200).json(result.rows);
     } catch (err) {
-        next(err);
-    } 
+        next(err); // Passa o erro para o middleware de tratamento de erros
+    }
 }
 
 const deleteMunicipio = async (req, res, next) => {
     try {
-        await municipioService.deleteMunicipio(req.params)
-            .then(ret => res.status(204).send(ret))
-            .catch(err => res.status(500).send(err))
+        await municipioService.deleteMunicipio({ id: req.params.id });
+        res.status(204).send(); // Código 204 indica que a operação foi bem-sucedida e não há conteúdo para retornar
     } catch (err) {
-        next(err);
+        next(err); // Passa o erro para o middleware de tratamento de erros
     }
 }
 
 const putMunicipio = async (req, res, next) => {
     try {
-        let params = req.body
-        params.id = req.params.id
-        await municipioService.putMunicipio(params)
-            .then(ret => res.status(201).send(ret))
-            .catch(err => res.status(500).send(err))
+        const params = { id: req.params.id, ...req.body };
+        await municipioService.putMunicipio(params);
+        res.status(200).send('Município atualizado com sucesso');
     } catch (err) {
-        next(err);
+        next(err); // Passa o erro para o middleware de tratamento de erros
     }
 }
 
 const patchMunicipio = async (req, res, next) => {
     try {
-        let params = req.body
-        params.id = req.params.id
-        await municipioService.patchMunicipio(params)
-            .then(ret => res.status(200).send(ret))
-            .catch(err => res.status(500).send(err))
+        const params = { id: req.params.id, ...req.body };
+        await municipioService.patchMunicipio(params);
+        res.status(200).send('Município atualizado parcialmente com sucesso');
     } catch (err) {
-        next(err);
+        next(err); // Passa o erro para o middleware de tratamento de erros
     }
 }
 
