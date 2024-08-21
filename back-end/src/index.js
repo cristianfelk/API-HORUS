@@ -18,7 +18,7 @@ const corsOptions = {
 }
 
 app.use(cors({
-    origin: '*', // Permitir todas as origens
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true
 }));
