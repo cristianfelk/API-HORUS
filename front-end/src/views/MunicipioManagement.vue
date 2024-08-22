@@ -17,7 +17,7 @@
             <tr>
               <th>Id</th>
               <th>Nome</th>
-              <th>CEP</th>
+              <th>IBGE</th>
               <th>UF</th>
               <th>Ações</th>
             </tr>
@@ -26,7 +26,7 @@
             <tr v-for="municipio in municipios" :key="municipio.id">
               <td>{{ municipio.id }}</td>
               <td>{{ municipio.nome }}</td>
-              <td>{{ municipio.cep }}</td>
+              <td>{{ municipio.ibge }}</td>
               <td>{{ municipio.uf }}</td> 
               <td>
                 <button @click="editMunicipio(municipio.id)" class="edit-button">Editar</button>

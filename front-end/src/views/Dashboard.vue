@@ -92,7 +92,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #3B5998; /* Azul harmonioso */
+  background-color: #008000; /* Verde harmonioso */
   padding: 10px 20px;
   color: white;
   position: fixed;
@@ -126,7 +126,7 @@ export default {
 
 .sidebar {
   width: 240px;
-  background-color: #2C3E50;
+  background-color: #008000;
   color: white;
   display: flex;
   flex-direction: column;
@@ -186,7 +186,7 @@ export default {
 }
 
 .sidebar-item a:hover {
-  background-color: #34495E;
+  background-color: #228B22;
 }
 
 .menu-icon {
@@ -203,7 +203,7 @@ export default {
   position: absolute;
   top: 0;
   left: 100%;
-  background-color: #34495E;
+  background-color: #228B22;
   width: 200px;
   border-radius: 5px;
   box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
@@ -225,7 +225,7 @@ export default {
 }
 
 .dropdown-item a:hover {
-  background-color: #2C3E50;
+  background-color: #006400;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -277,7 +277,7 @@ export default {
 }
 
 .register-button {
-  background-color: #1ABC9C;
+  background-color: #008000;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -288,6 +288,6 @@ export default {
 }
 
 .register-button:hover {
-  background-color: #16A085;
+  background-color: #006400;
 }
 </style>
