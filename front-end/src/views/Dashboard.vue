@@ -24,7 +24,7 @@
             <li class="dropdown-item">
               <a href="#">
                 <img src="https://img.icons8.com/ios-filled/50/map.png" alt="Bairro" class="menu-icon" />
-                <span v-if="!isSidebarCollapsed">Bairro</span>
+                <span v-if="!isSidebarCollapsed">Logradouros</span>
               </a>
             </li>
             <li class="dropdown-item">

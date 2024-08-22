@@ -27,7 +27,7 @@
               <td>{{ municipio.id }}</td>
               <td>{{ municipio.nome }}</td>
               <td>{{ municipio.ibge }}</td>
-              <td>{{ municipio.uf }}</td> 
+              <td>{{ municipio.uf }}</td>
               <td>
                 <button @click="editMunicipio(municipio.id)" class="edit-button">Editar</button>
                 <button @click="confirmDelete(municipio.id)" class="delete-button">Excluir</button>
@@ -36,7 +36,11 @@
           </tbody>
         </table>
       </div>
-
+      <div class="pagination">
+        <button @click="changePage(currentPage - 1)" :disabled="currentPage <= 1" class="pagination-button">Anterior</button>
+        <span>Página {{ currentPage }}</span>
+        <button @click="changePage(currentPage + 1)" :disabled="!hasMore" class="pagination-button">Próximo</button>
+      </div>
       <div v-if="showConfirmation" class="confirmation-popup">
         <p>Tem certeza que deseja excluir este município?</p>
         <button @click="deleteMunicipio(currentMunicipioId)" class="confirm-button">Sim</button>
@@ -56,51 +60,65 @@ export default {
       municipios: [], // Lista de municípios
       showConfirmation: false, // Controle de exibição do popup
       currentMunicipioId: null, // ID do município que será excluído
+      currentPage: 1, // Página atual
+      hasMore: false // Se há mais páginas disponíveis
     };
   },
   methods: {
-    async fetchMunicipios() {
+    async fetchMunicipios(page = 1) {
       try {
-        const response = await axios.get('http://localhost:3000/municipio');
-        this.municipios = response.data;
+        const response = await axios.get('http://localhost:3000/municipio', {
+          params: {
+            page: page,
+            limit: 10
+          }
+        });
+        this.municipios = response.data.data; // Lista de municípios
+        this.currentPage = response.data.pagination.page; // Página atual
+        this.hasMore = this.currentPage < response.data.pagination.totalPages; // Verifica se há mais páginas
       } catch (error) {
         console.error('Erro ao buscar municípios:', error);
       }
     },
     createMunicipio() {
-      this.$router.push('/municipios/novo'); // Redireciona para a tela de criação de município
+      this.$router.push('/municipios/novo');
     },
     editMunicipio(municipioId) {
-      this.$router.push(`/municipios/${municipioId}/editar`); // Redireciona para a tela de edição
+      this.$router.push(`/municipios/${municipioId}/editar`);
     },
     confirmDelete(municipioId) {
-      this.currentMunicipioId = municipioId; // Armazena o ID do município para exclusão
-      this.showConfirmation = true; // Exibe o popup de confirmação
+      this.currentMunicipioId = municipioId;
+      this.showConfirmation = true;
     },
     async deleteMunicipio(municipioId) {
       try {
-        await axios.delete(`http://localhost:3000/municipio/${municipioId}`); // Chama a API para excluir o município
-        this.fetchMunicipios(); // Atualiza a lista de municípios
-        this.showConfirmation = false; // Esconde o popup de confirmação
+        await axios.delete(`http://localhost:3000/municipio/${municipioId}`);
+        this.fetchMunicipios(this.currentPage);
+        this.showConfirmation = false;
       } catch (error) {
         console.error('Erro ao excluir município:', error);
       }
     },
     cancelDelete() {
-      this.showConfirmation = false; // Cancela a exclusão e esconde o popup
-      this.currentMunicipioId = null; // Reseta o ID do município
+      this.showConfirmation = false;
+      this.currentMunicipioId = null;
+    },
+    changePage(page) {
+      if (page > 0 && page !== this.currentPage) {
+        this.fetchMunicipios(page);
+      }
     },
     logout() {
-      localStorage.removeItem('authToken'); // Remove o token do localStorage
-      this.$router.push('/'); // Redireciona para a página de login
+      localStorage.removeItem('authToken');
+      this.$router.push('/');
     },
     goHome() {
-      this.$router.push('/dashboard'); // Redireciona para a página inicial
+      this.$router.push('/dashboard');
     }
   },
   mounted() {
-    this.fetchMunicipios(); // Busca os municípios ao montar o componente
-  },
+    this.fetchMunicipios();
+  }
 }
 </script>
 
@@ -258,15 +276,47 @@ export default {
   background-color: #c82333;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px; /* Espaço acima da navegação de página */
+}
+
+.pagination-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+.pagination-button:not(:disabled) {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination-button:not(:disabled):hover {
+  background-color: #0056b3;
+}
+
 .confirmation-popup {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
+  background-color: white;
   border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 20px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
 
@@ -276,22 +326,26 @@ export default {
 
 .confirm-button,
 .cancel-button {
-  background-color: #007bff;
-  color: white;
-  border: none;
   padding: 10px 20px;
+  border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.confirm-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.confirm-button:hover {
+  background-color: #218838;
 }
 
 .cancel-button {
   background-color: #dc3545;
-}
-
-.confirm-button:hover {
-  background-color: #0056b3;
+  color: white;
 }
 
 .cancel-button:hover {
