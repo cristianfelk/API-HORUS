@@ -22,7 +22,7 @@ const getMunicipio = async (page = 1, limit = 10, uf = '', nome = '') => {
     }
 
     if (nome) {
-        sql_get += ` and nome ILIKE $${values.length + 1}`;
+        sql_get += ` and nome ilike $${values.length + 1}`;
         values.push(`%${nome}%`);
     }
 
@@ -42,7 +42,7 @@ const getTotalMunicipios = async (uf = '', nome = '') => {
     }
 
     if (nome) {
-        sql_count += ` and nome ILIKE $${values.length + 1}`;
+        sql_count += ` and nome ilike $${values.length + 1}`;
         values.push(`%${nome}%`);
     }
 
