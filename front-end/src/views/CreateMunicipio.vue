@@ -51,6 +51,7 @@
 
 <script>
 import Navbar from '../components/NavBar.vue';
+import { createMunicipio } from '../services/apiService.js';
 
 export default {
   components: {
@@ -66,14 +67,8 @@ export default {
   methods: {
     async postMunicipio() {
       try {
-        const response = await fetch('http://localhost:3000/municipio', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ nome: this.nome, ibge: this.ibge, uf: this.uf })
-        });
-        if (response.ok) {
+        const response = await createMunicipio({ nome: this.nome, ibge: this.ibge, uf: this.uf });
+        if (response) {
           this.$router.push('/municipios');
         } else {
           console.error('Erro ao criar município');
