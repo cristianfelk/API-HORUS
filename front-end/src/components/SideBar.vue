@@ -58,7 +58,7 @@
   <style scoped>
   .sidebar {
     width: 240px;
-    background-color: #008000;
+    background-color: #69c369;
     color: white;
     display: flex;
     flex-direction: column;
@@ -118,7 +118,7 @@
   }
   
   .sidebar-item a:hover {
-    background-color: #228B22;
+    background-color: #5dad5d;
   }
   
   .menu-icon {
@@ -135,7 +135,7 @@
     position: absolute;
     top: 0;
     left: 100%;
-    background-color: #228B22;
+    background-color: #69c369;
     width: 200px;
     border-radius: 5px;
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
@@ -157,7 +157,7 @@
   }
   
   .dropdown-item a:hover {
-    background-color: #006400;
+    background-color: #5dad5d;
   }
   
   .dropdown:hover .dropdown-menu {

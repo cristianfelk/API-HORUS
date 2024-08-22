@@ -96,7 +96,7 @@ export default {
 }
 
 .register-button {
-  background-color: #008000;
+  background-color: #69c369;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -107,6 +107,6 @@ export default {
 }
 
 .register-button:hover {
-  background-color: #006400;
+  background-color: #5dad5d;
 }
 </style>

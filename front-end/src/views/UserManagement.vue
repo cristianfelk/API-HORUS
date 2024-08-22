@@ -1,11 +1,6 @@
 <template>
   <div class="user-management-container">
-    <div class="navbar">
-      <button @click="goHome" class="navbar-logo-button">
-        <img src="@/assets/logoPzo.png" alt="Logo" class="navbar-logo">
-      </button>
-      <button @click="logout" class="logout-button">Sair</button>
-    </div>
+    <Navbar />
     <div class="user-management">
       <h2 class="title">Gerenciamento de Usuários</h2>
       <div class="button-container">
@@ -49,12 +44,15 @@
 </template>
 
 <script>
+import Navbar from '../components/NavBar.vue';
 import { getUsers, deleteUser } from '../services/apiService.js';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
 export default {
-  name: 'UserManagement',
+  components: {
+    Navbar
+  },
   data() {
     return {
       users: [], 
@@ -136,49 +134,6 @@ export default {
   background-color: #f9f9f9; 
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #228B22; 
-  padding: 10px 20px;
-  color: white;
-  z-index: 1000;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-logo-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-.navbar-logo {
-  height: 50px;
-}
-
-.logout-button {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.logout-button:hover {
-  background-color: #ff3333;
-}
-
 .user-management {
   padding: 80px 20px 20px 20px; 
   margin-left: 0; 
@@ -212,12 +167,12 @@ export default {
 }
 
 .create-button {
-  background-color: #28a745;
+  background-color: #69c369;
   color: white;
 }
 
 .create-button:hover {
-  background-color: #218838;
+  background-color: #5dad5d;
 }
 
 .generate-pdf-button {

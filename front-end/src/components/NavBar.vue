@@ -22,7 +22,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #008000;
+    background-color: #69c369;
     padding: 10px 20px;
     color: white;
     position: fixed;

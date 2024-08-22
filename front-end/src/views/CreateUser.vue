@@ -1,9 +1,6 @@
 <template>
   <div class="create-user">
-    <div class="navbar">
-      <button @click="goBack" class="back-button">← Voltar</button>
-      <button @click="handleLogout" class="logout-button">Sair</button>
-    </div>
+    <Navbar />
     <h2>Cadastrar Novo Usuário</h2>
     <form @submit.prevent="submitForm" autocomplete="off">
       <div class="form-group">
@@ -41,10 +38,14 @@
 </template>
 
 <script>
+import Navbar from '../components/NavBar.vue';
 import { createUser, logout } from '../services/apiService.js';
 
 export default {
   name: 'CreateUser',
+  components: {
+    Navbar
+  },
   data() {
     return {
       form: {
@@ -95,43 +96,6 @@ export default {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgba(34, 139, 34, 1);
-  padding: 10px 20px;
-  color: white;
-  z-index: 1000;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-}
-
-.back-button {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.logout-button {
-  background-color: rgba(34, 139, 34, 1);
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.logout-button:hover {
-  background-color: rgba(34, 139, 34, 0.8);
-}
-
 h2 {
   margin-top: 80px;
   margin-bottom: 20px;
@@ -171,7 +135,7 @@ select {
 
 .submit-button {
   padding: 12px 20px;
-  background-color: #28a745;
+  background-color: #69c369;
   color: white;
   border: none;
   cursor: pointer;
@@ -181,6 +145,6 @@ select {
 }
 
 .submit-button:hover {
-  background-color: #218838;
+  background-color: #5dad5d;
 }
 </style>
