@@ -18,8 +18,8 @@
 </template>
 
 <script>
-import Navbar from './components/Navbar.vue';
-import SideBar from './components/SideBar.vue';
+import SideBar from '../components/SideBar.vue';
+import Navbar from '../components/NavBar.vue';
 
 export default {
   name: 'Dashboard',

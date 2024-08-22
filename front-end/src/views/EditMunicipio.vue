@@ -1,5 +1,6 @@
 <template>
   <div class="form-container">
+    <Navbar />
     <h1>Editar Município</h1>
     <form @submit.prevent="updateMunicipio">
       <div class="form-group">
@@ -49,7 +50,12 @@
 </template>
 
 <script>
+import Navbar from '../components/NavBar.vue';
+
 export default {
+  components: {
+    Navbar
+  },
   data() {
     return {
       municipio: {
