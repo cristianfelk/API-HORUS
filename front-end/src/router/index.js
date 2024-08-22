@@ -4,9 +4,9 @@ import Dashboard from '@/views/Dashboard.vue';
 import UserManagement from '@/views/UserManagement.vue';
 import CreateUser from '@/views/CreateUser.vue';
 import EditUser from '@/views/EditUser.vue';
-import MunicipioManagement from '@/views/MunicipioManagement.vue'; // Importe o componente MunicipioManagement.vue
-import CreateMunicipio from '@/views/CreateMunicipio.vue'; // Importe o componente CreateMunicipio.vue
-import EditMunicipio from '@/views/EditMunicipio.vue'; // Importe o componente EditMunicipio.vue
+import MunicipioManagement from '@/views/MunicipioManagement.vue';
+import CreateMunicipio from '@/views/CreateMunicipio.vue';
+import EditMunicipio from '@/views/EditMunicipio.vue'; 
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

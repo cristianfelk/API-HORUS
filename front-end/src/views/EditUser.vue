@@ -60,7 +60,6 @@
         const userId = this.$route.params.id;
         try {
           const response = await axios.get(`http://localhost:3000/usuario/${userId}`);
-          // Carregar dados do usuário, excluindo a senha
           this.user = {
             nome: response.data.nome,
             login: response.data.login,
@@ -78,29 +77,29 @@
             id: userId,
             nome: this.user.nome || null,
             login: this.user.login || null,
-            senha: this.user.senha ? this.user.senha : '', // Envia a senha apenas se fornecida
+            senha: this.user.senha ? this.user.senha : '',
             email: this.user.email || null,
             status: this.user.status || null
           };
   
-          console.log('Atualizando usuário com os seguintes dados:', updatedUser); // Debugging
+          console.log('Atualizando usuário com os seguintes dados:', updatedUser);
           const response = await axios.put(`http://localhost:3000/usuario/${userId}`, updatedUser);
-          console.log('Resposta da atualização:', response.data); // Debugging
-          this.$router.push('/usuarios'); // Redireciona após a atualização
+          console.log('Resposta da atualização:', response.data); 
+          this.$router.push('/usuarios');
         } catch (error) {
           console.error('Erro ao atualizar usuário:', error);
         }
       },
       logout() {
         localStorage.removeItem('authToken');
-        this.$router.push('/'); // Redireciona para a página de login
+        this.$router.push('/');
       },
       goHome() {
-        this.$router.push('/dashboard'); // Redireciona para a página inicial
+        this.$router.push('/dashboard'); 
       }
     },
     mounted() {
-      this.fetchUser(); // Busca os dados do usuário ao montar o componente
+      this.fetchUser();
     }
   };
   </script>
@@ -116,7 +115,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(34, 139, 34, 1); /* Verde igual ao botão de login */
+    background-color: rgba(34, 139, 34, 1);
     padding: 10px 20px;
     color: white;
     z-index: 1000;
@@ -135,11 +134,11 @@
   }
   
   .navbar-logo {
-    height: 40px; /* Ajuste o tamanho conforme necessário */
+    height: 40px; 
   }
   
   .logout-button {
-    background-color: rgba(34, 139, 34, 1); /* Verde igual ao botão de login */
+    background-color: rgba(34, 139, 34, 1); 
     color: white;
     border: none;
     padding: 8px 16px;
@@ -150,15 +149,15 @@
   }
   
   .logout-button:hover {
-    background-color: rgba(34, 139, 34, 0.8); /* Efeito hover */
+    background-color: rgba(34, 139, 34, 0.8); 
   }
   
   .edit-user {
-    padding: 80px 20px 20px 20px; /* Adiciona padding para o conteúdo não sobrepor a navbar */
-    margin-left: 0; /* Remove o espaço da margem esquerda */
-    margin-right: auto; /* Centraliza o formulário horizontalmente */
-    margin-left: auto; /* Centraliza o formulário horizontalmente */
-    max-width: 600px; /* Define uma largura máxima para o formulário */
+    padding: 80px 20px 20px 20px; 
+    margin-left: 0; 
+    margin-right: auto; 
+    margin-left: auto;
+    max-width: 600px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -196,5 +195,3 @@
     background-color: darkgreen;
   }
   </style>
-  
-  

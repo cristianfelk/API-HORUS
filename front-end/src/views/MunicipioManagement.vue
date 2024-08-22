@@ -66,12 +66,12 @@ export default {
   name: 'MunicipioManagement',
   data() {
     return {
-      municipios: [], // Lista de municípios
-      showConfirmation: false, // Controle de exibição do popup
-      currentMunicipioId: null, // ID do município que será excluído
-      currentPage: 1, // Página atual
-      hasMore: false, // Se há mais páginas disponíveis
-      filters: { // Adiciona filtros
+      municipios: [], 
+      showConfirmation: false,
+      currentMunicipioId: null,
+      currentPage: 1,
+      hasMore: false,
+      filters: { 
         uf: '',
         nome: ''
       }
@@ -88,9 +88,9 @@ export default {
             nome: this.filters.nome
           }
         });
-        this.municipios = response.data.data; // Lista de municípios
-        this.currentPage = response.data.pagination.page; // Página atual
-        this.hasMore = this.currentPage < response.data.pagination.totalPages; // Verifica se há mais páginas
+        this.municipios = response.data.data; 
+        this.currentPage = response.data.pagination.page;
+        this.hasMore = this.currentPage < response.data.pagination.totalPages; 
       } catch (error) {
         console.error('Erro ao buscar municípios:', error);
       }
@@ -124,7 +124,7 @@ export default {
       }
     },
     applyFilters() {
-      this.fetchMunicipios(1); // Recarrega a primeira página com os novos filtros
+      this.fetchMunicipios(1); 
     },
     logout() {
       localStorage.removeItem('authToken');
@@ -141,7 +141,6 @@ export default {
 </script>
 
 <style scoped>
-/* Adiciona os estilos existentes e novos estilos para os filtros */
 .municipio-management-container {
   display: flex;
   flex-direction: column;

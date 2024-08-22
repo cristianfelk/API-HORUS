@@ -65,7 +65,7 @@ export default {
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ nome: this.nome, ibge: this.ibge, uf: this.uf }) // Inclui o campo uf no corpo da requisição
+          body: JSON.stringify({ nome: this.nome, ibge: this.ibge, uf: this.uf })
         });
         if (response.ok) {
           this.$router.push('/municipios');

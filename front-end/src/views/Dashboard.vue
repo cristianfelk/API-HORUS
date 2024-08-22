@@ -51,7 +51,6 @@
             <button @click="registerInspection" class="register-button">Registrar +</button>
           </div>
         </div>
-        <!-- Outros conteúdos podem ser adicionados aqui -->
       </div>
     </div>
   </div>
@@ -92,7 +91,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #008000; /* Verde harmonioso */
+  background-color: #008000;
   padding: 10px 20px;
   color: white;
   position: fixed;

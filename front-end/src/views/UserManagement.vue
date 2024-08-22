@@ -39,7 +39,6 @@
           </tbody>
         </table>
       </div>
-
       <div v-if="showConfirmation" class="confirmation-popup">
         <p>Tem certeza que deseja excluir este usuário?</p>
         <button @click="deleteUser(currentUserId)" class="confirm-button">Sim</button>
@@ -58,9 +57,9 @@ export default {
   name: 'UserManagement',
   data() {
     return {
-      users: [], // Lista de usuários
-      showConfirmation: false, // Controle de exibição do popup
-      currentUserId: null, // ID do usuário que será excluído
+      users: [], 
+      showConfirmation: false, 
+      currentUserId: null, 
     };
   },
   methods: {
@@ -73,34 +72,34 @@ export default {
       }
     },
     createUser() {
-      this.$router.push('/usuarios/novo'); // Redireciona para a tela de criação de usuário
+      this.$router.push('/usuarios/novo'); 
     },
     editUser(userId) {
-      this.$router.push(`/usuarios/${userId}/editar`); // Redireciona para a tela de edição
+      this.$router.push(`/usuarios/${userId}/editar`);
     },
     confirmDelete(userId) {
-      this.currentUserId = userId; // Armazena o ID do usuário para exclusão
-      this.showConfirmation = true; // Exibe o popup de confirmação
+      this.currentUserId = userId;
+      this.showConfirmation = true; 
     },
     async deleteUser(userId) {
       try {
-        await axios.delete(`http://localhost:3000/usuario/${userId}`); // Chama a API para excluir o usuário
-        this.fetchUsers(); // Atualiza a lista de usuários
-        this.showConfirmation = false; // Esconde o popup de confirmação
+        await axios.delete(`http://localhost:3000/usuario/${userId}`); 
+        this.fetchUsers(); 
+        this.showConfirmation = false; 
       } catch (error) {
         console.error('Erro ao excluir usuário:', error);
       }
     },
     cancelDelete() {
-      this.showConfirmation = false; // Cancela a exclusão e esconde o popup
-      this.currentUserId = null; // Reseta o ID do usuário
+      this.showConfirmation = false; 
+      this.currentUserId = null;
     },
     logout() {
-      localStorage.removeItem('authToken'); // Remove o token do localStorage
-      this.$router.push('/'); // Redireciona para a página de login
+      localStorage.removeItem('authToken'); 
+      this.$router.push('/'); 
     },
     goHome() {
-      this.$router.push('/dashboard'); // Redireciona para a página inicial
+      this.$router.push('/dashboard');
     },
     generatePDF() {
       const doc = new jsPDF();
@@ -125,7 +124,7 @@ export default {
     }
   },
   mounted() {
-    this.fetchUsers(); // Busca os usuários ao montar o componente
+    this.fetchUsers(); 
   },
 }
 </script>
@@ -135,14 +134,14 @@ export default {
   display: flex;
   flex-direction: column;
   height: 90vh;
-  background-color: #f9f9f9; /* Cor de fundo clara para o contêiner principal */
+  background-color: #f9f9f9; 
 }
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #228B22; /* Verde floresta */
+  background-color: #228B22; 
   padding: 10px 20px;
   color: white;
   z-index: 1000;
@@ -162,7 +161,7 @@ export default {
 }
 
 .navbar-logo {
-  height: 50px; /* Ajuste o tamanho conforme necessário */
+  height: 50px;
 }
 
 .logout-button {
@@ -182,9 +181,9 @@ export default {
 }
 
 .user-management {
-  padding: 80px 20px 20px 20px; /* Adiciona padding para o conteúdo não sobrepor a navbar */
-  margin-left: 0; /* Remove o espaço da margem esquerda */
-  margin-right: 0; /* Remove o espaço da margem direita */
+  padding: 80px 20px 20px 20px; 
+  margin-left: 0; 
+  margin-right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -199,8 +198,8 @@ export default {
 
 .button-container {
   display: flex;
-  gap: 10px; /* Espaçamento entre os botões */
-  margin-bottom: 20px; /* Espaço abaixo dos botões */
+  gap: 10px; 
+  margin-bottom: 20px;
 }
 
 .create-button,
@@ -235,7 +234,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 20px; /* Espaço abaixo da tabela */
+  margin-bottom: 20px; 
 }
 
 .user-table {
