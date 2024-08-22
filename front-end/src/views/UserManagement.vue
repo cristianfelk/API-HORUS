@@ -49,7 +49,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { getUsers, deleteUser } from '../services/apiService.js';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 
@@ -65,7 +65,7 @@ export default {
   methods: {
     async fetchUsers() {
       try {
-        const response = await axios.get('http://localhost:3000/usuario');
+        const response = await getUsers();
         this.users = response.data;
       } catch (error) {
         console.error('Erro ao buscar usuários:', error);
@@ -83,7 +83,7 @@ export default {
     },
     async deleteUser(userId) {
       try {
-        await axios.delete(`http://localhost:3000/usuario/${userId}`); 
+        await deleteUser(userId);
         this.fetchUsers(); 
         this.showConfirmation = false; 
       } catch (error) {
@@ -95,7 +95,6 @@ export default {
       this.currentUserId = null;
     },
     logout() {
-      localStorage.removeItem('authToken'); 
       this.$router.push('/'); 
     },
     goHome() {
