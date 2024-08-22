@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { login } from '../services/apiService.js';
 
 export default {
   name: 'HomeLogin',
@@ -36,13 +36,10 @@ export default {
     async postLogin() {
       this.errorMessage = '';
       try {
-        const response = await axios.post('http://localhost:3000/login', {
-          login: this.login,
-          senha: this.senha
-        });
+        const response = await login({ login: this.login, senha: this.senha });
 
         if (response.data.success) {
-          localStorage.setItem('authToken', 'exampleToken'); 
+          localStorage.setItem('authToken', response.data.token); 
           this.$router.push('/dashboard');
         } else {
           this.errorMessage = 'Login ou senha incorretos';

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'http://localhost:3000', 
+  baseURL: 'http://localhost:3000',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -24,11 +24,10 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error('Erro na resposta da API:', error);
+    console.error('Erro na resposta da API:', error.response || error.message);
     return Promise.reject(error);
   }
 );
-
 
 // Usuários
 export const getUsers = (params) => apiClient.get('/usuario', { params });
@@ -38,7 +37,7 @@ export const updateUser = (id, data) => apiClient.put(`/usuario/${id}`, data);
 export const deleteUser = (id) => apiClient.delete(`/usuario/${id}`);
 
 // Autenticação
-export const login = (credentials) => apiClient.post('/auth/login', credentials);
+export const login = (credentials) => apiClient.post('/login', credentials);
 export const logout = () => {
   localStorage.removeItem('authToken');
 };
