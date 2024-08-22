@@ -1,7 +1,7 @@
 create table uf (
     id serial primary key not null,
     nome varchar(250),
-    sigla varchar(2),
+    sigla varchar(2) unique,
     ibge integer
 );
 
@@ -16,8 +16,8 @@ create table municipio (
 create table logradouro (
   id serial primary key not null,
   municipio_id integer,
-  cep varchar(9)
-  logradouro varchar(120) not null,
+  cep varchar(9),
+  logradouro varchar(120),
   complemento varchar(120),
   bairro varchar(60),
   foreign key (municipio_id) references municipio (id)
@@ -38,11 +38,11 @@ create table usuario (
 create table fiscalizacao (
   id serial primary key not null,
   usuario_id integer not null,
-  bairro_fiscalizacao integer not null,
+  logradouro_fiscalizacao integer not null,
   data_fiscalizacao timestamp,
   status varchar(50),
   foreign key (usuario_id) references usuario (id),
-  foreign key (bairro_fiscalizacao) references bairro (id)
+  foreign key (logradouro_fiscalizacao) references logradouro (id)
 );
 
 create table fiscalizacao_dados (
@@ -61,13 +61,13 @@ create table denuncia (
   id serial primary key not null,
   anonima boolean not null,
   id_municipio integer not null,
-  id_bairro integer not null,
+  id_logradouro integer not null,
   dados_denuncia jsonb,
   id_status integer,
   chave_denuncia text unique,
   foreign key (id_status) references status (id),
   foreign key (id_municipio) references municipio (id),
-  foreign key (id_bairro) references bairro (id)
+  foreign key (id_logradouro) references logradouro (id)
 );
 
 create table log (

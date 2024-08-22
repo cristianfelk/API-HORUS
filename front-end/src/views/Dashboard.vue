@@ -1,37 +1,43 @@
 <template>
   <div class="dashboard-container">
-    <div class="sidebar">
-      <div class="sidebar-title">Menu</div>
+    <div :class="['sidebar', { 'sidebar-collapsed': isSidebarCollapsed }]">
+      <div class="sidebar-title">
+        <span v-if="!isSidebarCollapsed">Menu</span>
+        <button @click="toggleSidebar" class="toggle-button">
+          <span v-if="isSidebarCollapsed">☰</span>
+          <span v-else>←</span>
+        </button>
+      </div>
       <ul class="sidebar-menu">
         <li class="sidebar-item dropdown">
           <a href="#" class="dropdown-toggle">
-            <img src="https://img.icons8.com/ios-filled/50/database.png" alt="Cadastros" class="menu-icon" />
-            Cadastros
+            <img src="https://img.icons8.com/?size=100&id=k1xXzD3NEvLF&format=png&color=000000" alt="Cadastros" class="menu-icon" />
+            <span v-if="!isSidebarCollapsed">Cadastros</span>
           </a>
-          <ul class="dropdown-menu">
+          <ul class="dropdown-menu" v-if="!isSidebarCollapsed">
             <li class="dropdown-item">
               <router-link to="/usuarios">
                 <img src="https://img.icons8.com/ios-filled/50/user.png" alt="Usuário" class="menu-icon" />
-                Usuário
+                <span v-if="!isSidebarCollapsed">Usuário</span>
               </router-link>
             </li>
             <li class="dropdown-item">
               <a href="#">
                 <img src="https://img.icons8.com/ios-filled/50/map.png" alt="Bairro" class="menu-icon" />
-                Bairro
+                <span v-if="!isSidebarCollapsed">Bairro</span>
               </a>
             </li>
             <li class="dropdown-item">
               <router-link to="/municipios">
                 <img src="https://img.icons8.com/ios-filled/50/earth-planet.png" alt="Município" class="menu-icon" />
-                Município
+                <span v-if="!isSidebarCollapsed">Município</span>
               </router-link>
             </li>
           </ul>
         </li>
       </ul>
     </div>
-    <div class="content">
+    <div :class="['content', { 'content-expanded': isSidebarCollapsed }]">
       <div class="navbar">
         <img src="@/assets/logoPzo.png" alt="Logo" class="navbar-logo">
         <button @click="logout" class="logout-button">Sair</button>
@@ -54,14 +60,21 @@
 <script>
 export default {
   name: 'Dashboard',
+  data() {
+    return {
+      isSidebarCollapsed: false,
+    };
+  },
   methods: {
+    toggleSidebar() {
+      this.isSidebarCollapsed = !this.isSidebarCollapsed;
+    },
     logout() {
-      localStorage.removeItem('authToken'); 
-      this.$router.push('/'); 
+      localStorage.removeItem('authToken');
+      this.$router.push('/');
     },
     registerInspection() {
-      // Lógica para registrar nova fiscalização
-      this.$router.push('/fiscalizacao/novo'); // Exemplo de redirecionamento
+      this.$router.push('/fiscalizacao/novo');
     }
   }
 }
@@ -70,15 +83,16 @@ export default {
 <style scoped>
 .dashboard-container {
   display: flex;
-  height: 90vh;
+  height: 100vh;
   flex-direction: row;
+  background-color: #F4F7FA;
 }
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #228B22; /* Verde floresta */
+  background-color: #3B5998; /* Azul harmonioso */
   padding: 10px 20px;
   color: white;
   position: fixed;
@@ -86,17 +100,17 @@ export default {
   left: 0;
   right: 0;
   height: 60px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 1000; 
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
 }
 
 .navbar-logo {
-  height: 50px; 
-  margin-right: auto; 
+  height: 50px;
+  margin-right: auto;
 }
 
 .logout-button {
-  background-color: #ff4d4d;
+  background-color: #FF6F61;
   color: white;
   border: none;
   border-radius: 5px;
@@ -107,12 +121,12 @@ export default {
 }
 
 .logout-button:hover {
-  background-color: #ff3333;
+  background-color: #E55D4E;
 }
 
 .sidebar {
-  width: 220px;
-  background-color: #228B22; /* Verde floresta */
+  width: 240px;
+  background-color: #2C3E50;
   color: white;
   display: flex;
   flex-direction: column;
@@ -121,8 +135,23 @@ export default {
   top: 60px;
   left: 0;
   bottom: 0;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
+  transition: width 0.3s ease;
+}
+
+.sidebar-collapsed {
+  width: 60px;
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: transform 0.3s ease;
 }
 
 .sidebar-title {
@@ -130,6 +159,10 @@ export default {
   font-weight: bold;
   text-align: center;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
 }
 
 .sidebar-menu {
@@ -153,7 +186,7 @@ export default {
 }
 
 .sidebar-item a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #34495E;
 }
 
 .menu-icon {
@@ -170,10 +203,10 @@ export default {
   position: absolute;
   top: 0;
   left: 100%;
-  background-color: #228B22; /* Verde floresta */
+  background-color: #34495E;
   width: 200px;
   border-radius: 5px;
-  box-shadow: 2px 0 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
 }
 
@@ -192,7 +225,7 @@ export default {
 }
 
 .dropdown-item a:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: #2C3E50;
 }
 
 .dropdown:hover .dropdown-menu {
@@ -203,22 +236,27 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: 220px;
+  margin-left: 240px;
   margin-top: 60px;
   padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.content-expanded {
+  margin-left: 60px;
 }
 
 .dashboard-content {
   padding: 20px;
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .card {
   background-color: white;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   margin-bottom: 20px;
   max-width: 400px;
@@ -239,7 +277,7 @@ export default {
 }
 
 .register-button {
-  background-color: #28a745;
+  background-color: #1ABC9C;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -250,6 +288,6 @@ export default {
 }
 
 .register-button:hover {
-  background-color: #218838;
+  background-color: #16A085;
 }
 </style>
