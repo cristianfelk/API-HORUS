@@ -1,5 +1,6 @@
 <template>
   <div class="dashboard-container">
+    <Navbar />
     <div :class="['sidebar', { 'sidebar-collapsed': isSidebarCollapsed }]">
       <div class="sidebar-title">
         <span v-if="!isSidebarCollapsed">Menu</span>
@@ -38,10 +39,6 @@
       </ul>
     </div>
     <div :class="['content', { 'content-expanded': isSidebarCollapsed }]">
-      <div class="navbar">
-        <img src="@/assets/logoPzo.png" alt="Logo" class="navbar-logo">
-        <button @click="logout" class="logout-button">Sair</button>
-      </div>
       <div class="dashboard-content">
         <div class="card">
           <div class="card-header">
@@ -57,8 +54,13 @@
 </template>
 
 <script>
+import Navbar from './components/Navbar.vue';
+
 export default {
   name: 'Dashboard',
+  components: {
+    Navbar
+  },
   data() {
     return {
       isSidebarCollapsed: false,
@@ -67,10 +69,6 @@ export default {
   methods: {
     toggleSidebar() {
       this.isSidebarCollapsed = !this.isSidebarCollapsed;
-    },
-    logout() {
-      localStorage.removeItem('authToken');
-      this.$router.push('/');
     },
     registerInspection() {
       this.$router.push('/fiscalizacao/novo');
@@ -85,42 +83,6 @@ export default {
   height: 100vh;
   flex-direction: row;
   background-color: #F4F7FA;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #008000;
-  padding: 10px 20px;
-  color: white;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-}
-
-.navbar-logo {
-  height: 50px;
-  margin-right: auto;
-}
-
-.logout-button {
-  background-color: #FF6F61;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 8px 16px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.logout-button:hover {
-  background-color: #E55D4E;
 }
 
 .sidebar {
