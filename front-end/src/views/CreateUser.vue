@@ -2,10 +2,10 @@
   <div class="create-user">
     <div class="navbar">
       <button @click="goBack" class="back-button">← Voltar</button>
-      <button @click="logout" class="logout-button">Sair</button>
+      <button @click="handleLogout" class="logout-button">Sair</button>
     </div>
     <h2>Cadastrar Novo Usuário</h2>
-    <form @submit.prevent="postUsuario" autocomplete="off">
+    <form @submit.prevent="submitForm" autocomplete="off">
       <div class="form-group">
         <label for="nome">Nome</label>
         <input type="text" v-model="form.nome" id="nome" required autocomplete="off" />
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import { createUser, logout } from '../services/apiService.js';
 
 export default {
   name: 'CreateUser',
@@ -57,11 +57,11 @@ export default {
     };
   },
   methods: {
-    async postUsuario() {
+    async submitForm() {
       try {
-        const response = await axios.post('http://localhost:3000/usuario', this.form);
-        console.log('Usuário criado com sucesso:', response.data);
+        await createUser(this.form);
         this.$router.push('/usuarios');
+        this.$toast.success('Usuário criado com sucesso!');
         this.form = {
           nome: '',
           login: '',
@@ -71,15 +71,16 @@ export default {
         };
       } catch (error) {
         console.error('Erro ao cadastrar usuário:', error);
+        this.$toast.error('Erro ao cadastrar usuário. Verifique os dados e tente novamente.');
       }
     },
     goBack() {
       this.$router.push('/usuarios');
     },
-    logout() {
-      localStorage.removeItem('authToken');
-      this.$router.push('/');
-    }
+    handleLogout() {
+      logout();
+      this.$router.push('/login');
+    },
   },
 };
 </script>
