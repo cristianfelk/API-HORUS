@@ -8,22 +8,22 @@
     <form @submit.prevent="postUsuario" autocomplete="off">
       <div class="form-group">
         <label for="nome">Nome</label>
-        <input type="text" v-model="form.nome" id="nome" required />
+        <input type="text" v-model="form.nome" id="nome" required autocomplete="off" />
       </div>
 
       <div class="form-group">
         <label for="login">Login</label>
-        <input type="text" v-model="form.login" id="login" required />
+        <input type="text" v-model="form.login" id="login" required autocomplete="off" />
       </div>
 
       <div class="form-group">
         <label for="senha">Senha</label>
-        <input type="password" v-model="form.senha" id="senha" required />
+        <input type="password" v-model="form.senha" id="senha" required autocomplete="new-password" />
       </div>
 
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="email" v-model="form.email" id="email" required />
+        <input type="email" v-model="form.email" id="email" required autocomplete="off" />
       </div>
 
       <div class="form-group">
@@ -62,6 +62,13 @@ export default {
         const response = await axios.post('http://localhost:3000/usuario', this.form);
         console.log('Usuário criado com sucesso:', response.data);
         this.$router.push('/usuarios');
+        this.form = {
+          nome: '',
+          login: '',
+          senha: '',
+          email: '',
+          status: '',
+        };
       } catch (error) {
         console.error('Erro ao cadastrar usuário:', error);
       }
