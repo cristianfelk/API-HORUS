@@ -1,66 +1,59 @@
 const municipioService = require('../services/municipioService');
 
-const postMunicipio = async (req, res, next) => {
+const postMunicipio = async (req, res) => {
     try {
         await municipioService.postMunicipio(req.body);
         res.status(201).send('Município criado com sucesso');
-    } catch (err) {
-        next(err);
+    } catch (error) {
+        res.status(500).send('Erro ao criar município');
     }
 };
 
-const getMunicipio = async (req, res, next) => {
+const getMunicipio = async (req, res) => {
+    const { page = 1, limit = 10, uf = '', nome = '' } = req.query;
+
     try {
-        // Extraindo os parâmetros de paginação
-        const page = parseInt(req.query.page, 10) || 1;
-        const limit = parseInt(req.query.limit, 10) || 10;
+        const municipios = await municipioService.getMunicipio(parseInt(page, 10), parseInt(limit, 10), uf, nome);
+        const total = await municipioService.getTotalMunicipios(uf, nome);
 
-        // Chamando o serviço com paginação
-        const result = await municipioService.getMunicipio(page, limit);
-        
-        // Obtendo o total de municípios
-        const total = await municipioService.getTotalMunicipios();
-
-        res.status(200).json({
-            data: result.rows,
+        res.json({
+            data: municipios.rows,
             pagination: {
-                total,
-                page,
-                limit,
-                totalPages: Math.ceil(total / limit),
+                total: total,
+                page: parseInt(page, 10),
+                limit: parseInt(limit, 10),
+                totalPages: Math.ceil(total / parseInt(limit, 10))
             }
         });
-    } catch (err) {
-        next(err); 
+    } catch (error) {
+        res.status(500).send('Erro ao obter municípios');
     }
 };
 
-const deleteMunicipio = async (req, res, next) => {
+const deleteMunicipio = async (req, res) => {
     try {
         await municipioService.deleteMunicipio(req.params.id);
-        res.status(204).send();
-    } catch (err) {
-        next(err);
+        res.status(200).send('Município excluído com sucesso');
+    } catch (error) {
+        res.status(500).send('Erro ao excluir município');
     }
 };
 
-const putMunicipio = async (req, res, next) => {
+const putMunicipio = async (req, res) => {
     try {
-        const params = { id: req.params.id, ...req.body };
-        await municipioService.putMunicipio(params);
+        await municipioService.putMunicipio({ id: req.params.id, ...req.body });
         res.status(200).send('Município atualizado com sucesso');
-    } catch (err) {
-        next(err);
+    } catch (error) {
+        res.status(500).send('Erro ao atualizar município');
     }
 };
 
-const patchMunicipio = async (req, res, next) => {
+const patchMunicipio = async (req, res) => {
     try {
-        const params = { id: req.params.id, ...req.body };
-        await municipioService.patchMunicipio(params);
-        res.status(200).send('Município atualizado parcialmente com sucesso');
-    } catch (err) {
-        next(err);
+        await municipioService.patchMunicipio({ id: req.params.id, ...req.body });
+        res.status(200).send('Município parcialmente atualizado com sucesso');
+    } catch (error) {
+        res.status(500).send('Erro ao atualizar parcialmente município');
     }
 };
 

@@ -11,15 +11,42 @@ const postMunicipio = async (params) => {
     }
 };
 
-const getMunicipio = async (page = 1, limit = 10) => {
+const getMunicipio = async (page = 1, limit = 10, uf = '', nome = '') => {
     const offset = (page - 1) * limit;
-    const sql_get = `select * from municipio order by nome limit $1 offset $2`;
-    return await db.query(sql_get, [limit, offset]);
+    let sql_get = `select * from municipio where true`;
+    let values = [];
+
+    if (uf) {
+        sql_get += ` and uf = $${values.length + 1}`;
+        values.push(uf);
+    }
+
+    if (nome) {
+        sql_get += ` and nome ILIKE $${values.length + 1}`;
+        values.push(`%${nome}%`);
+    }
+
+    sql_get += ` order by nome limit $${values.length + 1} offset $${values.length + 2}`;
+    values.push(limit, offset);
+
+    return await db.query(sql_get, values);
 };
 
-const getTotalMunicipios = async () => {
-    const sql_count = 'select count(*) as total from municipio';
-    const result = await db.query(sql_count);
+const getTotalMunicipios = async (uf = '', nome = '') => {
+    let sql_count = 'select count(*) as total from municipio where true';
+    let values = [];
+
+    if (uf) {
+        sql_count += ` and uf = $${values.length + 1}`;
+        values.push(uf);
+    }
+
+    if (nome) {
+        sql_count += ` and nome ILIKE $${values.length + 1}`;
+        values.push(`%${nome}%`);
+    }
+
+    const result = await db.query(sql_count, values);
     return parseInt(result.rows[0].total, 10);
 };
 

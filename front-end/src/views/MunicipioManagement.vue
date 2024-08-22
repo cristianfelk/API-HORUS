@@ -8,6 +8,15 @@
     </div>
     <div class="municipio-management">
       <h2 class="title">Gerenciamento de Municípios</h2>
+      <div class="filter-container">
+        <label for="uf-filter">Filtrar por UF:</label>
+        <input id="uf-filter" v-model="filters.uf" type="text" placeholder="Digite UF">
+
+        <label for="nome-filter">Filtrar por Nome:</label>
+        <input id="nome-filter" v-model="filters.nome" type="text" placeholder="Digite Nome">
+
+        <button @click="applyFilters" class="apply-filter-button">Aplicar Filtros</button>
+      </div>
       <div class="button-container">
         <button @click="createMunicipio" class="create-button">Cadastrar Novo Município</button>
       </div>
@@ -61,7 +70,11 @@ export default {
       showConfirmation: false, // Controle de exibição do popup
       currentMunicipioId: null, // ID do município que será excluído
       currentPage: 1, // Página atual
-      hasMore: false // Se há mais páginas disponíveis
+      hasMore: false, // Se há mais páginas disponíveis
+      filters: { // Adiciona filtros
+        uf: '',
+        nome: ''
+      }
     };
   },
   methods: {
@@ -70,7 +83,9 @@ export default {
         const response = await axios.get('http://localhost:3000/municipio', {
           params: {
             page: page,
-            limit: 10
+            limit: 10,
+            uf: this.filters.uf,
+            nome: this.filters.nome
           }
         });
         this.municipios = response.data.data; // Lista de municípios
@@ -108,6 +123,9 @@ export default {
         this.fetchMunicipios(page);
       }
     },
+    applyFilters() {
+      this.fetchMunicipios(1); // Recarrega a primeira página com os novos filtros
+    },
     logout() {
       localStorage.removeItem('authToken');
       this.$router.push('/');
@@ -123,18 +141,19 @@ export default {
 </script>
 
 <style scoped>
+/* Adiciona os estilos existentes e novos estilos para os filtros */
 .municipio-management-container {
   display: flex;
   flex-direction: column;
   height: 90vh;
-  background-color: #f9f9f9; /* Cor de fundo clara para o contêiner principal */
+  background-color: #f9f9f9;
 }
 
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #228B22; /* Verde floresta */
+  background-color: #228B22;
   padding: 10px 20px;
   color: white;
   z-index: 1000;
@@ -154,7 +173,7 @@ export default {
 }
 
 .navbar-logo {
-  height: 50px; /* Ajuste o tamanho conforme necessário */
+  height: 50px;
 }
 
 .logout-button {
@@ -174,9 +193,9 @@ export default {
 }
 
 .municipio-management {
-  padding: 80px 20px 20px 20px; /* Adiciona padding para o conteúdo não sobrepor a navbar */
-  margin-left: 0; /* Remove o espaço da margem esquerda */
-  margin-right: 0; /* Remove o espaço da margem direita */
+  padding: 80px 20px 20px 20px;
+  margin-left: 0;
+  margin-right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -189,10 +208,40 @@ export default {
   color: #333;
 }
 
+.filter-container {
+  margin-bottom: 20px;
+}
+
+.filter-container label {
+  margin-right: 10px;
+}
+
+.filter-container input {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.apply-filter-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.apply-filter-button:hover {
+  background-color: #0056b3;
+}
+
 .button-container {
   display: flex;
-  gap: 10px; /* Espaçamento entre os botões */
-  margin-bottom: 20px; /* Espaço abaixo dos botões */
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .create-button {
@@ -214,7 +263,7 @@ export default {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-bottom: 20px; /* Espaço abaixo da tabela */
+  margin-bottom: 20px;
 }
 
 .municipio-table {
@@ -281,7 +330,7 @@ export default {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin-top: 20px; /* Espaço acima da navegação de página */
+  margin-top: 20px;
 }
 
 .pagination-button {
