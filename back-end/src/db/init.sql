@@ -32,7 +32,9 @@ create table usuario (
   salt text not null,
   status varchar(50),
   data_cadastro date,
-  data_atualizacao timestamp
+  data_atualizacao timestamp,
+  reset_token varchar(10),
+  reset_token_expiration timestamp
 );
 
 create table fiscalizacao (

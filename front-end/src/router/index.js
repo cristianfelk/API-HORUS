@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HomeLogin from '@/views/HomeLogin.vue';
+import RecoverPassword from '@/views/RecoverPassword.vue';
+import VerifyCode from '@/views/VerifyCode.vue';
 import Dashboard from '@/views/Dashboard.vue';
 import UserManagement from '@/views/UserManagement.vue';
 import CreateUser from '@/views/CreateUser.vue';
 import EditUser from '@/views/EditUser.vue';
 import MunicipioManagement from '@/views/MunicipioManagement.vue';
 import CreateMunicipio from '@/views/CreateMunicipio.vue';
-import EditMunicipio from '@/views/EditMunicipio.vue'; 
+import EditMunicipio from '@/views/EditMunicipio.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,6 +17,24 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeLogin,
+      beforeEnter: (to, from, next) => {
+        const isAuthenticated = !!localStorage.getItem('authToken');
+        if (isAuthenticated) {
+          next('/dashboard');
+        } else {
+          next();
+        }
+      },
+    },
+    {
+      path: '/recover-password',
+      name: 'recover-password',
+      component: RecoverPassword,
+    },
+    {
+      path: '/verify-code',
+      name: 'verify-code',
+      component: VerifyCode,
     },
     {
       path: '/dashboard',

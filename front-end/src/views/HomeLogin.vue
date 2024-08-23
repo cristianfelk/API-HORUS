@@ -12,6 +12,7 @@
             <label for="senha">Senha</label>
             <input type="password" v-model="senha" id="senha" placeholder="Digite sua senha">
           </div>
+          <p class="forgot-password-link" @click="navigateToRecoverPassword">Esqueci minha senha</p>
           <button type="submit" class="login-button">Entrar</button>
           <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
         </form>
@@ -47,6 +48,9 @@ export default {
       } catch (error) {
         this.errorMessage = 'Usuário ou senha incorreto. Verifique suas credenciais.';
       }
+    },
+    navigateToRecoverPassword() {
+      this.$router.push('/recover-password');
     }
   }
 };
@@ -105,6 +109,18 @@ html, body {
   box-sizing: border-box;
   border-radius: 4px;
   border: 1px solid #ccc;
+}
+
+.forgot-password-link {
+  text-align: right;
+  color: #007bff;
+  cursor: pointer;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.forgot-password-link:hover {
+  text-decoration: underline;
 }
 
 .login-button {

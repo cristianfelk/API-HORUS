@@ -7,34 +7,29 @@ const postUsuario = async (params) => {
         const senhaCriptografada = crypto.createHash('sha256').update(params.senha + salt).digest('hex');
 
         const sql_post = `insert into usuario (nome, login, senha, salt, email, status, data_cadastro)
-                          values ('${params.nome}', 
-                                  '${params.login}',
-                                  '${senhaCriptografada}',
-                                  '${salt}',
-                                  '${params.email}',
-                                  '${params.status}',
-                                  current_date)`;
-        await db.query(sql_post);
+                          values ($1, $2, $3, $4, $5, $6, current_date)`;
+        const values = [params.nome, params.login, senhaCriptografada, salt, params.email, params.status];
+        await db.query(sql_post, values);
     } catch (error) {
-        
+        console.error('Erro ao cadastrar usuário:', error);
     }
 }
 
 const getUsuario = async () => {
-    const sql_get = `select * from usuario`
-    return await db.query(sql_get)
+    const sql_get = `select * from usuario`;
+    return await db.query(sql_get);
 }
 
 const getUsuarioById = async (params) => {
-    const sql_get = `select * from usuario where id = $1`
-    const { id } = params 
-    return await db.query(sql_get, [id])
+    const sql_get = `select * from usuario where id = $1`;
+    const { id } = params;
+    return await db.query(sql_get, [id]);
 }
 
 const deleteUsuario = async (params) => {
-    const sql_delete = `delete from usuario where id = $1`
-    const { id } = params
-    await db.query(sql_delete, [id])
+    const sql_delete = `delete from usuario where id = $1`;
+    const { id } = params;
+    await db.query(sql_delete, [id]);
 }
 
 const putUsuario = async (params) => {
@@ -44,7 +39,7 @@ const putUsuario = async (params) => {
             email = $4,
             status = $5
             where id = $1`;
-    
+
     const values = [params.id, params.nome, params.login, params.email, params.status];
 
     if (params.senha) {
@@ -75,9 +70,35 @@ const patchUsuario = async (params) => {
     fields.push(`senha = '${senhaCriptografada}'`);
     fields = fields.join(', ');
 
-    const sql = ` update usuario set ${fields} where id = ${params.id}`;
+    const sql = `update usuario set ${fields} where id = ${params.id}`;
     await db.query(sql);
+};
 
+const getUsuarioByEmail = async (email) => {
+    const sql_get = `select * from usuario where email = $1`;
+    return await db.query(sql_get, [email]);
+};
+
+const generatePasswordResetToken = async (userId, token) => {
+    const sql_update = `update usuario set reset_token = $2, reset_token_expiration = current_timestamp + interval '1 hour' where id = $1`;
+    await db.query(sql_update, [userId, token]);
+};
+
+const verifyResetCode = async (userId, token) => {
+    const sql_get = `
+        select * from usuario 
+        where id = $1 and reset_token = $2 and reset_token_expiration > current_timestamp
+    `;
+    const result = await db.query(sql_get, [userId, token]);
+    return result.rows.length > 0;
+};
+
+const resetPassword = async (token, newPassword) => {
+    const salt = crypto.randomBytes(16).toString('hex');
+    const senhaCriptografada = crypto.createHash('sha256').update(newPassword + salt).digest('hex');
+
+    const sql_update = `update usuario set senha = $2, salt = $3, reset_token = NULL, reset_token_expiration = NULL where reset_token = $1`;
+    await db.query(sql_update, [token, senhaCriptografada, salt]);
 };
 
 module.exports = {
@@ -86,5 +107,9 @@ module.exports = {
     getUsuarioById,
     deleteUsuario,
     putUsuario,
-    patchUsuario
+    patchUsuario,
+    getUsuarioByEmail,
+    generatePasswordResetToken,
+    verifyResetCode,
+    resetPassword
 };

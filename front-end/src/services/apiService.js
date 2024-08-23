@@ -24,6 +24,11 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (error.response && error.response.status === 401) {
+      // Redirecionar para a tela de login se o token expirar ou não for válido
+      localStorage.removeItem('authToken');
+      window.location.href = '/';
+    }
     console.error('Erro na resposta da API:', error.response || error.message);
     return Promise.reject(error);
   }
@@ -40,9 +45,17 @@ export const deleteUser = (id) => apiClient.delete(`/usuario/${id}`);
 export const login = (credentials) => apiClient.post('/login', credentials);
 export const logout = () => {
   localStorage.removeItem('authToken');
+  // Limpar outras informações de sessão aqui, se necessário
+  window.location.href = '/';
 };
 
-// Outros endpoints (exemplo: Municípios)
+// Recuperação de Senha
+export const requestPasswordReset = (email) => apiClient.post('/recover-password', { email });
+export const verifyResetCode = (userId, token) => apiClient.post('/verify-reset-code', { userId, token });
+export const resetPassword = (userId, token, newPassword) =>
+  apiClient.post('/reset-password', { userId, token, newPassword });
+
+// Municípios
 export const getMunicipios = (params) => apiClient.get('/municipio', { params });
 export const getMunicipioById = (id) => apiClient.get(`/municipio/${id}`);
 export const createMunicipio = (data) => apiClient.post('/municipio', data);

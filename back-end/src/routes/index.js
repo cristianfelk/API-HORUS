@@ -5,6 +5,7 @@ const logradouro = require('./logradouroRouter');
 const denuncia = require('./denunciaRouter');
 const municipio = require('./municipioRouter');
 const login = require('./loginRouter');
+const senha = require('./senhaRouter');
 
 module.exports = (app) => {
     usuario(app),
@@ -13,5 +14,6 @@ module.exports = (app) => {
     logradouro(app),
     denuncia(app),
     municipio(app),
-    login(app)
-}
+    login(app),
+    senha(app)
+};
