@@ -1,69 +1,87 @@
 const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 const senhaService = require('../services/senhaService');
 
+const transporter = nodemailer.createTransport({
+    host: "smtp-mail.outlook.com",
+    port: 587,
+    secure: false,
+    auth: {
+        user: "horusapi@outlook.com",
+        pass: "Horus123."
+    },
+    tls: {
+        rejectUnauthorized: false
+    }
+});
+
 const requestPasswordReset = async (req, res) => {
+    const { email } = req.body;
+
     try {
-        const { email } = req.body;
-
-        if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
-            return res.status(400).json({ message: 'Email inválido.' });
+        const userResult = await senhaService.getUsuarioByEmail(email);
+        if (userResult.rows.length === 0) {
+            return res.status(404).send('E-mail não encontrado');
         }
 
-        const user = await senhaService.getUsuarioByEmail(email);
+        const user = userResult.rows[0];
 
-        if (!user) {
-            return res.status(404).json({ message: 'Usuário não encontrado.' });
-        }
+        const resetToken = crypto.randomBytes(6).toString('hex');
 
-        const token = crypto.randomBytes(32).toString('hex');
-        await senhaService.generatePasswordResetToken(user.id, token);
+        await senhaService.generatePasswordResetToken(user.id, resetToken);
 
-        res.status(200).json({ message: 'Instruções de recuperação de senha enviadas para o email.' });
+        const mailOptions = {
+            from: 'horusapi@outlook.com',
+            to: email,
+            subject: 'Recuperação de Senha',
+            text: `Seu código de recuperação é: ${resetToken}`,
+        };
+
+        await transporter.sendMail(mailOptions);
+
+        res.status(200).send('Código de recuperação enviado para o e-mail fornecido');
     } catch (error) {
         console.error('Erro ao solicitar recuperação de senha:', error);
-        res.status(500).json({ message: 'Erro ao solicitar recuperação de senha.' });
+        res.status(500).send('Erro interno do servidor');
     }
 };
 
 const verifyResetCode = async (req, res) => {
+    const { code } = req.body;
+
     try {
-        const { token } = req.body;
-
-        if (!token) {
-            return res.status(400).json({ message: 'Token é necessário.' });
+        const isValid = await senhaService.verifyPasswordResetToken(code);
+        if (isValid) {
+            res.status(200).send('Código de recuperação válido');
+        } else {
+            res.status(400).send('Código de recuperação inválido');
         }
-
-        const isValid = await senhaService.verifyResetCode(token);
-
-        if (!isValid) {
-            return res.status(400).json({ message: 'Código inválido ou expirado.' });
-        }
-
-        res.status(200).json({ message: 'Código verificado com sucesso.' });
     } catch (error) {
         console.error('Erro ao verificar código de recuperação:', error);
-        res.status(500).json({ message: 'Erro ao verificar código de recuperação.' });
+        res.status(500).send('Erro interno do servidor');
     }
 };
 
 const resetPassword = async (req, res) => {
+    const { code, newPassword } = req.body;
+
     try {
-        const { token, newPassword } = req.body;
-
-        if (!token || !newPassword || newPassword.length < 6) {
-            return res.status(400).json({ message: 'Token ou senha inválidos.' });
+        const isValid = await senhaService.verifyPasswordResetToken(code);
+        if (isValid) {
+            const hashedPassword = crypto.createHash('sha256').update(newPassword).digest('hex');
+            await senhaService.resetPassword(code, hashedPassword);
+            res.status(200).send('Senha redefinida com sucesso');
+        } else {
+            res.status(400).send('Código de recuperação inválido');
         }
-
-        await senhaService.resetPassword(token, newPassword);
-        res.status(200).json({ message: 'Senha redefinida com sucesso.' });
     } catch (error) {
         console.error('Erro ao redefinir a senha:', error);
-        res.status(500).json({ message: 'Erro ao redefinir a senha.' });
+        res.status(500).send('Erro interno do servidor');
     }
 };
 
 module.exports = {
     requestPasswordReset,
     verifyResetCode,
-    resetPassword
+    resetPassword,
 };
