@@ -34,7 +34,18 @@ const requestPasswordReset = async (req, res) => {
             from: 'horusapi@outlook.com',
             to: email,
             subject: 'Recuperação de Senha',
-            text: `Seu código de recuperação é: ${resetToken}`,
+            html: `
+            <div style="font-family: Arial, sans-serif; color: #333;">
+                <h2 style="color: #4CAF50;">Recuperação de Senha</h2>
+                <p>Olá,</p>
+                <p>Recebemos uma solicitação para redefinir a sua senha. Utilize o código abaixo para continuar o processo:</p>
+                <div style="margin: 20px 0; padding: 10px; border: 2px dashed #4CAF50; text-align: center;">
+                    <span style="font-size: 20px; font-weight: bold;">${resetToken}</span>
+                </div>
+                <p>Se você não solicitou essa alteração, por favor ignore este e-mail.</p>
+                <p>Atenciosamente,<br/>Equipe HorusAPI</p>
+            </div>
+        `,
         };
 
         await transporter.sendMail(mailOptions);
