@@ -23,6 +23,7 @@ const verifyResetCode = async (token) => {
 const verifyPasswordResetToken = async (token) => {
     const query = `select * from usuario where reset_token = $1 and reset_token_expiration > NOW()`;
     const values = [token];
+    console.log(values)
     const result = await db.query(query, values);
     
     if (result.rows.length > 0) {

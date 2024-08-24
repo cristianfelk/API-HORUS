@@ -47,10 +47,10 @@ const requestPasswordReset = async (req, res) => {
 };
 
 const verifyResetCode = async (req, res) => {
-    const { code } = req.body;
+    const { token } = req.body;
 
     try {
-        const isValid = await senhaService.verifyPasswordResetToken(code);
+        const isValid = await senhaService.verifyPasswordResetToken(token);
         if (isValid) {
             res.status(200).send('Código de recuperação válido');
         } else {
@@ -63,13 +63,13 @@ const verifyResetCode = async (req, res) => {
 };
 
 const resetPassword = async (req, res) => {
-    const { code, newPassword } = req.body;
+    const { token, newPassword } = req.body;
 
     try {
-        const isValid = await senhaService.verifyPasswordResetToken(code);
+        const isValid = await senhaService.verifyPasswordResetToken(token);
         if (isValid) {
             const hashedPassword = crypto.createHash('sha256').update(newPassword).digest('hex');
-            await senhaService.resetPassword(code, hashedPassword);
+            await senhaService.resetPassword(token, hashedPassword);
             res.status(200).send('Senha redefinida com sucesso');
         } else {
             res.status(400).send('Código de recuperação inválido');

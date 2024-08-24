@@ -28,7 +28,7 @@ const getUsuario = async (req, res, next) => {
 const getUsuarioById = async (req, res, next) => {
     try {
         await usuarioService.getUsuarioById(req.params)
-            .then(ret => res.status(204).send(ret))
+            .then(ret => res.status(200).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
         next(err);

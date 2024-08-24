@@ -19,7 +19,7 @@ const getLogradouro = async (req, res, next) => {
 const getLogradouroById = async (req, res, next) => {
     try {
         await logradouroService.getLogradouroById(req.params)
-            .then(ret => res.status(204).send(ret))
+            .then(ret => res.status(200).send(ret))
             .catch(err => res.status(500).send(err))
     } catch (err) {
         next(err);

@@ -7,4 +7,4 @@ module.exports = (app) => {
     app.delete('/logradouro/:id', logradouroController.deleteLogradouro)
     app.put('/logradouro/:id', logradouroController.putLogradouro)
     app.patch('/logradouro/:id', logradouroController.patchLogradouro)
-} 
+}
