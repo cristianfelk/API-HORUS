@@ -12,6 +12,7 @@ import EditMunicipio from '@/views/EditMunicipio.vue';
 import LogradouroManagement from '@/views/LogradouroManagement.vue'
 import CreateLogradouro from '@/views/CreateLogradouro.vue';
 import EditLogradouro from '@/views/EditLogradouro.vue';
+import ResetPassword from '@/views/ResetPassword.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -28,6 +29,11 @@ const router = createRouter({
           next();
         }
       },
+    },
+    {
+      path: '/reset-password',
+      name: 'reset-password',
+      component: ResetPassword,
     },
     {
       path: '/recover-password',
