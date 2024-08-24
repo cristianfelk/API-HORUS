@@ -1,11 +1,6 @@
 <template>
   <div class="municipio-management-container">
-    <div class="navbar">
-      <button @click="goHome" class="navbar-logo-button">
-        <img src="@/assets/logoPzo.png" alt="Logo" class="navbar-logo">
-      </button>
-      <button @click="logout" class="logout-button">Sair</button>
-    </div>
+    <Navbar /> <!-- Adicionando o componente Navbar -->
     <div class="municipio-management">
       <h2 class="title">Gerenciamento de Municípios</h2>
       <div class="filter-container">
@@ -61,9 +56,13 @@
 
 <script>
 import axios from 'axios';
+import Navbar from '@/components/NavBar.vue'; // Importando o componente Navbar
 
 export default {
   name: 'MunicipioManagement',
+  components: {
+    Navbar,
+  },
   data() {
     return {
       municipios: [], 
@@ -83,7 +82,7 @@ export default {
         const response = await axios.get('http://localhost:3000/municipio', {
           params: {
             page: page,
-            limit: 10,
+            limit: 5,
             uf: this.filters.uf,
             nome: this.filters.nome
           }
@@ -125,13 +124,6 @@ export default {
     },
     applyFilters() {
       this.fetchMunicipios(1); 
-    },
-    logout() {
-      localStorage.removeItem('authToken');
-      this.$router.push('/');
-    },
-    goHome() {
-      this.$router.push('/dashboard');
     }
   },
   mounted() {
@@ -146,49 +138,6 @@ export default {
   flex-direction: column;
   height: 90vh;
   background-color: #f9f9f9;
-}
-
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #228B22;
-  padding: 10px 20px;
-  color: white;
-  z-index: 1000;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 60px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.navbar-logo-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-.navbar-logo {
-  height: 50px;
-}
-
-.logout-button {
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-}
-
-.logout-button:hover {
-  background-color: #ff3333;
 }
 
 .municipio-management {

@@ -16,6 +16,16 @@ const getLogradouro = async (req, res, next) => {
     } 
 }
 
+const getLogradouroById = async (req, res, next) => {
+    try {
+        await logradouroService.getLogradouroById(req.params)
+            .then(ret => res.status(204).send(ret))
+            .catch(err => res.status(500).send(err))
+    } catch (err) {
+        next(err);
+    }
+}
+
 const deleteLogradouro = async (req, res, next) => {
     try {
         await logradouroService.deleteLogradouro(req.params)
@@ -55,5 +65,6 @@ module.exports = {
     getLogradouro,
     deleteLogradouro,
     putLogradouro,
-    patchLogradouro
+    patchLogradouro,
+    getLogradouroById
 };

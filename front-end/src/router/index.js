@@ -9,6 +9,9 @@ import EditUser from '@/views/EditUser.vue';
 import MunicipioManagement from '@/views/MunicipioManagement.vue';
 import CreateMunicipio from '@/views/CreateMunicipio.vue';
 import EditMunicipio from '@/views/EditMunicipio.vue';
+import LogradouroManagement from '@/views/LogradouroManagement.vue'
+import CreateLogradouro from '@/views/CreateLogradouro.vue';
+import EditLogradouro from '@/views/EditLogradouro.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -72,6 +75,21 @@ const router = createRouter({
       name: 'create-municipio',
       component: CreateMunicipio,
       meta: { requiresAuth: true },
+    },
+    {
+      path: '/logradouros',
+      name: 'LogradouroManagement',
+      component: LogradouroManagement,
+    },
+    {
+      path: '/create-logradouro',
+      name: 'CreateLogradouro',
+      component: CreateLogradouro
+    },
+    {
+      path: '/edit-logradouro/:id',
+      name: 'EditLogradouro',
+      component: EditLogradouro
     },
     {
       path: '/municipios/:id/editar',

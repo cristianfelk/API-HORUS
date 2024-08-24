@@ -6,12 +6,18 @@ const postLogradouro = async (params) => {
             values (${params.municipio_id}, 
                      '${params.cep}',
                      '${params.logradouro}',
-                     '${ṕarams.complemento}',
+                     '${params.complemento}',
                      '${params.bairro}')`
         await db.query(sql_post)
     } catch (error) {
 
     }
+}
+
+const getLogradouroById  = async (params) => {
+    const sql_get = `select * from logradouro where id = $1`;
+    const { id } = params;
+    return await db.query(sql_get, [id]);   
 }
 
 const getLogradouro = async () => {
@@ -51,5 +57,6 @@ module.exports = {
     getLogradouro,
     deleteLogradouro,
     putLogradouro,
-    patchLogradouro
+    patchLogradouro,
+    getLogradouroById
 };

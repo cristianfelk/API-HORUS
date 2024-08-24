@@ -25,7 +25,6 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Redirecionar para a tela de login se o token expirar ou não for válido
       localStorage.removeItem('authToken');
       window.location.href = '/';
     }
@@ -45,15 +44,13 @@ export const deleteUser = (id) => apiClient.delete(`/usuario/${id}`);
 export const login = (credentials) => apiClient.post('/login', credentials);
 export const logout = () => {
   localStorage.removeItem('authToken');
-  // Limpar outras informações de sessão aqui, se necessário
   window.location.href = '/';
 };
 
 // Recuperação de Senha
 export const requestPasswordReset = (email) => apiClient.post('/recover-password', { email });
-export const verifyResetCode = (userId, token) => apiClient.post('/verify-reset-code', { userId, token });
-export const resetPassword = (userId, token, newPassword) =>
-  apiClient.post('/reset-password', { userId, token, newPassword });
+export const verifyResetCode = (token) => apiClient.post('/verify-reset-code', { token });
+export const resetPassword = (userId, token, newPassword) => apiClient.post('/reset-password', { userId, token, newPassword });
 
 // Municípios
 export const getMunicipios = (params) => apiClient.get('/municipio', { params });
@@ -61,5 +58,12 @@ export const getMunicipioById = (id) => apiClient.get(`/municipio/${id}`);
 export const createMunicipio = (data) => apiClient.post('/municipio', data);
 export const updateMunicipio = (id, data) => apiClient.put(`/municipio/${id}`, data);
 export const deleteMunicipio = (id) => apiClient.delete(`/municipio/${id}`);
+
+// Logradouros
+export const getLogradouros = (params) => apiClient.get('/logradouro', { params });
+export const getLogradouroById = (id) => apiClient.get(`/logradouro/${id}`);
+export const createLogradouro = (data) => apiClient.post('/logradouro', data);
+export const updateLogradouro = (id, data) => apiClient.put(`/logradouro/${id}`, data);
+export const deleteLogradouro = (id) => apiClient.delete(`/logradouro/${id}`);
 
 export default apiClient;
