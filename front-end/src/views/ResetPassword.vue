@@ -1,7 +1,7 @@
 <template>
     <div class="reset-password">
       <h1>Redefinir Senha</h1>
-      <form @submit.prevent="resetPassword">
+      <form @submit.prevent="submitResetPassword">
         <div>
           <label for="new-password">Nova Senha:</label>
           <input type="password" v-model="newPassword" id="new-password" required />
@@ -22,7 +22,7 @@
   <script>
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  import { resetPassword } from '../services/apiService.js';
+  import { resetPassword as apiResetPassword } from '../services/apiService.js';
   
   export default {
     name: 'ResetPassword',
@@ -34,7 +34,7 @@
       const isLoading = ref(false);
       const router = useRouter();
   
-      const resetPassword = async () => {
+      const submitResetPassword = async () => {
         if (newPassword.value !== confirmPassword.value) {
           errorMessage.value = 'As senhas não coincidem.';
           return;
@@ -45,7 +45,7 @@
         successMessage.value = '';
   
         try {
-          await resetPassword(newPassword.value);
+          const response = await apiResetPassword({ newPassword: newPassword.value });
           successMessage.value = 'Senha redefinida com sucesso!';
           setTimeout(() => {
             router.push('/');
@@ -63,7 +63,7 @@
         errorMessage,
         successMessage,
         isLoading,
-        resetPassword,
+        submitResetPassword,
       };
     },
   };

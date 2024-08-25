@@ -50,7 +50,7 @@ export const logout = () => {
 // Recuperação de Senha
 export const requestPasswordReset = (email) => apiClient.post('/recover-password', { email });
 export const verifyResetCode = (token) => apiClient.post('/verify-reset-code', { token });
-export const resetPassword = (token, newPassword) => apiClient.post('/reset-password', {token, newPassword });
+export const resetPassword = (userId, token, newPassword) => apiClient.post('/reset-password', { userId, token, newPassword });
 
 // Municípios
 export const getMunicipios = (params) => apiClient.get('/municipio', { params });

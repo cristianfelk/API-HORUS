@@ -35,10 +35,10 @@ const verifyPasswordResetToken = async (token) => {
 
 const resetPassword = async (token, newPassword) => {
     const salt = crypto.randomBytes(16).toString('hex');
-    const senhaCriptografada = crypto.createHash('sha256').update(newPassword + salt).digest('hex');
+    const senhaCrypto = crypto.createHash('sha256').update(newPassword + salt).digest('hex');
 
     const sql_update = `update usuario set senha = $2, reset_token = NULL, reset_token_expiration = NULL where reset_token = $1`;
-    await db.query(sql_update, [token, senhaCriptografada]);
+    await db.query(sql_update, [token, senhaCrypto]);
 };
 
 module.exports = {
