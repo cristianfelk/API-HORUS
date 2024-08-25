@@ -8,7 +8,6 @@
       </button>
     </div>
     <ul class="sidebar-menu">
-      <!-- Cadastros Section -->
       <li class="sidebar-item dropdown">
         <a href="#" class="dropdown-toggle">
           <img src="https://img.icons8.com/?size=100&id=k1xXzD3NEvLF&format=png&color=000000" alt="Cadastros" class="menu-icon" />
@@ -35,8 +34,6 @@
           </li>
         </ul>
       </li>
-
-      <!-- Controles Section -->
       <li class="sidebar-item dropdown">
         <a href="#" class="dropdown-toggle">
           <img src="https://img.icons8.com/ios-filled/50/management.png" alt="Controles" class="menu-icon" />
@@ -56,6 +53,12 @@
             </router-link>
           </li>
         </ul>
+      </li>
+      <li class="sidebar-item">
+        <router-link to="/logs">
+          <img src="https://img.icons8.com/?size=100&id=jmDBJzRWW4s0&format=png&color=000000" alt="Logs" class="menu-icon" />
+          <span v-if="!isSidebarCollapsed">Logs</span>
+        </router-link>
       </li>
     </ul>
   </div>

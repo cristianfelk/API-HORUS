@@ -11,5 +11,3 @@ BEFORE UPDATE ON usuario
 FOR EACH ROW
 WHEN (OLD.* IS DISTINCT FROM NEW.*)
 EXECUTE FUNCTION atualizar_data_atualizacao();
-
-

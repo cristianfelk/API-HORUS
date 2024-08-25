@@ -81,6 +81,19 @@ create table log (
   data_log timestamp
 );
 
+create or replace function atualizar_data_atualizacao()
+returns trigger as $$
+begin
+    new.data_atualizacao := current_timestamp;
+    return new;
+end;
+$$ language plpgsql;
+
+create trigger trigger_atualizacao_usuario
+before update on usuario
+for each row
+when (old.* is distinct from new.*)
+execute function atualizar_data_atualizacao();
 
 insert into uf (nome, sigla, ibge) 
 values 
