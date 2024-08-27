@@ -33,7 +33,7 @@ create table usuario (
   status varchar(50),
   data_cadastro date,
   data_atualizacao timestamp,
-  reset_token varchar(10),
+  reset_token text,
   reset_token_expiration timestamp
 );
 
@@ -105,7 +105,7 @@ begin
         'usuario',  
         current_user,
         jsonb_build_object(
-            'old', row_to_json(noldew)
+            'old', row_to_json(old)
         ),
         jsonb_build_object( 
             'new', row_to_json(new)
