@@ -66,4 +66,7 @@ export const createLogradouro = (data) => apiClient.post('/logradouro', data);
 export const updateLogradouro = (id, data) => apiClient.put(`/logradouro/${id}`, data);
 export const deleteLogradouro = (id) => apiClient.delete(`/logradouro/${id}`);
 
+// Logs
+export const getLog = () => apiClient.get('/log');
+
 export default apiClient;

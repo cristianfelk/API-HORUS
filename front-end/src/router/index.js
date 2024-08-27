@@ -13,6 +13,7 @@ import LogradouroManagement from '@/views/LogradouroManagement.vue'
 import CreateLogradouro from '@/views/CreateLogradouro.vue';
 import EditLogradouro from '@/views/EditLogradouro.vue';
 import ResetPassword from '@/views/ResetPassword.vue';
+import LogsCadastrais from '@/views/LogsCadastrais.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -104,6 +105,11 @@ const router = createRouter({
       meta: { requiresAuth: true },
       props: true,
     },
+    {
+      path: '/logs',
+      name: 'Logs',
+      component: LogsCadastrais,
+    }
   ],
 });
 

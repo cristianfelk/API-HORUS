@@ -77,6 +77,7 @@ create table log (
   acao varchar(20),
   tabela varchar(100),
   usuario_acao text,
+  dados_antigos jsonb,
   dados_alterados jsonb,
   data_log timestamp
 );
@@ -94,6 +95,31 @@ before update on usuario
 for each row
 when (old.* is distinct from new.*)
 execute function atualizar_data_atualizacao();
+
+create or replace function log_usuario_alteracoes()
+returns trigger as $$
+begin
+    insert into log (acao, tabela, usuario_acao, dados_antigos, dados_alterados, data_log)
+    values (
+        tg_op,  
+        'usuario',  
+        current_user,
+        jsonb_build_object(
+            'old', row_to_json(noldew)
+        ),
+        jsonb_build_object( 
+            'new', row_to_json(new)
+        ),
+        current_timestamp  
+    );
+    return new;
+end;
+$$ language plpgsql;
+
+create trigger trigger_log_usuario
+after insert or update or delete on usuario
+for each row
+execute function log_usuario_alteracoes();
 
 insert into uf (nome, sigla, ibge) 
 values 
