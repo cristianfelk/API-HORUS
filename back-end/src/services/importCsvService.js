@@ -35,6 +35,21 @@ async function insertLogradouro(data) {
   }
 }
 
+async function insertMunicipio(data) {
+  const query = `
+    insert into municipio (id, nome, ibge, uf)
+    values ($1, $2, $3, $4)
+  `;
+  const values = [data.id, data.nome, data.ibge, data.uf];
+
+  try {
+    await db.query(query, values);
+    console.log(`Registro inserido: ${data.nome}`);
+  } catch (err) {
+    console.error('Erro ao inserir registro:', err);
+  }
+}
+
 async function importCSV(filePath) {
   await connectDatabase();
 
@@ -42,6 +57,7 @@ async function importCSV(filePath) {
     .pipe(csv())
     .on('data', (row) => {
       insertLogradouro(row);
+      insertMunicipio(row);
     })
     .on('end', () => {
       console.log('Importação do arquivo CSV concluída.');

@@ -56,7 +56,7 @@
 
 <script>
 import axios from 'axios';
-import Navbar from '@/components/NavBar.vue'; // Importando o componente Navbar
+import Navbar from '@/components/NavBar.vue';
 
 export default {
     name: 'MunicipioManagement',
