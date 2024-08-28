@@ -3,7 +3,7 @@
     <Navbar />
     <div class="edit-user">
         <h2>Editar Usuário</h2>
-        <form @submit.prevent="putUsuario">
+        <form @submit.prevent="patchUsuario">
             <div class="form-group">
                 <label for="nome">Nome:</label>
                 <input v-model="user.nome" id="nome" type="text" placeholder="Nome do Usuário" />
@@ -38,8 +38,8 @@
 import {
     getUserById,
     updateUser
-} from '../services/apiService.js'; // Atualização da importação
-import Navbar from '../components/NavBar.vue'; // Importação do componente Navbar
+} from '../services/apiService.js'; 
+import Navbar from '../components/NavBar.vue'; 
 
 export default {
     name: 'EditUser',
@@ -67,7 +67,7 @@ export default {
                 console.error('Erro ao buscar usuário:', error);
             }
         },
-        async putUsuario() {
+        async patchUsuario() {
             const userId = this.$route.params.id;
             try {
                 const updatedUser = {

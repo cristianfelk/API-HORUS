@@ -37,7 +37,7 @@ apiClient.interceptors.response.use(
 export const getUsers = (params) => apiClient.get('/usuario', { params });
 export const getUserById = (id) => apiClient.get(`/usuario/${id}`);
 export const createUser = (data) => apiClient.post('/usuario', data);
-export const updateUser = (id, data) => apiClient.put(`/usuario/${id}`, data);
+export const updateUser = (id, data) => apiClient.patch(`/usuario/${id}`, data);
 export const deleteUser = (id) => apiClient.delete(`/usuario/${id}`);
 
 // Autenticação
