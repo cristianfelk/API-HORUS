@@ -6,7 +6,7 @@ create table uf (
 );
 
 create table municipio (
-  id serial primary key not null,
+  id integer primary key not null,
   nome varchar(250) not null,
   ibge integer,
   uf varchar(2),

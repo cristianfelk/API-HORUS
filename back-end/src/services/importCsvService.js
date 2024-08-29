@@ -20,21 +20,6 @@ async function connectDatabase() {
   }
 }
 
-async function insertLogradouro(data) {
-  const query = `
-    insert into logradouro (municipio_id, cep, logradouro, complemento, bairro)
-    values ($1, $2, $3, $4, $5)
-  `;
-  const values = [data.municipio_id, data.cep, data.logradouro, data.complemento, data.bairro];
-
-  try {
-    await db.query(query, values);
-    console.log(`Registro inserido: ${data.logradouro}`);
-  } catch (err) {
-    console.error('Erro ao inserir registro:', err);
-  }
-}
-
 async function insertMunicipio(data) {
   const query = `
     insert into municipio (id, nome, ibge, uf)
@@ -44,25 +29,81 @@ async function insertMunicipio(data) {
 
   try {
     await db.query(query, values);
-    console.log(`Registro inserido: ${data.nome}`);
   } catch (err) {
-    console.error('Erro ao inserir registro:', err);
   }
 }
 
-async function importCSV(filePath) {
+async function insertLogradouro(data) {
+  const query = `
+    insert into logradouro (municipio_id, cep, logradouro, complemento, bairro)
+    values ($1, $2, $3, $4, $5)
+  `;
+  const values = [data.municipio_id, data.cep, data.logradouro, data.complemento, data.bairro];
+
+  try {
+    await db.query(query, values);
+  } catch (err) {
+  }
+}
+
+async function importMunicipios(filePath) {
+  const rows = [];
+
+  return new Promise((resolve, reject) => {
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on('data', (row) => {
+        rows.push(row);
+      })
+      .on('end', async () => {
+        for (const row of rows) {
+          await insertMunicipio(row);
+        }
+        console.log('Importação dos municípios concluída.');
+        resolve();
+      })
+      .on('error', (err) => {
+        console.error('Erro durante a leitura do CSV de municípios:', err);
+        reject(err);
+      });
+  });
+}
+
+async function importLogradouros(filePath) {
+  const rows = [];
+
+  return new Promise((resolve, reject) => {
+    fs.createReadStream(filePath)
+      .pipe(csv())
+      .on('data', (row) => {
+        rows.push(row);
+      })
+      .on('end', async () => {
+        for (const row of rows) {
+          await insertLogradouro(row);
+        }
+        console.log('Importação dos logradouros concluída.');
+        resolve();
+      })
+      .on('error', (err) => {
+        console.error('Erro durante a leitura do CSV de logradouros:', err);
+        reject(err);
+      });
+  });
+}
+
+async function importCSV(municipioFilePath, logradouroFilePath) {
   await connectDatabase();
 
-  fs.createReadStream(filePath)
-    .pipe(csv())
-    .on('data', (row) => {
-      insertLogradouro(row);
-      insertMunicipio(row);
-    })
-    .on('end', () => {
-      console.log('Importação do arquivo CSV concluída.');
-      db.end();
-    });
+  try {
+    await importMunicipios(municipioFilePath);
+    await importLogradouros(logradouroFilePath);
+    console.log('Importação do arquivo CSV concluída.');
+  } catch (err) {
+    console.error('Erro durante o processo de importação:', err);
+  } finally {
+    db.end();
+  }
 }
 
 module.exports = {

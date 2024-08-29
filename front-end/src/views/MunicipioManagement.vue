@@ -1,6 +1,6 @@
 <template>
 <div class="municipio-management-container">
-    <Navbar /> <!-- Adicionando o componente Navbar -->
+    <Navbar />
     <div class="municipio-management">
         <h2 class="title">Gerenciamento de Municípios</h2>
         <div class="filter-container">
