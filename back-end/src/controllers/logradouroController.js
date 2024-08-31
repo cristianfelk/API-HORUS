@@ -6,15 +6,26 @@ const postLogradouro = async (req, res, next) => {
         .catch(err => res.status(500).send(err))
 }
 
-const getLogradouro = async (req, res, next) => {
+const getLogradouro = async (req, res) => {
+    const { page = 1, limit = 10, cep = '', bairro = '' } = req.query;
+
     try {
-        await logradouroService.getLogradouro()
-            .then(ret => res.status(201).send(ret.rows))
-            .catch(err => res.status(500).send(err.message))
-    } catch (err) {
-        next(err);
-    } 
-}
+        const logradouros = await logradouroService.getLogradouro(parseInt(page, 10), parseInt(limit, 10), cep, bairro);
+        const total = await logradouroService.getTotalLogradouros(cep, bairro);
+
+        res.json({
+            data: logradouros.rows,
+            pagination: {
+                total: total,
+                page: parseInt(page, 10),
+                limit: parseInt(limit, 10),
+                totalPages: Math.ceil(total / parseInt(limit, 10))
+            }
+        });
+    } catch (error) {
+        res.status(500).send('Erro ao obter logradouros');
+    }
+};
 
 const getLogradouroById = async (req, res, next) => {
     try {

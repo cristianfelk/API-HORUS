@@ -1,120 +1,353 @@
 <template>
-<div class="logradouro-management">
-    <Navbar />
-    <div class="container">
-        <h1>Gerenciamento de Logradouros</h1>
-        <button @click="createLogradouro">Cadastrar Novo Logradouro</button>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Município</th>
-                    <th>CEP</th>
-                    <th>Logradouro</th>
-                    <th>Complemento</th>
-                    <th>Bairro</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="logradouro in logradouros" :key="logradouro.id">
-                    <td>{{ logradouro.id }}</td>
-                    <td>{{ logradouro.municipio_id }}</td>
-                    <td>{{ logradouro.cep }}</td>
-                    <td>{{ logradouro.logradouro }}</td>
-                    <td>{{ logradouro.complemento }}</td>
-                    <td>{{ logradouro.bairro }}</td>
-                    <td>
-                        <button @click="editLogradouro(logradouro.id)">Editar</button>
-                        <button @click="deleteLogradouro(logradouro.id)">Excluir</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="logradouro-management-container">
+        <Navbar />
+        <div class="logradouro-management">
+            <h2 class="title">Gerenciamento de Logradouros</h2>
+            <div class="filter-container">
+                <label for="cep-filter">Filtrar por CEP:</label>
+                <input id="cep-filter" v-model="filters.cep" type="text" placeholder="Digite o CEP">
+    
+                <label for="bairro-filter">Filtrar por Bairro:</label>
+                <input id="bairro-filter" v-model="filters.bairro" type="text" placeholder="Digite o bairro">
+    
+                <button @click="applyFilters" class="apply-filter-button">Aplicar Filtros</button>
+            </div>
+            <div class="button-container">
+                <button @click="createLogradouro" class="create-button">Cadastrar Novo Logradouro</button>
+            </div>
+            <div class="logradouro-table-container">
+                <table class="logradouro-table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Cep</th>
+                            <th>Logradouro</th>
+                            <th>Complemento</th>
+                            <th>Bairro</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="logradouro in logradouros" :key="logradouro.id">
+                            <td>{{ logradouro.id }}</td>
+                            <td>{{ logradouro.cep }}</td>
+                            <td>{{ logradouro.logradouro }}</td>
+                            <td>{{ logradouro.complemento }}</td>
+                            <td>{{ logradouro.bairro }}</td>
+                            <td>
+                                <button @click="editLogradouro(logradouro.id)" class="edit-button">Editar</button>
+                                <button @click="confirmDelete(logradouro.id)" class="delete-button">Excluir</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination">
+                <button @click="changePage(currentPage - 1)" :disabled="currentPage <= 1" class="pagination-button">Anterior</button>
+                <span>Página {{ currentPage }}</span>
+                <button @click="changePage(currentPage + 1)" :disabled="!hasMore" class="pagination-button">Próximo</button>
+            </div>
+            <div v-if="showConfirmation" class="confirmation-popup">
+                <p>Tem certeza que deseja excluir este logradouro?</p>
+                <button @click="deleteLogradouro(currentLogradouroId)" class="confirm-button">Sim</button>
+                <button @click="cancelDelete" class="cancel-button">Não</button>
+            </div>
+        </div>
     </div>
-</div>
-</template>
-
-  
-<script>
-import Navbar from '../components/NavBar.vue';
-import {
-    getLogradouros,
-    deleteLogradouro
-} from '../services/apiService';
-
-export default {
-    name: 'LogradouroManagement',
-    components: {
-        Navbar,
-    },
-    data() {
-        return {
-            logradouros: [],
-        };
-    },
-    methods: {
-        async fetchLogradouros() {
-            try {
-                const response = await getLogradouros();
-                this.logradouros = response.data;
-            } catch (error) {
-                console.error('Erro ao buscar logradouros:', error);
-            }
+    </template>
+    
+    <script>
+    import axios from 'axios';
+    import Navbar from '@/components/NavBar.vue';
+    
+    export default {
+        name: 'LogradouroManagement',
+        components: {
+            Navbar,
         },
-        createLogradouro() {
-            this.$router.push('/create-logradouro');
+        data() {
+            return {
+                logradouros: [],
+                showConfirmation: false,
+                currentLogradouroId: null,
+                currentPage: 1,
+                hasMore: false,
+                filters: {
+                    uf: '',
+                    nome: ''
+                }
+            };
         },
-        editLogradouro(id) {
-            this.$router.push(`/edit-logradouro/${id}`);
-        },
-        async deleteLogradouro(id) {
-            if (confirm('Tem certeza que deseja excluir este logradouro?')) {
+        methods: {
+            async fetchLogradouros(page = 1) {
                 try {
-                    await deleteLogradouro(id);
-                    this.fetchLogradouros();
+                    const response = await axios.get('http://localhost:3000/logradouro', {
+                        params: {
+                            page: page,
+                            limit: 8,
+                            cep: this.filters.cep,
+                            bairro: this.filters.bairro
+                        }
+                    });
+                    this.logradouros = response.data.data;
+                    this.currentPage = response.data.pagination.page;
+                    this.hasMore = this.currentPage < response.data.pagination.totalPages;
+                } catch (error) {
+                    console.error('Erro ao buscar logradouros:', error);
+                }
+            },
+            createLogradouro() {
+                this.$router.push('/logradouros/novo');
+            },
+            editLogradouro(logradouroId) {
+                this.$router.push(`/logradouros/${logradouroId}/editar`);
+            },
+            confirmDelete(logradouroId) {
+                this.currentLogradouroId = logradouroId;
+                this.showConfirmation = true;
+            },
+            async deleteLogradouro(logradouroId) {
+                try {
+                    await axios.delete(`http://localhost:3000/logradouro/${logradouroId}`);
+                    this.fetchLogradouros(this.currentPage);
+                    this.showConfirmation = false;
                 } catch (error) {
                     console.error('Erro ao excluir logradouro:', error);
                 }
+            },
+            cancelDelete() {
+                this.showConfirmation = false;
+                this.currentLogradouroId = null;
+            },
+            changePage(page) {
+                if (page > 0 && page !== this.currentPage) {
+                    this.fetchLogradouros(page);
+                }
+            },
+            applyFilters() {
+                this.fetchLogradouros(1);
             }
         },
-    },
-    mounted() {
-        this.fetchLogradouros();
-    },
-};
-</script>
-
-  
-<style scoped>
-.container {
-    padding: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th,
-td {
-    padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-button {
-    margin-right: 10px;
-    padding: 5px 10px;
-    background-color: #69c369;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-}
-
-button:hover {
-    background-color: #5dad5d;
-}
-</style>
+        mounted() {
+            this.fetchLogradouros();
+        }
+    }
+    </script>
+    
+    <style scoped>
+    .logradouro-management-container {
+        display: flex;
+        flex-direction: column;
+        height: 90vh;
+        background-color: #f9f9f9;
+    }
+    
+    .logradouro-management {
+        padding: 80px 20px 20px 20px;
+        margin-left: 0;
+        margin-right: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #333;
+    }
+    
+    .filter-container {
+        margin-bottom: 20px;
+    }
+    
+    .filter-container label {
+        margin-right: 10px;
+    }
+    
+    .filter-container input {
+        padding: 8px;
+        margin-right: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    
+    .apply-filter-button {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+    
+    .apply-filter-button:hover {
+        background-color: #0056b3;
+    }
+    
+    .button-container {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    .create-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .create-button:hover {
+        background-color: #218838;
+    }
+    
+    .logradouro-table-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+    
+    .logradouro-table {
+        width: 90%;
+        max-width: 1200px;
+        border-collapse: collapse;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: white;
+        border-radius: 5px;
+        overflow: hidden;
+    }
+    
+    .logradouro-table th,
+    .logradouro-table td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+    
+    .logradouro-table th {
+        background-color: #f2f2f2;
+    }
+    
+    .logradouro-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+    
+    .logradouro-table tr:hover {
+        background-color: #f1f1f1;
+    }
+    
+    .edit-button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .edit-button:hover {
+        background-color: #0056b3;
+    }
+    
+    .delete-button {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .delete-button:hover {
+        background-color: #c82333;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    
+    .pagination-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .pagination-button:disabled {
+        background-color: #ddd;
+        cursor: not-allowed;
+    }
+    
+    .pagination-button:not(:disabled) {
+        background-color: #007bff;
+        color: white;
+    }
+    
+    .pagination-button:not(:disabled):hover {
+        background-color: #0056b3;
+    }
+    
+    .confirmation-popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        z-index: 1000;
+    }
+    
+    .confirmation-popup p {
+        margin-bottom: 20px;
+    }
+    
+    .confirm-button,
+    .cancel-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+    
+    .confirm-button {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .confirm-button:hover {
+        background-color: #218838;
+    }
+    
+    .cancel-button {
+        background-color: #dc3545;
+        color: white;
+    }
+    
+    .cancel-button:hover {
+        background-color: #c82333;
+    }
+    </style>

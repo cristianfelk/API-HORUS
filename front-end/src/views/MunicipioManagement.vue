@@ -82,7 +82,7 @@ export default {
                 const response = await axios.get('http://localhost:3000/municipio', {
                     params: {
                         page: page,
-                        limit: 5,
+                        limit: 8,
                         uf: this.filters.uf,
                         nome: this.filters.nome
                     }

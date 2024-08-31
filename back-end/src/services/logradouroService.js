@@ -20,10 +20,44 @@ const getLogradouroById  = async (params) => {
     return (await db.query(sql_get, [id])).rows;   
 }
 
-const getLogradouro = async () => {
-    const sql_get = `select * from logradouro`
-    return await db.query(sql_get)
-}
+const getLogradouro = async (page = 1, limit = 10, cep = '', bairro = '') => {
+    const offset = (page - 1) * limit;
+    let sql_get = `select * from logradouro where true`;
+    let values = [];
+
+    if (cep) {
+        sql_get += ` and cep = $${values.length + 1}`;
+        values.push(cep);
+    }
+
+    if (bairro) {
+        sql_get += ` and bairro ilike $${values.length + 1}`;
+        values.push(`%${bairro}%`);
+    }
+
+    sql_get += ` order by bairro limit $${values.length + 1} offset $${values.length + 2}`;
+    values.push(limit, offset);
+
+    return await db.query(sql_get, values);
+};
+
+const getTotalLogradouros = async (cep = '', bairro = '') => {
+    let sql_count = 'select count(*) as total from logradouro where true';
+    let values = [];
+
+    if (cep) {
+        sql_count += ` and cep = $${values.length + 1}`;
+        values.push(cep);
+    }
+
+    if (bairro) {
+        sql_count += ` and bairro ilike $${values.length + 1}`;
+        values.push(`%${bairro}%`);
+    }
+
+    const result = await db.query(sql_count, values);
+    return parseInt(result.rows[0].total, 10);
+}; 
 
 const deleteLogradouro = async (params) => {
     const sql_delete = `delete from logradouro where id = $1`
@@ -58,5 +92,6 @@ module.exports = {
     deleteLogradouro,
     putLogradouro,
     patchLogradouro,
-    getLogradouroById
+    getLogradouroById,
+    getTotalLogradouros
 };
