@@ -3,31 +3,19 @@
       <Navbar />
       <h1>Cadastrar Fiscalização</h1>
       <div class="steps-container">
-        <div
-          class="step"
-          :class="{ active: currentStep === 1, completed: currentStep > 1 }"
-        >
+        <div class="step" :class="{ active: currentStep === 1, completed: currentStep > 1 }">
           <span class="step-number">1</span>
           <label>Logradouro e número</label>
         </div>
-        <div
-          class="step"
-          :class="{ active: currentStep === 2, completed: currentStep > 2 }"
-        >
+        <div class="step" :class="{ active: currentStep === 2, completed: currentStep > 2 }">
           <span class="step-number">2</span>
           <label>No depósito</label>
         </div>
-        <div
-          class="step"
-          :class="{ active: currentStep === 3, completed: currentStep > 3 }"
-        >
+        <div class="step" :class="{ active: currentStep === 3, completed: currentStep > 3 }">
           <span class="step-number">3</span>
           <label>Coleta de amostra</label>
         </div>
-        <div
-          class="step"
-          :class="{ active: currentStep === 4, completed: currentStep > 4 }"
-        >
+        <div class="step" :class="{ active: currentStep === 4, completed: currentStep > 4 }">
           <span class="step-number">4</span>
           <label>Tratamento</label>
         </div>
@@ -36,10 +24,16 @@
       <form @submit.prevent="handleSubmit">
         <div v-if="currentStep === 1">
           <label for="municipio">Município:</label>
-          <input type="text" id="municipio" v-model="fiscalizacao.municipio" required />
+          <select id="municipio" v-model="fiscalizacao.municipio" class="select2">
+            <option value="" disabled>Selecione um município</option>
+            <option v-for="municipio in municipios" :key="municipio.id" :value="municipio.nome">{{ municipio.nome }}</option>
+          </select>
   
           <label for="logradouro">Logradouro:</label>
-          <input type="text" id="logradouro" v-model="fiscalizacao.logradouro" required />
+          <select id="logradouro" v-model="fiscalizacao.logradouro" class="select2">
+            <option value="" disabled>Selecione um logradouro</option>
+            <option v-for="logradouro in logradouros" :key="logradouro.id" :value="logradouro.logradouro">{{ logradouro.logradouro }}</option>
+          </select>
         </div>
   
         <div v-if="currentStep === 2">
@@ -66,10 +60,12 @@
   
   <script>
   import Navbar from '../components/NavBar.vue';
-  import { CreateFiscalizacao } from '../services/apiService.js';
+  import { CreateFiscalizacao, getMunicipios, getLogradouros } from '../services/apiService.js';
+  import $ from 'jquery';
+  import 'select2';
   
   export default {
-    name: 'FiscalizacaoManagement',
+    name: 'CreateFiscalizacao',
     components: {
       Navbar,
     },
@@ -83,9 +79,43 @@
           amostra: '',
           tratamento: '',
         },
+        municipios: [],
+        logradouros: [],
       };
     },
+    mounted() {
+      this.initializeSelect2();
+      this.fetchMunicipios();
+      this.fetchLogradouros();
+    },
     methods: {
+      initializeSelect2() {
+        $('.select2').select2();
+  
+        $('#municipio').on('change', (e) => {
+          this.fiscalizacao.municipio = $(e.target).val();
+        });
+  
+        $('#logradouro').on('change', (e) => {
+          this.fiscalizacao.logradouro = $(e.target).val();
+        });
+      },
+      async fetchMunicipios() {
+        try {
+          const response = await getMunicipios();
+          this.municipios = response.data;
+        } catch (error) {
+          console.error('Erro ao buscar municípios:', error);
+        }
+      },
+      async fetchLogradouros() {
+        try {
+          const response = await getLogradouros();
+          this.logradouros = response.data;
+        } catch (error) {
+          console.error('Erro ao buscar logradouros:', error);
+        }
+      },
       nextStep() {
         if (this.currentStep < 4) {
           this.currentStep++;
@@ -97,6 +127,7 @@
         try {
           await CreateFiscalizacao(this.fiscalizacao);
         } catch (error) {
+          console.error('Erro ao criar fiscalização:', error);
         }
       },
       handleSubmit() {
