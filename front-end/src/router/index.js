@@ -14,6 +14,8 @@ import CreateLogradouro from '@/views/CreateLogradouro.vue';
 import EditLogradouro from '@/views/EditLogradouro.vue';
 import ResetPassword from '@/views/ResetPassword.vue';
 import LogsCadastrais from '@/views/LogsCadastrais.vue';
+import CreateFiscalizacao from '@/views/CreateFiscalizacao.vue';
+import FiscalizacaoManagement from '@/views/FiscalizacaoManagement.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -82,6 +84,16 @@ const router = createRouter({
       name: 'create-municipio',
       component: CreateMunicipio,
       meta: { requiresAuth: true },
+    },
+    {
+      path: '/fiscalizacao/novo',
+      name: 'CreateFiscalizacao',
+      component: CreateFiscalizacao
+    },
+    {
+      path: '/fiscalizacoes',
+      name: 'FiscalizacaoManagement',
+      component: FiscalizacaoManagement
     },
     {
       path: '/logradouros',

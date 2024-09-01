@@ -1,7 +1,12 @@
 const db = require('../configs/pg')
 
 const getLog = async () => {
-    const sql_get = `select * from log`
+    const sql_get = `select 
+                        id, acao, tabela, 
+                        usuario_acao, dados_antigos, 
+                        dados_alterados, 
+                        to_char(data_log, 'YYYY-MM-DD HH24:MI:SS') as data_log ]
+                    from log`;
     return await db.query(sql_get)
 }
 
