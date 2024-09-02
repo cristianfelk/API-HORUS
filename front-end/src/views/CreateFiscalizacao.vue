@@ -62,8 +62,9 @@
   import Navbar from '../components/NavBar.vue';
   import { CreateFiscalizacao, getMunicipios, getLogradouros } from '../services/apiService.js';
   import $ from 'jquery';
-  import 'select2';
-  
+  import 'select2/dist/js/select2.min';
+  import 'select2/dist/css/select2.min.css';
+
   export default {
     name: 'CreateFiscalizacao',
     components: {

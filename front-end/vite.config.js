@@ -11,7 +11,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
-      'jquery': resolve(__dirname, 'node_modules/jquery/src/jquery'),
+      'jquery': resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
     }
   },
   optimizeDeps: {
