@@ -34,12 +34,98 @@
     </div>
 
     <form @submit.prevent="handleSubmit">
-      <div v-if="currentStep === 1">
-        <label for="municipio">Município:</label>
-        <input type="text" id="municipio" v-model="fiscalizacao.municipio" required />
+      <div v-if="currentStep === 1" class="form-grid">
+        <div class="form-group">
+          <label for="logradouro">Logradouro:</label>
+          <input
+            type="text"
+            id="logradouro"
+            v-model="fiscalizacao.logradouro"
+            @input="searchLogradouro"
+            required
+          />
+          <ul v-if="logradouroSuggestions.length" class="suggestions-list">
+            <li
+              v-for="logradouro in logradouroSuggestions"
+              :key="logradouro.id"
+              @click="selectLogradouro(logradouro)"
+            >
+              {{ logradouro.logradouro }}
+            </li>
+          </ul>
+        </div>
 
-        <label for="logradouro">Logradouro:</label>
-        <input type="text" id="logradouro" v-model="fiscalizacao.logradouro" required />
+        <div class="form-group">
+          <label for="quarteirao">No quarteirão:</label>
+          <input
+            type="text"
+            id="quarteirao"
+            v-model="fiscalizacao.quarteirao"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="sequencia">Sequência:</label>
+          <input
+            type="text"
+            id="sequencia"
+            v-model="fiscalizacao.sequencia"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="numero">Número:</label>
+          <input
+            type="text"
+            id="numero"
+            v-model="fiscalizacao.numero"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="complemento">Complemento:</label>
+          <input
+            type="text"
+            id="complemento"
+            v-model="fiscalizacao.complemento"
+            @input="searchComplemento"
+            required
+          />
+          <ul v-if="complementoSuggestions.length" class="suggestions-list">
+            <li
+              v-for="complemento in complementoSuggestions"
+              :key="complemento.id"
+              @click="selectComplemento(complemento)"
+            >
+              {{ complemento.complemento }}
+            </li>
+          </ul>
+        </div>
+
+        <div class="form-group">
+          <label for="tipo-imovel">Tipo do Imóvel:</label>
+          <select
+            id="tipo-imovel"
+            v-model="fiscalizacao.tipoImovel"
+            required
+          >
+            <option value="R">Residencial</option>
+            <option value="C">Comercial</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="numero">Número:</label>
+          <input
+            type="text"
+            id="numero"
+            v-model="fiscalizacao.numero"
+            required
+          />
+        </div>
       </div>
 
       <div v-if="currentStep === 2">
@@ -66,7 +152,7 @@
 
 <script>
 import Navbar from '../components/NavBar.vue';
-import { CreateFiscalizacao } from '../services/apiService.js';
+import { CreateFiscalizacao, searchLogradourosByNome, searchByComplementos } from '../services/apiService.js';
 
 export default {
   name: 'FiscalizacaoManagement',
@@ -77,12 +163,17 @@ export default {
     return {
       currentStep: 1,
       fiscalizacao: {
-        municipio: '',
         logradouro: '',
+        complemento: '',
+        quarteirao: '',
+        sequencia: '',
+        numero: '',
         deposito: '',
         amostra: '',
         tratamento: '',
       },
+      logradouroSuggestions: [],
+      complementoSuggestions: [],
     };
   },
   methods: {
@@ -97,6 +188,7 @@ export default {
       try {
         await CreateFiscalizacao(this.fiscalizacao);
       } catch (error) {
+        console.error(error);
       }
     },
     handleSubmit() {
@@ -106,6 +198,38 @@ export default {
         this.postFiscalizacao();
       }
     },
+    async searchLogradouro() {
+      if (this.fiscalizacao.logradouro.length > 2) {
+        try {
+          const response = await searchLogradourosByNome(this.fiscalizacao.logradouro);
+          this.logradouroSuggestions = response.data;
+        } catch (error) {
+          console.error('Erro ao buscar logradouros:', error);
+        }
+      } else {
+        this.logradouroSuggestions = [];
+      }
+    },
+    selectLogradouro(logradouro) {
+      this.fiscalizacao.logradouro = logradouro.logradouro;
+      this.logradouroSuggestions = [];
+    },
+    async searchComplemento() {
+      if (this.fiscalizacao.complemento.length > 2) {
+        try {
+          const response = await searchByComplementos(this.fiscalizacao.complemento);
+          this.complementoSuggestions = response.data;
+        } catch (error) {
+          console.error('Erro ao buscar complementos:', error);
+        }
+      } else {
+        this.complementoSuggestions = [];
+      }
+    },
+    selectComplemento(complemento) {
+      this.fiscalizacao.complemento = complemento.complemento;
+      this.complementoSuggestions = [];
+    }
   },
 };
 </script>
@@ -124,7 +248,7 @@ export default {
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
-  position: relative; 
+  position: relative;
 }
 
 .step {
@@ -133,7 +257,7 @@ export default {
   align-items: center;
   position: relative;
   text-align: center;
-  z-index: 1; 
+  z-index: 1;
 }
 
 .step-number {
@@ -147,7 +271,7 @@ export default {
   color: #555;
   font-weight: bold;
   margin-bottom: 8px;
-  z-index: 2; 
+  z-index: 2;
 }
 
 .step.active .step-number {
@@ -163,16 +287,38 @@ export default {
 .steps-container::before {
   content: '';
   position: absolute;
-  top: 15px; 
-  left: 15px; 
-  right: 15px; 
+  top: 15px;
+  left: 15px;
+  right: 15px;
   height: 4px;
   background-color: #e0e0e0;
-  z-index: 0; 
+  z-index: 0;
 }
 
 .step.completed ~ .step::before {
   background-color: #4caf50;
+}
+
+.suggestions-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 150px;
+  overflow-y: auto;
+  background-color: #fff;
+  z-index: 1000;
+  position: absolute;
+}
+
+.suggestions-list li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.suggestions-list li:hover {
+  background-color: #f0f0f0;
 }
 
 button {
@@ -188,5 +334,27 @@ button {
 
 button:hover {
   background-color: #45a049;
+}
+
+/* Novas regras para o layout dos campos */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  margin-bottom: 5px;
+}
+
+.form-group input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 </style>

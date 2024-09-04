@@ -20,6 +20,28 @@ const getLogradouroById  = async (params) => {
     return (await db.query(sql_get, [id])).rows;   
 }
 
+const getLogradourosByNome = async (logradouro) => {
+    const sql_search = `
+        select * 
+        from logradouro 
+        where logradouro ilike $1
+    `;
+    const searchParam = `%${logradouro}%`;
+    const result = await db.query(sql_search, [searchParam]);
+    return result.rows;
+};
+
+const getByComplemento = async (complemento) => {
+    const sql_search = `
+        select * 
+        from logradouro 
+        where complemento ilike $1
+    `;
+    const searchParam = `%${complemento}%`;
+    const result = await db.query(sql_search, [searchParam]);
+    return result.rows;
+};
+
 const getLogradouro = async (page = 1, limit = 10, cep = '', bairro = '') => {
     const offset = (page - 1) * limit;
     let sql_get = `select * from logradouro where true`;
@@ -84,7 +106,7 @@ const patchLogradouro = async (params) => {
     console.log(params)
     const sql = `update logradouro set ${fields} where id = ${params.id}`;
     await db.query(sql);
-}
+};
 
 module.exports = {
     postLogradouro,
@@ -93,5 +115,7 @@ module.exports = {
     putLogradouro,
     patchLogradouro,
     getLogradouroById,
-    getTotalLogradouros
+    getTotalLogradouros,
+    getLogradourosByNome,
+    getByComplemento
 };

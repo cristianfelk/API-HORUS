@@ -32,6 +32,17 @@ const getMunicipio = async (page = 1, limit = 10, uf = '', nome = '') => {
     return await db.query(sql_get, values);
 };
 
+const getMunicipioByNome = async (nome) => {
+    const sql_search = `
+        select * 
+        from municipio 
+        where nome ilike $1
+    `;
+    const searchParam = `%${nome}%`;
+    const result = await db.query(sql_search, [searchParam]);
+    return result.rows;
+};
+
 const getTotalMunicipios = async (uf = '', nome = '') => {
     let sql_count = 'select count(*) as total from municipio where true';
     let values = [];
@@ -80,5 +91,6 @@ module.exports = {
     getTotalMunicipios,
     deleteMunicipio,
     putMunicipio,
-    patchMunicipio
+    patchMunicipio,
+    getMunicipioByNome
 };

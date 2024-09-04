@@ -53,18 +53,27 @@ export const verifyResetCode = (token) => apiClient.post('/verify-reset-code', {
 export const resetPassword = (userId, token, newPassword) => apiClient.post('/reset-password', { userId, token, newPassword });
 
 // Municípios
-export const getMunicipios = (params) => apiClient.get('/municipio', { params: { nome: params.nome } });
+export const getMunicipios = (params) => apiClient.get('/municipio', { params });
 export const getMunicipioById = (id) => apiClient.get(`/municipio/${id}`);
 export const createMunicipio = (data) => apiClient.post('/municipio', data);
 export const updateMunicipio = (id, data) => apiClient.put(`/municipio/${id}`, data);
 export const deleteMunicipio = (id) => apiClient.delete(`/municipio/${id}`);
+export const searchMunicipioByNome = (municipio) => {
+  return apiClient.get(`/municipio/search/${encodeURIComponent(municipio)}`);
+};
 
 // Logradouros
-export const getLogradouros = (params) => apiClient.get('/logradouro', { params: { logradouro: params.logradouro } });
+export const getLogradouros = (params) => apiClient.get('/logradouro', { params });
 export const getLogradouroById = (id) => apiClient.get(`/logradouro/${id}`);
 export const createLogradouro = (data) => apiClient.post('/logradouro', data);
 export const updateLogradouro = (id, data) => apiClient.put(`/logradouro/${id}`, data);
 export const deleteLogradouro = (id) => apiClient.delete(`/logradouro/${id}`);
+export const searchLogradourosByNome = (logradouro) => {
+  return apiClient.get(`/logradouro/search/${encodeURIComponent(logradouro)}`);
+};
+export const searchByComplementos = (complemento) => {
+  return apiClient.get(`/logradouro/searchComplemento/${encodeURIComponent(complemento)}`);
+};
 
 //Fiscalizacao
 export const CreateFiscalizacao = (data) => apiClient.post('/fiscalizacao', data);

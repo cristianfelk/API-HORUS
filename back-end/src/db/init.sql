@@ -39,6 +39,10 @@ create table usuario (
 
 create table fiscalizacao (
   id serial primary key not null,
+  quarteirao varchar(25),
+  sequencia varchar(25),
+  numero varchar(10),
+  tipo_imovel varchar(1),
   usuario_id integer not null,
   logradouro_fiscalizacao integer not null,
   data_fiscalizacao timestamp,
@@ -47,16 +51,9 @@ create table fiscalizacao (
   foreign key (logradouro_fiscalizacao) references logradouro (id)
 );
 
-create table fiscalizacao_dados (
-  id serial primary key not null,
-  id_fiscalizacao integer not null,
-  dados jsonb,
-  foreign key (id_fiscalizacao) references fiscalizacao (id)
-);
-
 create table status (
   id integer primary key not null,
-  descricao varchar(50) not null
+  descricao varchar(30)
 );
 
 create table denuncia (
@@ -150,3 +147,9 @@ values
 ('São Paulo', 'SP', 35),
 ('Sergipe', 'SE', 28),
 ('Tocantins', 'TO', 17);
+
+insert into status (id, descricao) 
+values 
+(1, 'Novo'),
+(2, 'Em andamento'),
+(3, 'Finalizada');

@@ -37,6 +37,26 @@ const getLogradouroById = async (req, res, next) => {
     }
 }
 
+const getLogradourosByNome = async (req, res) => {
+    const { logradouro } = req.params;
+    try {
+        const logradouros = await logradouroService.getLogradourosByNome(logradouro);
+        res.status(200).json(logradouros);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const getByComplemento = async (req, res) => {
+    const { complemento } = req.params;
+    try {
+        const complementos = await logradouroService.getByComplemento(complemento);
+        res.status(200).json(complementos);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 const deleteLogradouro = async (req, res, next) => {
     try {
         await logradouroService.deleteLogradouro(req.params)
@@ -77,5 +97,7 @@ module.exports = {
     deleteLogradouro,
     putLogradouro,
     patchLogradouro,
-    getLogradouroById
+    getLogradouroById,
+    getLogradourosByNome,
+    getByComplemento
 };

@@ -30,6 +30,16 @@ const getMunicipio = async (req, res) => {
     }
 };
 
+const getMunicipioByNome = async (req, res) => {
+    const { nome } = req.params;
+    try {
+        const municipios = await municipioService.getMunicipioByNome(nome);
+        res.status(200).json(municipios);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 const deleteMunicipio = async (req, res) => {
     try {
         await municipioService.deleteMunicipio(req.params.id);
@@ -62,5 +72,6 @@ module.exports = {
     getMunicipio,
     deleteMunicipio,
     putMunicipio,
-    patchMunicipio
+    patchMunicipio,
+    getMunicipioByNome
 };
