@@ -2,10 +2,12 @@ const db = require('../configs/pg')
 
 const postFiscalizacao = async (params) => {
     try {
-        const sql_post = ` insert into fiscalizacao (quarteirao, sequencia, numero, usuario_id, data_fiscalizacao, bairro_fiscalizacao)
+        const sql_post = ` insert into fiscalizacao (quarteirao, sequencia, numero, tipo_imovel, status, usuario_id, data_fiscalizacao, bairro_fiscalizacao)
             values ('${params.quarteirao}',
                     '${params.sequencia}',
                     '${params.numero}',
+                    '${params.tipo_imovel}',
+                    ${params.status},
                     ${params.usuario_id},
                     current_timestamp,
                     ${params.bairro_fiscalizacao})`
@@ -30,13 +32,15 @@ const putFiscalizacao = async (params) => {
     const sql_put = `update fiscalizacao set
             quarteirao = $2,
             sequencia = $3,
-            numero = $4
-            usuario_id = $5, 
-            data_fiscalizacao = $6,
-            bairro_fiscalizacao = $7
+            numero = $4,
+            tipo_imovel = $5,
+            status = $6
+            usuario_id = $7, 
+            data_fiscalizacao = $8,
+            bairro_fiscalizacao = $9
             where id = $1`
-    const { id, quarteirao, sequencia, numero, usuario_id, data_fiscalizacao, bairro_fiscalizacao } = params 
-    return await db.query(sql_put, [id, quarteirao, sequencia, numero, usuario_id, data_fiscalizacao, bairro_fiscalizacao])
+    const { id, quarteirao, sequencia, numero, tipo_imovel, status, usuario_id, data_fiscalizacao, bairro_fiscalizacao } = params 
+    return await db.query(sql_put, [id, quarteirao, sequencia, numero, tipo_imovel, status, usuario_id, data_fiscalizacao, bairro_fiscalizacao])
 }
 
 const patchFiscalizacao = async (params) => {

@@ -43,17 +43,16 @@ create table fiscalizacao (
   sequencia varchar(25),
   numero varchar(10),
   tipo_imovel varchar(1),
+  hora_entrada timestamp,
+  visita char(1),
+  pendencia varchar(20),
+  status integer,
   usuario_id integer not null,
   logradouro_fiscalizacao integer not null,
   data_fiscalizacao timestamp,
   status varchar(50),
   foreign key (usuario_id) references usuario (id),
   foreign key (logradouro_fiscalizacao) references logradouro (id)
-);
-
-create table status (
-  id integer primary key not null,
-  descricao varchar(30)
 );
 
 create table denuncia (
