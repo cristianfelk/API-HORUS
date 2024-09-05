@@ -23,7 +23,6 @@
             <div class="form-group">
                 <label for="status">Status:</label>
                 <select v-model="user.status" id="status">
-                    <option value="">Selecione o Status (opcional)</option>
                     <option value="ativo">Ativo</option>
                     <option value="inativo">Inativo</option>
                 </select>
