@@ -77,6 +77,8 @@ export const searchByComplementos = (complemento) => {
 
 //Fiscalizacao
 export const CreateFiscalizacao = (data) => apiClient.post('/fiscalizacao', data);
+export const getFiscalizacao = (params) => apiClient.get('/fiscalizacao', { params });
+export const deleteFiscalizacao = (id) => apiClient.delete(`/fiscalizacao/${id}`);
 
 
 // Logs
