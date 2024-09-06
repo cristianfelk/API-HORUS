@@ -243,11 +243,46 @@ export default {
             }
         },
 
+        resetForm() {
+            this.fiscalizacao = {
+                quarteirao: '',
+                sequencia: '',
+                logradouro_fiscalizacao: '',
+                numero: '',
+                complemento: '',
+                tipo_imovel: '',
+                hora_entrada: this.getCurrentDateTime(),
+                timestamp_entrada: null,
+                usuario_id: null,
+                a1: '',
+                a2: '',
+                b: '',
+                c: '',
+                d1: '',
+                d2: '',
+                e: '',
+                eliminado: '',
+                inicial: '',
+                final: '',
+                qtd_tubitos: '',
+                im_trat: '',
+                tipo_focal: '',
+                qtd_grama: '',
+                qtd_tratado: '',
+                tipo_perifocal: '',
+                qtd_gramas: '',
+            };
+            this.currentStep = 1;
+        },
+
         async postFiscalizacao() {
             try {
                 this.fiscalizacao.timestamp_entrada = this.convertToTimestamp(this.fiscalizacao.hora_entrada);
 
                 await CreateFiscalizacao(this.fiscalizacao);
+                alert('Fiscalização criada com sucesso!');
+
+                this.resetForm();
             } catch (error) {
                 console.error(error);
             }
@@ -261,9 +296,9 @@ export default {
             }
         },
         async searchLogradouro() {
-            if (this.fiscalizacao.logradouro.length > 2) {
+            if (this.fiscalizacao.logradouro_fiscalizacao.length > 2) {
                 try {
-                    const response = await searchLogradourosByNome(this.fiscalizacao.logradouro);
+                    const response = await searchLogradourosByNome(this.fiscalizacao.logradouro_fiscalizacao);
                     this.logradouroSuggestions = response.data;
                 } catch (error) {
                     console.error('Erro ao buscar logradouros:', error);
@@ -273,7 +308,7 @@ export default {
             }
         },
         selectLogradouro(logradouro) {
-            this.fiscalizacao.logradouro = logradouro.logradouro;
+            this.fiscalizacao.logradouro_fiscalizacao = logradouro.logradouro;
             this.logradouroSuggestions = [];
         },
         async searchComplemento() {
@@ -292,6 +327,7 @@ export default {
             this.fiscalizacao.complemento = complemento.complemento;
             this.complementoSuggestions = [];
         }
+
     },
 };
 </script>
