@@ -36,7 +36,7 @@
 
             <div class="form-group">
                 <label for="logradouro">Logradouro:</label>
-                <input type="text" id="logradouro" v-model="fiscalizacao.logradouro" @input="searchLogradouro" @keydown.enter="focusNextField('numero')" required />
+                <input type="text" id="logradouro" v-model="fiscalizacao.logradouro_fiscalizacao" @input="searchLogradouro" @keydown.enter="focusNextField('numero')" required />
                 <ul v-if="logradouroSuggestions.length" class="suggestions-list">
                     <li v-for="logradouro in logradouroSuggestions" :key="logradouro.id" @click="selectLogradouro(logradouro)">
                         {{ logradouro.logradouro }}
@@ -61,7 +61,7 @@
 
             <div class="form-group">
                 <label for="tipo_imovel">Tipo do Imóvel:</label>
-                <select id="tipo_imovel" v-model="fiscalizacao.tipoImovel" @keydown.enter="focusNextField('hora_entrada')" required>
+                <select id="tipo_imovel" v-model="fiscalizacao.tipo_imovel" @keydown.enter="focusNextField('hora_entrada')" required>
                     <option value="R">Residencial</option>
                     <option value="C">Comercial</option>
                 </select>
@@ -183,15 +183,32 @@ export default {
         return {
             currentStep: 1,
             fiscalizacao: {
-                logradouro: '',
-                complemento: '',
                 quarteirao: '',
                 sequencia: '',
+                logradouro_fiscalizacao: '',
                 numero: '',
-                deposito: '',
-                amostra: '',
-                tratamento: '',
+                complemento: '',
+                tipo_imovel: '',
                 hora_entrada: this.getCurrentDateTime(),
+                timestamp_entrada: null,
+                usuario_id: null,
+                a1: '',
+                a2: '',
+                b: '',
+                c: '',
+                d1: '',
+                d2: '',
+                e: '',
+                eliminado: '',
+                inicial: '',
+                final: '',
+                qtd_tubitos: '',
+                im_trat: '',
+                tipo_focal: '',
+                qtd_grama: '',
+                qtd_tratado: '',
+                tipo_perifocal: '',
+                qtd_gramas: '',
             },
             logradouroSuggestions: [],
             complementoSuggestions: [],
@@ -207,12 +224,11 @@ export default {
             const minutes = String(now.getMinutes()).padStart(2, '0');
             return `${year}-${month}-${day}T${hours}:${minutes}`;
         },
-        focusNextField(nextFieldId) {
-            const nextField = document.getElementById(nextFieldId);
-            if (nextField) {
-                nextField.focus();
-            }
+
+        convertToTimestamp(dateString) {
+            return new Date(dateString).getTime();
         },
+
         nextStep() {
             if (this.currentStep < 4) {
                 this.currentStep++;
@@ -220,18 +236,23 @@ export default {
                 this.postFiscalizacao();
             }
         },
+
         backStep() {
             if (this.currentStep > 1) {
                 this.currentStep--;
             }
         },
+
         async postFiscalizacao() {
             try {
+                this.fiscalizacao.timestamp_entrada = this.convertToTimestamp(this.fiscalizacao.hora_entrada);
+
                 await CreateFiscalizacao(this.fiscalizacao);
             } catch (error) {
                 console.error(error);
             }
         },
+
         handleSubmit() {
             if (this.currentStep < 4) {
                 this.nextStep();

@@ -2,15 +2,39 @@ const db = require('../configs/pg')
 
 const postFiscalizacao = async (params) => {
     try {
-        const sql_post = ` insert into fiscalizacao (quarteirao, sequencia, numero, tipo_imovel, status, usuario_id, data_fiscalizacao, bairro_fiscalizacao)
-            values ('${params.quarteirao}',
-                    '${params.sequencia}',
-                    '${params.numero}',
-                    '${params.tipo_imovel}',
-                    ${params.status},
-                    ${params.usuario_id},
-                    current_timestamp,
-                    ${params.bairro_fiscalizacao})`
+        const sql_post = ` insert into fiscalizacao (
+        quarteirao, sequencia, logradouro_fiscalizacao, numero, complemento, tipo_imovel, hora_entrada,
+        visita, pendencia, status, usuario_id, a1, a2, b, c, d1, d2, e, eliminado, inicial, final, qtd_tubitos,
+        im_trat, tipo_focal, qtd_grama, qtd_tratado, tipo_perifocal, qtd_gramas)
+            values (
+                '${params.quarteirao}',
+                '${params.sequencia}',
+                '${params.logradouro_fiscalizacao}',
+                '${params.numero}',
+                '${params.complemento}',
+                '${params.tipo_imovel}',
+                '${params.hora_entrada}', 
+                '${params.visita}',
+                '${params.pendencia}',
+                ${params.status},
+                ${params.usuario_id},
+                '${params.a1}',
+                '${params.a2}',
+                '${params.b}',
+                '${params.c}',
+                '${params.d1}',
+                '${params.d2}',
+                '${params.e}',
+                '${params.eliminado}',
+                '${params.inicial}',
+                '${params.final}',
+                '${params.qtd_tubitos}',
+                '${params.im_trat}',
+                '${params.tipo_focal}',
+                '${params.qtd_grama}',
+                '${params.qtd_tratado}',
+                '${params.tipo_perifocal}',
+                '${params.qtd_gramas}')`
         await db.query(sql_post)
     } catch (error) {
 

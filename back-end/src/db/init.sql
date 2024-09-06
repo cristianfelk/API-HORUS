@@ -41,32 +41,46 @@ create table fiscalizacao (
   id serial primary key not null,
   quarteirao varchar(25),
   sequencia varchar(25),
+  logradouro_fiscalizacao varchar(100),
   numero varchar(10),
+  complemento varchar(100),
   tipo_imovel varchar(1),
   hora_entrada timestamp,
   visita char(1),
   pendencia varchar(20),
   status integer,
-  usuario_id integer not null,
-  logradouro_fiscalizacao integer not null,
-  data_fiscalizacao timestamp,
-  status varchar(50),
-  foreign key (usuario_id) references usuario (id),
-  foreign key (logradouro_fiscalizacao) references logradouro (id)
+  usuario_id integer,
+  a1 varchar(100),
+  a2 varchar(100),
+  b varchar(100),
+  c varchar(100),
+  d1 varchar(100),
+  d2 varchar(100),
+  e varchar(100),
+  eliminado varchar(100),
+  inicial varchar(100),
+  final varchar(100),
+  qtd_tubitos varchar(100),
+  im_trat varchar(100),
+  tipo_focal varchar(100),
+  qtd_grama varchar(100),
+  qtd_tratado varchar(100),
+  tipo_perifocal varchar(100),
+  qtd_gramas varchar(100),
+  foreign key (usuario_id) references usuario (id)
 );
 
-create table denuncia (
-  id serial primary key not null,
-  anonima boolean not null,
-  id_municipio integer not null,
-  id_logradouro integer not null,
-  dados_denuncia jsonb,
-  id_status integer,
-  chave_denuncia text unique,
-  foreign key (id_status) references status (id),
-  foreign key (id_municipio) references municipio (id),
-  foreign key (id_logradouro) references logradouro (id)
-);
+-- create table denuncia (
+--   id serial primary key not null,
+--   anonima boolean not null,
+--   id_municipio integer not null,
+--   id_logradouro integer not null,
+--   dados_denuncia jsonb,
+--   id_status integer,
+--   chave_denuncia text unique,
+--   foreign key (id_municipio) references municipio (id),
+--   foreign key (id_logradouro) references logradouro (id)
+-- );
 
 create table log (
   id serial primary key not null,
@@ -146,9 +160,3 @@ values
 ('São Paulo', 'SP', 35),
 ('Sergipe', 'SE', 28),
 ('Tocantins', 'TO', 17);
-
-insert into status (id, descricao) 
-values 
-(1, 'Novo'),
-(2, 'Em andamento'),
-(3, 'Finalizada');
