@@ -5,7 +5,7 @@ const getLog = async () => {
                         id, acao, tabela, 
                         usuario_acao, dados_antigos, 
                         dados_alterados, 
-                        to_char(data_log, 'YYYY-MM-DD HH24:MI:SS') as data_log ]
+                        to_char(data_log, 'DD/MM/YYYY HH24:MI:SS') as data_log
                     from log`;
     return await db.query(sql_get)
 }

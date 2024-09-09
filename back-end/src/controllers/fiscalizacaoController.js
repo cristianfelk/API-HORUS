@@ -6,15 +6,26 @@ const postFiscalizacao = async (req, res, next) => {
         .catch(err => res.status(500).send(err))
 }
 
-const getFiscalizacao = async (req, res, next) => {
+const getFiscalizacao = async (req, res) => {
+    const { page = 1, limit = 10, logradouro = '', complemento = '' } = req.query;
+
     try {
-        await fiscalizacaoService.getFiscalizacao()
-            .then(ret => res.status(201).send(ret.rows))
-            .catch(err => res.status(500).send(err.message))
-    } catch (err) {
-        next(err);
-    } 
-}
+        const fiscalizacoes = await fiscalizacaoService.getFiscalizacao(parseInt(page, 10), parseInt(limit, 10), logradouro, complemento);
+        const total = await fiscalizacaoService.getTotalFiscalizacoes(logradouro, complemento);
+
+        res.json({
+            data: fiscalizacoes.rows,
+            pagination: {
+                total: total,
+                page: parseInt(page, 10),
+                limit: parseInt(limit, 10),
+                totalPages: Math.ceil(total / parseInt(limit, 10))
+            }
+        });
+    } catch (error) {
+        res.status(500).send('Erro ao obter municípios');
+    }
+};
 
 const deleteFiscalizacao = async (req, res, next) => {
     try {

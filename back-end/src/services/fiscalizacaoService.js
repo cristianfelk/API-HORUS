@@ -41,10 +41,45 @@ const postFiscalizacao = async (params) => {
     }
 }
 
-const getFiscalizacao = async () => {
-    const sql_get = `select * from fiscalizacao`
-    return await db.query(sql_get)
-}
+const getFiscalizacao = async (page = 1, limit = 10, logradouro = '', complemento = '') => {
+    const offset = (page - 1) * limit;
+    let sql_get = `select *, to_char(hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as hora_entrada
+                    from fiscalizacao where true`;
+    let values = [];
+
+    if (logradouro) {
+        sql_get += ` and logradouro = $${values.length + 1}`;
+        values.push(logradouro);
+    }
+
+    if (complemento) {
+        sql_get += ` and complemento ilike $${values.length + 1}`;
+        values.push(`%${complemento}%`);
+    }
+
+    sql_get += ` order by id desc limit $${values.length + 1} offset $${values.length + 2}`;
+    values.push(limit, offset);
+
+    return await db.query(sql_get, values);
+};
+
+const getTotalFiscalizacoes = async (logradouro = '', complemento = '') => {
+    let sql_count = 'select count(*) as total from fiscalizacao where true';
+    let values = [];
+
+    if (logradouro) {
+        sql_count += ` and logradouro = $${values.length + 1}`;
+        values.push(logradouro);
+    }
+
+    if (complemento) {
+        sql_count += ` and complemento ilike $${values.length + 1}`;
+        values.push(`%${complemento}%`);
+    }
+
+    const result = await db.query(sql_count, values);
+    return parseInt(result.rows[0].total, 10);
+};
 
 const deleteFiscalizacao = async (params) => {
     const sql_delete = `delete from fiscalizacao where id = $1`
@@ -81,5 +116,6 @@ module.exports = {
     getFiscalizacao,
     deleteFiscalizacao,
     putFiscalizacao,
-    patchFiscalizacao
+    patchFiscalizacao,
+    getTotalFiscalizacoes
 };

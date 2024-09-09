@@ -6,29 +6,75 @@
         <div class="button-container">
             <button @click="generatePDF" class="generate-pdf-button">Gerar Relatório PDF</button>
         </div>
-        <div class="fiscalizacao-table-container">
-            <table class="fiscalizacao-table">
-                <thead>
-                    <tr>
-                        <th>Logradouro</th>
-                        <th>Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="fiscalizacao in fiscalizacoes" :key="fiscalizacao.id">
-                        <td>{{ fiscalizacao.logradouro_fiscalizacao }}</td>
-                        <td>
-                            <button @click="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
-                            <button @click="confirmDelete(fiscalizacao.id)" class="delete-button">Excluir</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <div class="status-container">
+            <div class="status-section novo">
+                <h3 class="status-title">Novo</h3>
+                <div class="fiscalizacao-grid">
+                    <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesNovas" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
+                        <h3>{{ fiscalizacao.logradouro_fiscalizacao + ' - ' + fiscalizacao.numero }}</h3>
+                        <p><strong>Complemento:</strong> {{ fiscalizacao.complemento }}</p>
+                        <p><strong>Hora Entrada:</strong> {{ fiscalizacao.hora_entrada }}</p>
+                        <div class="card-actions">
+                            <button @click.stop="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
+                            <button @click.stop="confirmDelete(fiscalizacao.id)" class="delete-button">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-section andamento">
+                <h3 class="status-title">Em Andamento</h3>
+                <div class="fiscalizacao-grid">
+                    <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesAndamento" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
+                        <h3>{{ fiscalizacao.logradouro_fiscalizacao + ' - ' + fiscalizacao.numero }}</h3>
+                        <p><strong>Complemento:</strong> {{ fiscalizacao.complemento }}</p>
+                        <p><strong>Hora Entrada:</strong> {{ fiscalizacao.hora_entrada }}</p>
+                        <div class="card-actions">
+                            <button @click.stop="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
+                            <button @click.stop="confirmDelete(fiscalizacao.id)" class="delete-button">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-section finalizado">
+                <h3 class="status-title">Finalizado</h3>
+                <div class="fiscalizacao-grid">
+                    <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesFinalizadas" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
+                        <h3>{{ fiscalizacao.logradouro_fiscalizacao + ' - ' + fiscalizacao.numero }}</h3>
+                        <p><strong>Complemento:</strong> {{ fiscalizacao.complemento }}</p>
+                        <p><strong>Hora Entrada:</strong> {{ fiscalizacao.hora_entrada }}</p>
+                        <div class="card-actions">
+                            <button @click.stop="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
+                            <button @click.stop="confirmDelete(fiscalizacao.id)" class="delete-button">Excluir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <div class="pagination-container">
+            <button @click="prevPage" :disabled="currentPage === 1" class="pagination-button">Anterior</button>
+            <span>Página {{ currentPage }} de {{ totalPages }}</span>
+            <button @click="nextPage" :disabled="currentPage === totalPages" class="pagination-button">Próximo</button>
+        </div>
+
+        <div v-if="showDetails" class="fiscalizacao-details-modal">
+            <div class="modal-content">
+                <h3>Detalhes da Fiscalização</h3>
+                <p><strong>Logradouro:</strong> {{ selectedFiscalizacao.logradouro_fiscalizacao }}</p>
+                <p><strong>Número:</strong> {{ selectedFiscalizacao.numero }}</p>
+                <p><strong>Complemento:</strong> {{ selectedFiscalizacao.complemento }}</p>
+                <p><strong>Hora Entrada:</strong> {{ selectedFiscalizacao.hora_entrada }}</p>
+                <button @click="closeDetails" class="close-button">Fechar</button>
+            </div>
+        </div>
+
         <div v-if="showConfirmation" class="confirmation-popup">
-            <p>Tem certeza que deseja excluir esta Fiscalização?</p>
-            <button @click="deleteFiscalizacao(currentFiscalizacaoId)" class="confirm-button">Sim</button>
-            <button @click="cancelDelete" class="cancel-button">Não</button>
+            <p>Você tem certeza que deseja excluir esta fiscalização?</p>
+            <button @click="deleteFiscalizacao(currentFiscalizacaoId)" class="confirm-button">Confirmar</button>
+            <button @click="cancelDelete" class="cancel-button">Cancelar</button>
         </div>
     </div>
 </div>
@@ -48,18 +94,46 @@ export default {
     data() {
         return {
             fiscalizacoes: [],
+            fiscalizacoesNovas: [],
+            fiscalizacoesAndamento: [],
+            fiscalizacoesFinalizadas: [],
             showConfirmation: false,
             currentFiscalizacaoId: null,
+            showDetails: false,
+            selectedFiscalizacao: null,
+            currentPage: 1,
+            totalPages: 1,
+            pageSize: 5
         };
     },
     methods: {
         async fetchFiscalizacao() {
             try {
-                const response = await getFiscalizacao();
-                this.fiscalizacoes = response.data;
+                const response = await getFiscalizacao({
+                    page: this.currentPage,
+                    limit: this.pageSize
+                });
+
+                if (response && response.data && response.data.data && Array.isArray(response.data.data)) {
+                    this.fiscalizacoes = response.data.data; 
+                    if (response.data.pagination) {
+                        this.totalPages = response.data.pagination.totalPages || 1; 
+                    } else {
+                        this.totalPages = 1;
+                    }
+                    this.separarFiscalizacoes();
+                } else {
+                    console.error('Dados da resposta não encontrados:', response);
+                }
             } catch (error) {
                 console.error('Erro ao buscar fiscalizações:', error);
             }
+        },
+
+        separarFiscalizacoes() {
+            this.fiscalizacoesNovas = this.fiscalizacoes.filter(f => f.status === 1);
+            this.fiscalizacoesAndamento = this.fiscalizacoes.filter(f => f.status === 2);
+            this.fiscalizacoesFinalizadas = this.fiscalizacoes.filter(f => f.status === 3);
         },
         editFiscalizacao(fiscalizacaoId) {
             this.$router.push(`/fiscalizacoes/${fiscalizacaoId}/editar`);
@@ -81,7 +155,27 @@ export default {
             this.showConfirmation = false;
             this.currentFiscalizacaoId = null;
         },
+        openFiscalizacaoDetails(fiscalizacao) {
+            this.selectedFiscalizacao = fiscalizacao;
+            this.showDetails = true;
+        },
+        closeDetails() {
+            this.showDetails = false;
+            this.selectedFiscalizacao = null;
+        },
         generatePDF() {
+        },
+        prevPage() {
+            if (this.currentPage > 1) {
+                this.currentPage--;
+                this.fetchFiscalizacao();
+            }
+        },
+        nextPage() {
+            if (this.currentPage < this.totalPages) {
+                this.currentPage++;
+                this.fetchFiscalizacao();
+            }
         }
     },
     mounted() {
@@ -91,6 +185,13 @@ export default {
 </script>
 
 <style scoped>
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+    color: #333;
+}
+
 .fiscalizacao-management-container {
     display: flex;
     flex-direction: column;
@@ -103,15 +204,7 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
     padding-top: 80px;
-}
-
-.title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #333;
 }
 
 .button-container {
@@ -133,57 +226,69 @@ export default {
     background-color: #0056b3;
 }
 
-.fiscalizacao-table-container {
-    width: 100%;
+.status-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
-.fiscalizacao-table {
-    width: 100%;
-    max-width: 1200px;
-    border-collapse: collapse;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.fiscalizacao-table th,
-.fiscalizacao-table td {
+.status-section {
+    flex: 1;
+    min-width: 300px;
+    background-color: #f5f5f5;
     border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.fiscalizacao-table th {
-    background-color: #f2f2f2;
+.status-section h3 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #333;
 }
 
-.fiscalizacao-table tr:nth-child(even) {
-    background-color: #f9f9f9;
+.fiscalizacao-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
-.fiscalizacao-table tr:hover {
-    background-color: #f1f1f1;
+.fiscalizacao-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.fiscalizacao-card:hover {
+    background-color: #f0f0f0;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: space-between;
 }
 
 .edit-button,
 .delete-button {
-    padding: 8px 16px;
+    padding: 5px 10px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
-    transition: background-color 0.3s ease;
 }
 
 .edit-button {
-    background-color: #007bff;
+    background-color: #28a745;
     color: white;
 }
 
 .edit-button:hover {
-    background-color: #0056b3;
+    background-color: #218838;
 }
 
 .delete-button {
@@ -195,40 +300,100 @@ export default {
     background-color: #c82333;
 }
 
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.pagination-button {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 5px;
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination-button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+.fiscalizacao-details-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 500px;
+    width: 100%;
+}
+
+.close-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.close-button:hover {
+    background-color: #0056b3;
+}
+
 .confirmation-popup {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .confirmation-popup p {
     margin-bottom: 20px;
+    color: white;
 }
 
 .confirm-button,
 .cancel-button {
-    background-color: #007bff;
-    color: white;
-    border: none;
     padding: 10px 20px;
+    border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    margin-right: 10px;
+    margin: 0 10px;
+}
+
+.confirm-button {
+    background-color: #28a745;
+    color: white;
+}
+
+.confirm-button:hover {
+    background-color: #218838;
 }
 
 .cancel-button {
     background-color: #dc3545;
-}
-
-.confirm-button:hover {
-    background-color: #0056b3;
+    color: white;
 }
 
 .cancel-button:hover {

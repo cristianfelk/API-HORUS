@@ -242,6 +242,12 @@ export default {
                 this.currentStep--;
             }
         },
+        focusNextField(nextFieldId) {
+            const nextField = document.getElementById(nextFieldId);
+            if (nextField) {
+                nextField.focus();
+            }
+        },
 
         resetForm() {
             this.fiscalizacao = {
