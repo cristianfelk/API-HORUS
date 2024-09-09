@@ -27,6 +27,17 @@ const getFiscalizacao = async (req, res) => {
     }
 };
 
+const getUltimasFiscalizacoes = async (req, res) => {
+    const { limit = 5 } = req.query;
+
+    try {
+        const fiscalizacoes = await fiscalizacaoService.getUltimasFiscalizacoes(parseInt(limit, 10));
+        res.json(fiscalizacoes.rows);
+    } catch (error) {
+        res.status(500).send('Erro ao obter últimas fiscalizações');
+    }
+};
+
 const deleteFiscalizacao = async (req, res, next) => {
     try {
         await fiscalizacaoService.deleteFiscalizacao(req.params)
@@ -66,5 +77,6 @@ module.exports = {
     getFiscalizacao,
     deleteFiscalizacao,
     putFiscalizacao,
-    patchFiscalizacao
+    patchFiscalizacao,
+    getUltimasFiscalizacoes
 };

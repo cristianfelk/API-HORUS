@@ -81,6 +81,15 @@ const getTotalFiscalizacoes = async (logradouro = '', complemento = '') => {
     return parseInt(result.rows[0].total, 10);
 };
 
+const getUltimasFiscalizacoes = async (limit = 5) => {
+    const sql_get = `select *, to_char(hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as hora_entrada
+                     from fiscalizacao
+                     order by id desc
+                     limit $1`;
+    
+    return await db.query(sql_get, [limit]);
+};
+
 const deleteFiscalizacao = async (params) => {
     const sql_delete = `delete from fiscalizacao where id = $1`
     const { id } = params
@@ -117,5 +126,6 @@ module.exports = {
     deleteFiscalizacao,
     putFiscalizacao,
     patchFiscalizacao,
-    getTotalFiscalizacoes
+    getTotalFiscalizacoes,
+    getUltimasFiscalizacoes
 };

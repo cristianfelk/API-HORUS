@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { param } from 'jquery';
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:3000',
@@ -79,6 +80,7 @@ export const searchByComplementos = (complemento) => {
 export const CreateFiscalizacao = (data) => apiClient.post('/fiscalizacao', data);
 export const getFiscalizacao = (params) => apiClient.get('/fiscalizacao', { params });
 export const deleteFiscalizacao = (id) => apiClient.delete(`/fiscalizacao/${id}`);
+export const getUltimasFiscalizacoes = (limit) => apiClient.get(`/fiscalizacao/ultimas`, { params: { limit } });
 
 
 // Logs
