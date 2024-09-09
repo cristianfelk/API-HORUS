@@ -16,6 +16,7 @@ import ResetPassword from '@/views/ResetPassword.vue';
 import LogsCadastrais from '@/views/LogsCadastrais.vue';
 import CreateFiscalizacao from '@/views/CreateFiscalizacao.vue';
 import FiscalizacaoManagement from '@/views/FiscalizacaoManagement.vue';
+import RelFiscalizacao from '@/views/RelFiscalizacoes.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -121,6 +122,11 @@ const router = createRouter({
       path: '/logs',
       name: 'Logs',
       component: LogsCadastrais,
+    },
+    {
+      path: '/rel-fiscalizacao',
+      name: 'RelFiscalizacao',
+      component: RelFiscalizacao,
     }
   ],
 });

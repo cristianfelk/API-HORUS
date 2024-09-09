@@ -118,6 +118,11 @@ const patchFiscalizacao = async (params) => {
     console.log(params)
     const sql = `update fiscalizacao set ${fields} where id = ${params.id}`;
     await db.query(sql);
+};
+
+const getFiscalizacaoRel = async () => {
+    const sql_get = `select * from fiscalizacao`;
+    return await db.query(sql_get);
 }
 
 module.exports = {
@@ -127,5 +132,6 @@ module.exports = {
     putFiscalizacao,
     patchFiscalizacao,
     getTotalFiscalizacoes,
-    getUltimasFiscalizacoes
+    getUltimasFiscalizacoes,
+    getFiscalizacaoRel
 };

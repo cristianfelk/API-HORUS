@@ -72,11 +72,21 @@ const patchFiscalizacao = async (req, res, next) => {
     }
 }
 
+const getFiscalizacaoRel = async (req, res, next) => {
+    try {
+        const ret = await fiscalizacaoService.getFiscalizacaoRel();
+        res.status(200).send(ret.rows); 
+    } catch (err) {
+        res.status(500).send({ error: err.message }); 
+    }
+};
+
 module.exports = {
     postFiscalizacao,
     getFiscalizacao,
     deleteFiscalizacao,
     putFiscalizacao,
     patchFiscalizacao,
-    getUltimasFiscalizacoes
+    getUltimasFiscalizacoes,
+    getFiscalizacaoRel
 };

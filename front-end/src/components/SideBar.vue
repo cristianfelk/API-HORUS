@@ -54,12 +54,31 @@
                 </li>
             </ul>
         </li>
+        <li class="sidebar-item dropdown">
+            <a href="#" class="dropdown-toggle">
+                <img src="https://img.icons8.com/?size=100&id=57715&format=png&color=000000" alt="Controles" class="menu-icon" />
+                <span v-if="!isSidebarCollapsed">Relatórios</span>
+            </a>
+            <ul class="dropdown-menu" v-if="!isSidebarCollapsed">
+                <li class="dropdown-item">
+                    <router-link to="/rel-denuncias">
+                        <span v-if="!isSidebarCollapsed">Relatório de denúncias</span>
+                    </router-link>
+                </li>
+                <li class="dropdown-item">
+                    <router-link to="/rel-fiscalizacao">
+                        <span v-if="!isSidebarCollapsed">Relatório de fiscalizações</span>
+                    </router-link>
+                </li>
+            </ul>
+        </li>
         <li class="sidebar-item">
             <router-link to="/logs">
                 <img src="https://img.icons8.com/?size=100&id=jmDBJzRWW4s0&format=png&color=000000" alt="Logs" class="menu-icon" />
                 <span v-if="!isSidebarCollapsed">Logs</span>
             </router-link>
         </li>
+
     </ul>
 </div>
 </template>
