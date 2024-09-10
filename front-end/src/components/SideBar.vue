@@ -208,4 +208,44 @@ export default {
 .dropdown:hover .dropdown-menu {
     display: block;
 }
+
+/* Responsividade */
+@media (max-width: 390px) {
+    .sidebar {
+        width: 100%;
+        height: 100vh;
+        top: 0;
+        left: -100%;
+        transition: left 0.3s ease;
+    }
+
+    .sidebar-collapsed {
+        width: 60px;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .sidebar-title {
+        font-size: 20px;
+    }
+
+    .menu-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .dropdown-menu {
+        position: relative;
+        width: 100%;
+        left: 0;
+        box-shadow: none;
+    }
+
+    .dropdown-item a {
+        padding: 10px;
+    }
+}
 </style>
+

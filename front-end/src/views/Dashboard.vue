@@ -107,6 +107,7 @@ export default {
 .content-wrapper {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .card {
@@ -116,6 +117,7 @@ export default {
     padding: 15px;
     margin-bottom: 20px;
     flex: 1;
+    min-width: 300px; /* Para garantir que as cards não fiquem muito pequenas */
 }
 
 .card-header {
@@ -166,4 +168,36 @@ export default {
     flex: 1 1 calc(33.333% - 20px);
     box-sizing: border-box;
 }
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .dashboard-container {
+        flex-direction: column;
+    }
+
+    .content {
+        margin-left: 0;
+    }
+
+    .content-expanded {
+        margin-left: 0;
+    }
+
+    .content-wrapper {
+        flex-direction: column;
+    }
+
+    .card {
+        margin-bottom: 10px;
+    }
+
+    .ultimas-fiscalizacoes {
+        margin-left: 0;
+    }
+
+    .fiscalizacao-card {
+        flex: 1 1 100%;
+    }
+}
 </style>
+

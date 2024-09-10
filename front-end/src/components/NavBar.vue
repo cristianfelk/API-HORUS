@@ -1,8 +1,12 @@
 <template>
-<div class="navbar">
-    <img src="@/assets/logoPzo.png" alt="Logo" class="navbar-logo" @click="goBack">
-    <button @click="logout" class="logout-button">Sair</button>
-</div>
+<nav class="navbar">
+    <div class="navbar-left">
+        <img @click="goDashboard" src="@/assets/logoPzo.png" alt="Logo" class="logo" />
+    </div>
+    <div class="navbar-right">
+        <button @click="logout" class="logout-btn">Sair</button>
+    </div>
+</nav>
 </template>
 
 <script>
@@ -13,13 +17,14 @@ export default {
             localStorage.removeItem('authToken');
             this.$router.push('/');
         },
-        goBack() {
-            this.$router.go(-1);
+        goDashboard() {
+            this.$router.push('/dashboard');
         }
     }
 }
 </script>
 
+  
 <style scoped>
 .navbar {
     display: flex;
@@ -27,34 +32,46 @@ export default {
     align-items: center;
     background-color: #69c369;
     padding: 10px 20px;
-    color: white;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     height: 60px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
+    z-index: 9999;
 }
 
-.navbar-logo {
-    height: 50px;
-    margin-right: auto;
+.logo {
+    height: 40px;
     cursor: pointer;
 }
 
-.logout-button {
-    background-color: #FF6F61;
-    color: white;
+.logout-btn {
+    background-color: #ff5f5f;
     border: none;
-    border-radius: 5px;
-    padding: 8px 16px;
+    color: white;
+    padding: 10px 20px;
     cursor: pointer;
     font-size: 16px;
+    border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
-.logout-button:hover {
-    background-color: #E55D4E;
+.logout-btn:hover {
+    background-color: #ff1f1f;
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px;
+    }
+
+    .logout-btn {
+        font-size: 14px;
+        padding: 8px 16px;
+    }
+
+    .logo {
+        height: 35px;
+    }
 }
 </style>

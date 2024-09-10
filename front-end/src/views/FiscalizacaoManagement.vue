@@ -3,9 +3,6 @@
     <Navbar />
     <div class="fiscalizacao-management">
         <h2 class="title">Gerenciamento de Fiscalizações</h2>
-        <div class="button-container">
-            <button @click="generatePDF" class="generate-pdf-button">Gerar Relatório PDF</button>
-        </div>
 
         <div class="status-container">
             <div class="status-section novo">
@@ -72,9 +69,11 @@
         </div>
 
         <div v-if="showConfirmation" class="confirmation-popup">
-            <p>Você tem certeza que deseja excluir esta fiscalização?</p>
-            <button @click="deleteFiscalizacao(currentFiscalizacaoId)" class="confirm-button">Confirmar</button>
-            <button @click="cancelDelete" class="cancel-button">Cancelar</button>
+            <div class="modal-content">
+                <p>Você tem certeza que deseja excluir esta fiscalização?</p>
+                <button @click="deleteFiscalizacao(currentFiscalizacaoId)" class="confirm-button">Confirmar</button>
+                <button @click="cancelDelete" class="cancel-button">Cancelar</button>
+            </div>
         </div>
     </div>
 </div>
@@ -115,9 +114,9 @@ export default {
                 });
 
                 if (response && response.data && response.data.data && Array.isArray(response.data.data)) {
-                    this.fiscalizacoes = response.data.data; 
+                    this.fiscalizacoes = response.data.data;
                     if (response.data.pagination) {
-                        this.totalPages = response.data.pagination.totalPages || 1; 
+                        this.totalPages = response.data.pagination.totalPages || 1;
                     } else {
                         this.totalPages = 1;
                     }
@@ -163,8 +162,6 @@ export default {
             this.showDetails = false;
             this.selectedFiscalizacao = null;
         },
-        generatePDF() {
-        },
         prevPage() {
             if (this.currentPage > 1) {
                 this.currentPage--;
@@ -209,21 +206,6 @@ export default {
 
 .button-container {
     margin-bottom: 20px;
-}
-
-.generate-pdf-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    background-color: #007bff;
-    color: white;
-}
-
-.generate-pdf-button:hover {
-    background-color: #0056b3;
 }
 
 .status-container {
@@ -369,7 +351,7 @@ export default {
 
 .confirmation-popup p {
     margin-bottom: 20px;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 .confirm-button,
