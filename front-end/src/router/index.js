@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import Home from '@/views/Home.vue';
 import HomeLogin from '@/views/HomeLogin.vue';
 import RecoverPassword from '@/views/RecoverPassword.vue';
 import VerifyCode from '@/views/VerifyCode.vue';
@@ -24,7 +25,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeLogin,
+      component: Home,
       beforeEnter: (to, from, next) => {
         const isAuthenticated = !!localStorage.getItem('authToken');
         if (isAuthenticated) {
@@ -33,6 +34,11 @@ const router = createRouter({
           next();
         }
       },
+    },
+    {
+      path: '/HomeLogin',
+      name: 'HomeLogin',
+      component: HomeLogin,
     },
     {
       path: '/reset-password',

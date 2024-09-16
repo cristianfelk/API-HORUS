@@ -28,12 +28,39 @@
                     </div>
                 </div>
             </div>
+
+        </div>
+        <div class="dashboard-content">
+            <div class="content-wrapper">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Registrar nova denúncia</h3>
+                    </div>
+                    <div class="card-body">
+                        <button @click="registrarDenuncia" class="register-button">Registrar +</button>
+                    </div>
+                </div>
+                <div class="card ultimas-fiscalizacoes">
+                    <div class="card-header">
+                        <h3>Últimas Denúncias</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="fiscalizacao-cards">
+                            <div v-for="fiscalizacao in ultimasFiscalizacoes" :key="fiscalizacao.id" class="fiscalizacao-card">
+                                <h4>{{ fiscalizacao.descricao }}</h4>
+                                <p><strong>Logradouro:</strong> {{ fiscalizacao.logradouro_fiscalizacao }}</p>
+                                <p><strong>Data e Hora:</strong> {{ fiscalizacao.hora_entrada }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
 </template>
 
-    
 <script>
 import SideBar from '../components/SideBar.vue';
 import Navbar from '../components/NavBar.vue';
@@ -62,15 +89,15 @@ export default {
         },
         async buscarUltimasFiscalizacoes() {
             try {
-                const resposta = await getUltimasFiscalizacoes(3); 
-                this.ultimasFiscalizacoes = resposta.data; 
+                const resposta = await getUltimasFiscalizacoes(3);
+                this.ultimasFiscalizacoes = resposta.data;
             } catch (erro) {
                 console.error('Erro ao buscar últimas fiscalizações:', erro);
             }
         }
     },
     created() {
-        this.buscarUltimasFiscalizacoes(); 
+        this.buscarUltimasFiscalizacoes();
     }
 }
 </script>
@@ -117,7 +144,7 @@ export default {
     padding: 15px;
     margin-bottom: 20px;
     flex: 1;
-    min-width: 300px; /* Para garantir que as cards não fiquem muito pequenas */
+    min-width: 300px;
 }
 
 .card-header {
@@ -200,4 +227,3 @@ export default {
     }
 }
 </style>
-

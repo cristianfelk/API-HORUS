@@ -3,7 +3,7 @@
     <div class="sidebar-title">
         <span v-if="!isSidebarCollapsed">Menu</span>
         <button @click="toggleSidebar" class="toggle-button">
-            <span v-if="isSidebarCollapsed">☰</span>
+            <span v-if="isSidebarCollapsed">☰</span> 
             <span v-else>←</span>
         </button>
     </div>
@@ -56,7 +56,7 @@
         </li>
         <li class="sidebar-item dropdown">
             <a href="#" class="dropdown-toggle">
-                <img src="https://img.icons8.com/?size=100&id=57715&format=png&color=000000" alt="Controles" class="menu-icon" />
+                <img src="https://img.icons8.com/?size=100&id=57715&format=png&color=000000" alt="Relatórios" class="menu-icon" />
                 <span v-if="!isSidebarCollapsed">Relatórios</span>
             </a>
             <ul class="dropdown-menu" v-if="!isSidebarCollapsed">
@@ -78,28 +78,39 @@
                 <span v-if="!isSidebarCollapsed">Logs</span>
             </router-link>
         </li>
-
     </ul>
+    <div class="sidebar-footer">
+        <button @click="logout" class="logout-button">
+            <img src="https://img.icons8.com/ios-filled/50/exit.png" alt="Sair" class="menu-icon" />
+            <span v-if="!isSidebarCollapsed">Sair</span>
+        </button>
+    </div>
 </div>
 </template>
 
+  
 <script>
 export default {
-    name: 'SideBar',
+    name: "SideBar",
     props: {
         isSidebarCollapsed: {
             type: Boolean,
-            required: true
-        }
+            required: true,
+        },
     },
     methods: {
         toggleSidebar() {
-            this.$emit('toggle-sidebar');
-        }
-    }
-}
+            this.$emit("toggle-sidebar");
+        },
+        logout() {
+            localStorage.removeItem("authToken");
+            this.$router.push("/");
+        },
+    },
+};
 </script>
 
+  
 <style scoped>
 .sidebar {
     width: 240px;
@@ -107,6 +118,7 @@ export default {
     color: white;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     padding-top: 20px;
     position: fixed;
     top: 60px;
@@ -151,7 +163,8 @@ export default {
     position: relative;
 }
 
-.sidebar-item a {
+.sidebar-item a,
+.sidebar-item button {
     color: white;
     text-decoration: none;
     display: flex;
@@ -160,9 +173,15 @@ export default {
     font-size: 16px;
     border-radius: 5px;
     transition: background-color 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
 }
 
-.sidebar-item a:hover {
+.sidebar-item a:hover,
+.sidebar-item button:hover {
     background-color: #5dad5d;
 }
 
@@ -209,43 +228,38 @@ export default {
     display: block;
 }
 
-/* Responsividade */
+.sidebar-footer {
+    margin-top: auto;
+    padding-bottom: 20px;
+}
+
+.logout-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #5dad5d;
+}
+
 @media (max-width: 390px) {
     .sidebar {
         width: 100%;
         height: 100vh;
-        top: 0;
-        left: -100%;
-        transition: left 0.3s ease;
+        top: 60px;
     }
 
     .sidebar-collapsed {
         width: 60px;
     }
-
-    .sidebar.active {
-        left: 0;
-    }
-
-    .sidebar-title {
-        font-size: 20px;
-    }
-
-    .menu-icon {
-        width: 20px;
-        height: 20px;
-    }
-
-    .dropdown-menu {
-        position: relative;
-        width: 100%;
-        left: 0;
-        box-shadow: none;
-    }
-
-    .dropdown-item a {
-        padding: 10px;
-    }
 }
 </style>
-
