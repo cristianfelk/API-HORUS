@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS postgis;
+
 create table uf (
     id serial primary key not null,
     nome varchar(250),
