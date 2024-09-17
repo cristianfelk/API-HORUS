@@ -104,7 +104,7 @@ export default {
         },
         logout() {
             localStorage.removeItem("authToken");
-            this.$router.push("/");
+            this.$router.push("/HomeLogin");
         },
     },
 };

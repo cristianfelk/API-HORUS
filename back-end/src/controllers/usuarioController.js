@@ -2,10 +2,20 @@ const usuarioService = require('../services/usuarioService');
 
 const postUsuario = async (req, res) => {
     try {
-        const emailIvalido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailInvalido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-        if (!emailIvalido.test(req.body.email)) {
+        if (!emailInvalido.test(req.body.email)) {
             return res.status(400).json({ error: "Formato de email inválido" });
+        }
+
+        const usuarioPorEmail = await usuarioService.getUsuarioByEmail(req.body.email);
+        if (usuarioPorEmail) {
+            return res.status(400).json({ error: "E-mail já cadastrado" });
+        }
+
+        const usuarioPorLogin = await usuarioService.getUsuarioByLogin(req.body.login);
+        if (usuarioPorLogin) {
+            return res.status(400).json({ error: "Login já cadastrado" });
         }
 
         await usuarioService.postUsuario(req.body);
@@ -14,7 +24,7 @@ const postUsuario = async (req, res) => {
     } catch (err) {
         res.status(500).json({ error: "Erro ao cadastrar usuário", message: err.message });
     }
-}
+};
 
 const getUsuario = async (req, res, next) => {
     try {
@@ -76,4 +86,4 @@ module.exports = {
     deleteUsuario,
     putUsuario,
     patchUsuario
-};
+}

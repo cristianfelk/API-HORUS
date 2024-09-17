@@ -2,18 +2,28 @@
   <nav class="navbar">
     <div class="navbar-container">
       <img src="@/assets/logoPzo.png" alt="Logo" class="navbar-logo" @click="goHome" />
-      <ul class="navbar-links">
+      <ul class="navbar-links" :class="{ 'is-active': isMenuOpen }">
         <li><a href="#prevention" @click="scrollToSection('prevention')">Prevenção</a></li>
         <li><a href="#symptoms" @click="scrollToSection('symptoms')">Sintomas</a></li>
         <li><a href="#contact" @click="scrollToSection('contact')">Contato</a></li>
       </ul>
       <button class="login-btn" @click="login">Login</button>
+      <button class="hamburger" @click="toggleMenu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
     </div>
   </nav>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      isMenuOpen: false,
+    };
+  },
   methods: {
     goHome() {
       this.$router.push('/');
@@ -26,6 +36,9 @@ export default {
     },
     login() {
       this.$router.push('/HomeLogin');
+    },
+    toggleMenu() {
+      this.isMenuOpen = !this.isMenuOpen;
     },
   },
 };
@@ -89,5 +102,66 @@ export default {
 
 .login-btn:hover {
   background-color: #ff1a1a;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 25px;
+  height: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 3px;
+  background-color: white;
+  border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+  .navbar-links {
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #69c369;
+    flex-direction: column;
+    width: 80%;
+    height: auto;
+    display: none;
+    padding: 10px 0;
+  }
+
+  .navbar-links.is-active {
+    display: flex;
+  }
+
+  .navbar-links li {
+    width: 100%;
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .login-btn {
+    display: block;
+  }
+} 
+
+@media (max-width: 480px) {
+  .navbar-links {
+    right: 10px;
+    width: 90%;
+  }
+
+  .login-btn {
+    display: none;
+  }
 }
 </style>
