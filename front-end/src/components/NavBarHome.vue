@@ -124,15 +124,16 @@ export default {
 
 @media (max-width: 768px) {
   .navbar-links {
-    position: absolute;
+    position: fixed;
     top: 60px;
-    right: 20px;
+    right: 0;
     background-color: #69c369;
     flex-direction: column;
-    width: 80%;
-    height: auto;
+    width: 100%;
+    height: calc(40vh - 80px);
     display: none;
-    padding: 10px 0;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
   .navbar-links.is-active {
@@ -151,17 +152,19 @@ export default {
 
   .login-btn {
     display: block;
+    margin-left: 10px;
   }
-} 
+}
 
 @media (max-width: 480px) {
   .navbar-links {
-    right: 10px;
-    width: 90%;
+    right: 0;
+    width: 100%;
   }
 
   .login-btn {
-    display: none;
+    display: block; /* Exibe o botão de login mesmo em telas pequenas */
+    margin-left: 10px; /* Ajuste de espaçamento */
   }
 }
 </style>

@@ -87,4 +87,8 @@ export const getFiscalizacaoRel = (params) => apiClient.get('/fiscalizacao/relat
 // Logs
 export const getLog = () => apiClient.get('/log');
 
+//Monitoramento
+export const getMonitoramento = () => apiClient.get('/monitoramento');
+export const updateMonitoramento = (data) => apiClient.post('/monitoramento', data);
+
 export default apiClient;

@@ -19,6 +19,7 @@ import CreateFiscalizacao from '@/views/CreateFiscalizacao.vue';
 import FiscalizacaoManagement from '@/views/FiscalizacaoManagement.vue';
 import RelFiscalizacao from '@/views/RelFiscalizacoes.vue';
 import ReportDeuncia from '@/views/ReportDeuncia.vue';
+import MonitoramentoManagement from '@/views/MonitoramentoManagement.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -35,6 +36,11 @@ const router = createRouter({
           next();
         }
       },
+    },
+    {
+      path: '/monitoramento',
+      name: 'monitoramento-management',
+      component: MonitoramentoManagement,
     },
     {
       path: '/HomeLogin',

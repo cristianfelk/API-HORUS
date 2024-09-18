@@ -3,7 +3,7 @@
     <div class="sidebar-title">
         <span v-if="!isSidebarCollapsed">Menu</span>
         <button @click="toggleSidebar" class="toggle-button">
-            <span v-if="isSidebarCollapsed">☰</span> 
+            <span v-if="isSidebarCollapsed">☰</span>
             <span v-else>←</span>
         </button>
     </div>
@@ -53,6 +53,12 @@
                     </router-link>
                 </li>
             </ul>
+        </li>
+        <li class="sidebar-item">
+            <router-link to="/monitoramento">
+                <img src="https://img.icons8.com/?size=100&id=2150&format=png&color=000000" alt="Monitoramento" class="menu-icon" />
+                <span v-if="!isSidebarCollapsed">Monitoramento</span>
+            </router-link>
         </li>
         <li class="sidebar-item dropdown">
             <a href="#" class="dropdown-toggle">
@@ -255,11 +261,9 @@ export default {
     .sidebar {
         width: 100%;
         height: 100vh;
-        top: 60px;
-    }
-
-    .sidebar-collapsed {
-        width: 60px;
+        top: 0;
+        left: 0;
+        position: fixed;
     }
 }
 </style>

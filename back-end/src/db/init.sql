@@ -7,6 +7,17 @@ create table uf (
     ibge integer
 );
 
+create table monitoramento (
+  id serial primary key not null,
+  casos_confirmados integer,
+  casos_mortes integer,
+  casos_monitorados integer,
+  casos_ativos integer
+);
+
+insert into monitoramento (casos_confirmados, casos_mortes, casos_monitorados, casos_ativos) 
+values (0, 0, 0, 0);
+
 create table municipio (
   id integer primary key not null,
   nome varchar(250) not null,

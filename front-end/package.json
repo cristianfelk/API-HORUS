@@ -16,6 +16,7 @@
     "pinia": "^2.2.2",
     "select2": "^4.1.0-rc.0",
     "vue": "^3.4.38",
+    "vue-carousel": "^0.18.0",
     "vue-router": "^4.4.3",
     "vuetify": "^3.7.1"
   },
