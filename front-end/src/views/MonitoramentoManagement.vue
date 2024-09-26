@@ -1,20 +1,21 @@
 <template>
   <div class="monitoramento-container">
     <Navbar />
-
-    <h1>Monitoramento</h1>
-    <div class="stats">
-      <div class="stat-group">
-        <div class="stat-input">
-          <h2>Casos Confirmados</h2>
-          <input type="number" v-model="monitoramento.casos_confirmados" />
-          <h2>Casos Mortes</h2>
-          <input type="number" v-model="monitoramento.casos_mortes" />
-          <h2>Casos Monitorados</h2>
-          <input type="number" v-model="monitoramento.casos_monitorados" />
-          <h2>Casos Ativos</h2>
-          <input type="number" v-model="monitoramento.casos_ativos" />
-          <button @click="updateMonitoramento">Atualizar Dados</button>
+    <div class="content">
+      <h1>Monitoramento</h1>
+      <div class="stats">
+        <div class="stat-group">
+          <div class="stat-input">
+            <h2>Casos Confirmados</h2>
+            <input type="number" v-model="monitoramento.casos_confirmados" />
+            <h2>Casos Mortes</h2>
+            <input type="number" v-model="monitoramento.casos_mortes" />
+            <h2>Casos Monitorados</h2>
+            <input type="number" v-model="monitoramento.casos_monitorados" />
+            <h2>Casos Ativos</h2>
+            <input type="number" v-model="monitoramento.casos_ativos" />
+            <button @click="updateMonitoramento">Atualizar Dados</button>
+          </div>
         </div>
       </div>
     </div>
@@ -72,13 +73,30 @@ export default {
 
 <style scoped>
 .monitoramento-container {
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 90vh;
   background-color: #f9f9f9;
-  min-height: 100vh;
+}
+
+Navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: #fff; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+  margin-top: 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding: 20px;
+  flex: 1;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -91,6 +109,7 @@ h1 {
   flex-direction: column;
   gap: 15px;
   align-items: center;
+  width: 100%;
 }
 
 .stat-group {
@@ -106,7 +125,8 @@ h1 {
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 10px;
-  width: 280px;
+  width: 100%;
+  max-width: 400px; 
   text-align: center;
 }
 
