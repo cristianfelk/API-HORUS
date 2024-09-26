@@ -7,6 +7,8 @@ const login = require('./loginRouter');
 const senha = require('./senhaRouter');
 const log = require('./LogRouter');
 const monitoramento = require('./monitoramentoRouter');
+const foco = require('./focoDengueRouter');
+
 
 module.exports = (app) => {
     usuario(app),
@@ -17,5 +19,6 @@ module.exports = (app) => {
     login(app),
     senha(app),
     log(app),
-    monitoramento(app)
+    monitoramento(app),
+    foco(app)
 };

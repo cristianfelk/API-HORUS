@@ -13,6 +13,14 @@ create table monitoramento (
   casos_ativos integer
 );
 
+create table focos_dengue (
+    id int auto_increment primary key,     
+    descricao varchar(255) not null,     
+    latitude decimal(9, 6) not null,  
+    longitude decimal(9, 6) not null,      
+    data_registro timestamp default current_timestamp 
+);
+
 insert into monitoramento (casos_confirmados, casos_mortes, casos_monitorados, casos_ativos) 
 values (0, 0, 0, 0);
 
@@ -94,11 +102,6 @@ create table denuncia (
   chave_denuncia text unique,
   foreign key (id_municipio) references municipio (id)
 );
-
-alter table denuncia
-add column latitude float8,
-add column longitude float8;
-
 
 create table log (
   id serial primary key not null,

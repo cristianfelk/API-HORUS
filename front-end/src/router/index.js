@@ -21,6 +21,7 @@ import RelFiscalizacao from '@/views/RelFiscalizacoes.vue';
 import ReportDeuncia from '@/views/ReportDeuncia.vue';
 import MonitoramentoManagement from '@/views/MonitoramentoManagement.vue';
 import PrevencaoDengue from '@/views/PrevencaoDengue.vue';
+import AdminFocoDengue from '@/views/AdminFocoDengue.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,11 @@ const router = createRouter({
           next();
         }
       },
+    },
+    {
+      path: '/AdminFocoDengue',
+      name: 'AdminFocoDengue',
+      component: AdminFocoDengue,
     },
     {
       path: '/monitoramento',

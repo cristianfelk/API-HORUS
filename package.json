@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@vue-leaflet/vue-leaflet": "^0.10.1",
     "csv-parser": "^3.0.0",
     "fs": "^0.0.1-security",
     "leaflet": "^1.9.4",
