@@ -1,5 +1,3 @@
-CREATE EXTENSION IF NOT EXISTS postgis;
-
 create table uf (
     id serial primary key not null,
     nome varchar(250),
@@ -83,17 +81,24 @@ create table fiscalizacao (
   foreign key (usuario_id) references usuario (id)
 );
 
--- create table denuncia (
---   id serial primary key not null,
---   anonima boolean not null,
---   id_municipio integer not null,
---   id_logradouro integer not null,
---   dados_denuncia jsonb,
---   id_status integer,
---   chave_denuncia text unique,
---   foreign key (id_municipio) references municipio (id),
---   foreign key (id_logradouro) references logradouro (id)
--- );
+create table denuncia (
+  id serial primary key not null,
+  anonima boolean not null,
+  email_denunciante text,
+  nome_denunciante text,
+  telefone_denunciante text,
+  id_municipio integer not null,
+  id_logradouro text not null,
+  descricao_denuncia text,
+  id_status integer,
+  chave_denuncia text unique,
+  foreign key (id_municipio) references municipio (id)
+);
+
+alter table denuncia
+add column latitude float8,
+add column longitude float8;
+
 
 create table log (
   id serial primary key not null,

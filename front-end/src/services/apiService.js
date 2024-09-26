@@ -91,4 +91,7 @@ export const getLog = () => apiClient.get('/log');
 export const getMonitoramento = () => apiClient.get('/monitoramento');
 export const updateMonitoramento = (data) => apiClient.post('/monitoramento', data);
 
+//Denuncia
+export const createDenuncia = (data) => apiClient.post('/denuncia', data);
+
 export default apiClient;

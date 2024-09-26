@@ -2,15 +2,32 @@ const db = require('../configs/pg')
 
 const postDenuncia = async (params) => {
     try {
-        const sql_post = ` insert into denuncia (anonima, dados_denuncia, chave_denuncia)
-            values (${params.anonima}, 
-                    ${params.dados_denuncia},
-                    '${params.chave_denuncia}')`
-        await db.query(sql_post)
-    } catch (error) {
+        const sql_post = `
+            insert into denuncia 
+            (anonima, email_denunciante, nome_denunciante, telefone_denunciante, 
+             id_municipio, id_logradouro, descricao_denuncia, latitude, longitude, id_status, chave_denuncia)
+            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        `;
+        const values = [
+            params.anonima, 
+            params.email_denunciante || null, 
+            params.nome_denunciante || null,  
+            params.telefone_denunciante || null,  
+            params.id_municipio,
+            params.id_logradouro,
+            params.descricao_denuncia,
+            params.latitude,
+            params.longitude,
+            params.id_status, 
+            params.chave_denuncia
+        ];
 
+        await db.query(sql_post, values);
+    } catch (error) {
+        console.error('Erro ao inserir denúncia:', error);
+        throw error;
     }
-}
+};
 
 const getDenuncia = async () => {
     const sql_get = `select * from denuncia`
