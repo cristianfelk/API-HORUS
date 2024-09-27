@@ -13,6 +13,12 @@ const postFoco = async (params) => {
     }
 }
 
+const getFoco = async () => {
+    const sql_get = `select * from focos_dengue`;
+    return await db.query(sql_get);
+}
+
 module.exports = {
     postFoco,
+    getFoco
 };

@@ -6,6 +6,17 @@ const postFoco = async (req, res, next) => {
         .catch(err => res.status(500).send(err))
 }
 
+const getFoco = async (req, res, next) => {
+    try {
+        await focoDengueService.getFoco()
+            .then(ret => res.status(200).send(ret.rows))
+            .catch(err => res.status(500).send(err.message))
+    } catch (err) {
+        next(err);
+    } 
+}
+
 module.exports = {
-    postFoco
+    postFoco,
+    getFoco
 };
