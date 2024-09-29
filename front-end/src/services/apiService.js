@@ -93,6 +93,7 @@ export const updateMonitoramento = (data) => apiClient.post('/monitoramento', da
 
 //Denuncia
 export const createDenuncia = (data) => apiClient.post('/denuncia', data);
+export const getDenuncia = (params) => apiClient.get('/denuncia', { params });
 
 //Focos
 export const getFocosDengue = (params) => apiClient.get('/foco', { params });

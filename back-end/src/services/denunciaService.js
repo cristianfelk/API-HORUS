@@ -5,8 +5,8 @@ const postDenuncia = async (params) => {
         const sql_post = `
             insert into denuncia 
             (anonima, email_denunciante, nome_denunciante, telefone_denunciante, 
-             id_municipio, id_logradouro, descricao_denuncia, latitude, longitude, id_status, chave_denuncia)
-            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+             id_municipio, id_logradouro, descricao_denuncia, id_status, chave_denuncia)
+            values ($1, $2, $3, $4, $5, $6, $7, $8, $9)
         `;
         const values = [
             params.anonima, 
@@ -16,8 +16,6 @@ const postDenuncia = async (params) => {
             params.id_municipio,
             params.id_logradouro,
             params.descricao_denuncia,
-            params.latitude,
-            params.longitude,
             params.id_status, 
             params.chave_denuncia
         ];

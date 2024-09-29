@@ -22,6 +22,7 @@ import ReportDeuncia from '@/views/ReportDeuncia.vue';
 import MonitoramentoManagement from '@/views/MonitoramentoManagement.vue';
 import PrevencaoDengue from '@/views/PrevencaoDengue.vue';
 import AdminFocoDengue from '@/views/AdminFocoDengue.vue';
+import DenunciaManagement from '@/views/DenunciaManagement.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,6 +64,11 @@ const router = createRouter({
       path: '/report',
       name: 'ReportDeuncia',
       component: ReportDeuncia,
+    },
+    {
+      path: '/denuncias',
+      name: 'denuncias',
+      component: DenunciaManagement,
     },
     {
       path: '/reset-password',
