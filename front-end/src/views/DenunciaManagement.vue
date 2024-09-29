@@ -49,7 +49,7 @@
 
   
 <script>
-import Navbar from "@/components/NavBarHome.vue";
+import Navbar from "@/components/NavBar.vue";
 import {
     getDenuncia
 } from "../services/apiService";
