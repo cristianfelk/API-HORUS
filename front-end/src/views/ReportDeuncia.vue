@@ -5,7 +5,8 @@
     <div class="report-container">
       <h1 class="title">Denuncie Focos de Mosquito</h1>
       <p class="subtitle">
-        Ajude a combater a dengue informando sobre possíveis focos do mosquito Aedes aegypti.
+        Ajude a combater a dengue informando sobre possíveis focos do mosquito
+        Aedes aegypti.
       </p>
 
       <form @submit.prevent="submitReport">
@@ -53,12 +54,22 @@
 
         <div class="form-group">
           <label for="logradouro">Localização do Foco (Endereço):</label>
-          <input type="text" id="logradouro" v-model="report.id_logradouro" required />
+          <input
+            type="text"
+            id="logradouro"
+            v-model="report.id_logradouro"
+            required
+          />
         </div>
 
         <div class="form-group">
           <label for="description">Descrição do Foco:</label>
           <textarea id="description" v-model="report.descricao_denuncia" required></textarea>
+        </div>
+
+        <label for="latitude">Localização aproximada do foco:</label>
+        <div class="map-container">
+          <div id="map" class="map"></div>
         </div>
 
         <div class="form-group">
@@ -75,8 +86,8 @@
 </template>
 
 <script>
-import Navbar from '@/components/NavBarHome.vue';
-import { searchMunicipioByNome, createDenuncia } from '../services/apiService';
+import Navbar from "@/components/NavBarHome.vue";
+import { searchMunicipioByNome, adicionarFocoDengue } from "../services/apiService";
 
 export default {
   components: {
@@ -86,20 +97,53 @@ export default {
     return {
       report: {
         anonima: false,
-        nome_denunciante: '',
-        email_denunciante: '',
-        telefone_denunciante: '',
+        nome_denunciante: "",
+        email_denunciante: "",
+        telefone_denunciante: "",
         id_municipio: null,
-        id_logradouro: '',
-        descricao_denuncia: '',
+        id_logradouro: "",
+        descricao_denuncia: "",
         image: null,
       },
-      municipioSearch: '',
+      latitude: null,
+      longitude: null,
+      defaultLat: -26.8481,
+      defaultLng: -52.9885,
+      map: null,
+      marker: null,
+      municipioSearch: "",
       municipioSuggestions: [],
-      message: '',
+      message: "",
     };
   },
+  mounted() {
+    this.initMap();
+  },
   methods: {
+    initMap() {
+      this.map = L.map("map").setView([this.defaultLat, this.defaultLng], 13);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+      }).addTo(this.map);
+      this.map.on("click", this.addMarker);
+    },
+    addMarker(event) {
+      const { lat, lng } = event.latlng;
+      this.latitude = lat;
+      this.longitude = lng;
+
+      // Remover marcador anterior
+      if (this.marker) {
+        this.map.removeLayer(this.marker);
+      }
+
+      // Adicionar novo marcador
+      this.marker = L.marker([lat, lng]).addTo(this.map);
+
+      // Exibir coordenadas no console (opcional)
+      console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+    },
     handleFileUpload(event) {
       this.report.image = event.target.files[0];
     },
@@ -117,39 +161,43 @@ export default {
     async submitReport() {
       try {
         const formData = new FormData();
-        formData.append('anonima', this.report.anonima);
+        formData.append("anonima", this.report.anonima);
         if (!this.report.anonima) {
-          formData.append('nome_denunciante', this.report.nome_denunciante);
-          formData.append('email_denunciante', this.report.email_denunciante);
-          formData.append('telefone_denunciante', this.report.telefone_denunciante);
+          formData.append("nome_denunciante", this.report.nome_denunciante);
+          formData.append("email_denunciante", this.report.email_denunciante);
+          formData.append("telefone_denunciante", this.report.telefone_denunciante);
         }
-        formData.append('id_municipio', this.report.id_municipio);
-        formData.append('id_logradouro', this.report.id_logradouro);
-        formData.append('descricao_denuncia', this.report.descricao_denuncia);
+        formData.append("id_municipio", this.report.id_municipio);
+        formData.append("id_logradouro", this.report.id_logradouro);
+        formData.append("descricao_denuncia", this.report.descricao_denuncia);
         if (this.report.image) {
-          formData.append('image', this.report.image);
+          formData.append("image", this.report.image);
         }
 
-        await createDenuncia(formData);
+        // Adicionando latitude e longitude ao formData
+        formData.append("latitude", this.latitude);
+        formData.append("longitude", this.longitude);
 
-        this.message = 'Denúncia enviada com sucesso!';
+        await adicionarFocoDengue(formData);
+
+        this.message = "Denúncia enviada com sucesso!";
         this.resetForm();
       } catch (error) {
-        console.error('Erro ao enviar a denúncia:', error);
+        console.error("Erro ao enviar a denúncia:", error);
       }
     },
     resetForm() {
       this.report = {
         anonima: false,
-        nome_denunciante: '',
-        email_denunciante: '',
-        telefone_denunciante: '',
+        nome_denunciante: "",
+        email_denunciante: "",
+        telefone_denunciante: "",
         id_municipio: null,
-        id_logradouro: '',
-        descricao_denuncia: '',
+        id_logradouro: "",
+        descricao_denuncia: "",
         image: null,
       };
-      this.municipioSearch = '';
+      this.municipioSearch = "";
       this.municipioSuggestions = [];
     },
   },
@@ -201,7 +249,18 @@ export default {
   resize: vertical;
 }
 
-/* Estilo da lista de sugestões de municípios */
+.map-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 450px;
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+}
+
 .suggestions-list {
   list-style-type: none;
   padding: 0;

@@ -231,7 +231,7 @@ export default {
 
 .hero {
     background: url('https://example.com/dengue-banner.jpg') center/cover no-repeat;
-    height: 70vh;
+    height: 40vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -254,7 +254,7 @@ export default {
     align-items: center;
     height: 450px;
     margin: 20px 0;
-    margin-top: 80px;
+    margin-top: 40px;
 }
 
 .map {
