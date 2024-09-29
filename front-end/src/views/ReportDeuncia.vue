@@ -123,15 +123,12 @@ export default {
             this.latitude = lat;
             this.longitude = lng;
 
-            // Remover marcador anterior
             if (this.marker) {
                 this.map.removeLayer(this.marker);
             }
 
-            // Adicionar novo marcador
             this.marker = L.marker([lat, lng]).addTo(this.map);
 
-            // Exibir coordenadas no console (opcional)
             console.log(`Latitude: ${lat}, Longitude: ${lng}`);
         },
         handleFileUpload(event) {
@@ -150,7 +147,6 @@ export default {
         },
         async submitReport() {
             try {
-                // FormData para os detalhes da denúncia (exceto latitude e longitude)
                 const formDataDenuncia = new FormData();
                 formDataDenuncia.append("anonima", this.report.anonima);
                 if (!this.report.anonima) {
@@ -165,15 +161,12 @@ export default {
                     formDataDenuncia.append("image", this.report.image);
                 }
 
-                // Cria a denúncia com os dados principais
                 await createDenuncia(formDataDenuncia);
 
-                // FormData para latitude e longitude
                 const formDataFoco = new FormData();
                 formDataFoco.append("latitude", this.latitude);
                 formDataFoco.append("longitude", this.longitude);
 
-                // Adiciona o foco de dengue com as coordenadas
                 await adicionarFocoDengue(formDataFoco);
 
                 this.message = "Denúncia enviada com sucesso!";
