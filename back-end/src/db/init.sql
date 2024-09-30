@@ -14,8 +14,10 @@ create table monitoramento (
 );
 
 create table focos_dengue (
-    id int auto_increment primary key,     
-    descricao varchar(255) not null,     
+    id serial primary key,     
+    descricao varchar(255) not null,
+    denuncia_id integer,
+    confirmado boolean,     
     latitude decimal(9, 6) not null,  
     longitude decimal(9, 6) not null,      
     data_registro timestamp default current_timestamp 
