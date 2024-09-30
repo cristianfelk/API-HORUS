@@ -1,33 +1,35 @@
-const express = require('express')
-const app = express()
-const cors = require('cors')
+const express = require('express');
+const cors = require('cors');
+const setupSwagger = require('./configs/swagger'); 
 
-app.use(express.json())
+const app = express();
+app.use(express.json());
 
-let domains = ['http://localhost:5173']
+let domains = ['http://localhost:5173'];
 const corsOptions = {
     origin: function (origin, callback) {
         if (domains.indexOf(origin) !== -1 || !origin) {
-            callback(null, true)
+            callback(null, true);
         } else {
-            callback(new Error(`Not allowed by CORS? ${origin} // ${domains}`))
+            callback(new Error(`Not allowed by CORS? ${origin} // ${domains}`));
         }
-    }, 
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS', 
-    credentials: true
-}
-
-app.use(cors({
-    origin: '*',
+    },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: true
-}));
+    credentials: true,
+};
 
-require('./routes')(app)
-app.get('/', (req, res) => { res.send('Executando aplicativo!'); })
+app.use(cors(corsOptions));
 
-app.use('/v1/docs', express.static('src/views'))
+setupSwagger(app);
+
+require('./routes')(app);
+
+app.get('/', (req, res) => {
+    res.send('Executando aplicativo!');
+});
+
+app.use('/v1/docs', express.static('src/views'));
 
 app.listen(3000, () => {
-    console.log(`Àplicativo rodando na porta ${3000}`)
+    console.log(`Aplicativo rodando na porta ${3000}`);
 });
