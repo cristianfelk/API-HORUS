@@ -97,7 +97,7 @@ create table denuncia (
   nome_denunciante text,
   telefone_denunciante text,
   id_municipio integer not null,
-  id_logradouro text not null,
+  logradouro text not null,
   descricao_denuncia text,
   id_status integer,
   chave_denuncia text unique,

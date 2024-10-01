@@ -1,23 +1,33 @@
 const db = require('../configs/pg')
 
+const generateRandomKey = (length) => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+};
+
 const postDenuncia = async (params) => {
     try {
         const sql_post = `
             insert into denuncia 
             (anonima, email_denunciante, nome_denunciante, telefone_denunciante, 
-             id_municipio, id_logradouro, descricao_denuncia, id_status, chave_denuncia, image_url)
+             id_municipio, logradouro, descricao_denuncia, id_status, chave_denuncia, image_url)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
         `;
+
         const values = [
             params.anonima, 
             params.email_denunciante || null, 
             params.nome_denunciante || null,  
             params.telefone_denunciante || null,  
             params.id_municipio,
-            params.id_logradouro,
+            params.logradouro,
             params.descricao_denuncia,
             params.id_status, 
-            params.chave_denuncia,
+            generateRandomKey(10),
             params.image_url || null 
         ];
 
@@ -28,6 +38,26 @@ const postDenuncia = async (params) => {
     }
 };
 
+
+const putDenuncia = async (params) => {
+    const sql_put = `
+        UPDATE denuncia SET
+            anonima = $2, 
+            email_denunciante = $3,
+            nome_denunciante = $4,
+            telefone_denunciante = $5,
+            id_municipio = $6,
+            logradouro = $7,
+            descricao_denuncia = $8,
+            id_status = $9,
+            chave_denuncia = $10,
+            image_url = $11
+        WHERE id = $1
+    `;
+    const { id, anonima, email_denunciante, nome_denunciante, telefone_denunciante, id_municipio, logradouro, descricao_denuncia, id_status, chave_denuncia, image_url } = params;
+
+    return await db.query(sql_put, [id, anonima, email_denunciante, nome_denunciante, telefone_denunciante, id_municipio, logradouro, descricao_denuncia, id_status, chave_denuncia, image_url]);
+};
 
 const getDenuncia = async () => {
     const sql_get = `select * from denuncia`
@@ -40,21 +70,11 @@ const deleteDenuncia = async (params) => {
     await db.query(sql_delete, [id])
 }
 
-const putDenuncia = async (params) => {
-    const sql_put = `update denuncia set
-            anonima = $2, 
-            dados_denuncia = $3,
-            chave_denuncia = $4
-            where id = $1`
-    const { id, anonima, dados_denuncia, chave_denuncia } = params 
-    return await db.query(sql_put, [id, anonima, dados_denuncia, chave_denuncia])
-}
-
 const patchDenuncia = async (params) => {
     let fields = [];
     Object.keys(params).map(p => p).forEach(e => e !== 'id' && fields.push(`${e} = '${params[e]}'`));
     fields = fields.join(', ');
-    const sql = `update denuncia set ${fields} where id = ${params.id}`;
+    const sql = `update denuncia SET ${fields}  id = ${params.id}`;
     await db.query(sql);
 };
 

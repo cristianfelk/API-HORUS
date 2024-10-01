@@ -1,20 +1,6 @@
 const denunciaController = require('../controllers/denunciaController');
-const multer = require('multer');
 
-// Configuração do multer para salvar as imagens
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/'); // Pasta onde a imagem será salva
-    },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + '-' + file.originalname);
-    }
-});
-
-const upload = multer({ storage: storage });
-
-module.exports = (app) => {
+module.exports = (app) => { 
     const basePath = '/denuncia';
 
     /**
@@ -29,11 +15,11 @@ module.exports = (app) => {
      * /denuncia:
      *   post:
      *     tags: [Denúncias]
-     *     summary: Registra uma nova denúncia com imagem
+     *     summary: Registra uma nova denúncia
      *     requestBody:
      *       required: true
      *       content:
-     *         multipart/form-data:
+     *         application/json:
      *           schema:
      *             type: object
      *             properties:
@@ -47,10 +33,6 @@ module.exports = (app) => {
      *                 type: string
      *                 format: date
      *                 description: Data da denúncia
-     *               image:
-     *                 type: string
-     *                 format: binary
-     *                 description: Imagem associada à denúncia
      *     responses:
      *       201:
      *         description: Denúncia registrada com sucesso
@@ -58,7 +40,7 @@ module.exports = (app) => {
      *         description: Erro ao registrar a denúncia
      */
     app.route(basePath)
-        .post(upload.single('image'), denunciaController.postDenuncia)  // Adiciona o upload de imagem
+        .post(denunciaController.postDenuncia)
         .get(denunciaController.getDenuncia);
 
     /**
