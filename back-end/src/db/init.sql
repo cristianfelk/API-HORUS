@@ -16,7 +16,6 @@ create table monitoramento (
 create table focos_dengue (
     id serial primary key,     
     descricao varchar(255) not null,
-    denuncia_id integer,
     confirmado boolean,     
     latitude decimal(9, 6) not null,  
     longitude decimal(9, 6) not null,      
@@ -102,6 +101,7 @@ create table denuncia (
   descricao_denuncia text,
   id_status integer,
   chave_denuncia text unique,
+  image_url text,
   foreign key (id_municipio) references municipio (id)
 );
 

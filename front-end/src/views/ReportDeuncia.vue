@@ -68,6 +68,7 @@
 </div>
 </template>
 
+    
 <script>
 import Navbar from "@/components/NavBarHome.vue";
 import {
@@ -164,8 +165,10 @@ export default {
                 await createDenuncia(formDataDenuncia);
 
                 const formDataFoco = new FormData();
+                formDataFoco.append("descricao", 'Denuncia'); 
                 formDataFoco.append("latitude", this.latitude);
                 formDataFoco.append("longitude", this.longitude);
+                formDataFoco.append("confirmado", false); 
 
                 await adicionarFocoDengue(formDataFoco);
 
@@ -193,6 +196,7 @@ export default {
 };
 </script>
 
+    
 <style scoped>
 .report-container {
     max-width: 600px;
