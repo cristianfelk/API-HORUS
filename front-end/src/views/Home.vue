@@ -51,7 +51,7 @@
           <p>A dengue é uma doença viral transmitida pelo mosquito Aedes aegypti. Os sintomas incluem febre alta, dores no corpo, manchas na pele e outros.</p>
         </div>
 
-        <div class="info-card">
+        <div class="info-card" id="symptoms">
           <h2>Sintomas da Dengue</h2>
           <ul>
             <li>Febre alta</li>
@@ -69,14 +69,26 @@
       </section>
 
       <section class="call-to-action">
-        <h2>Proteja sua comunidade!</h2>
-        <p>Denuncie focos de mosquito ou participe de campanhas de prevenção.</p>
-        <button class="action-button" @click="navigateTo('report')">Denuncie Focos de Mosquito</button>
+        <div class="denuncia-container">
+          <h2>Proteja sua comunidade!</h2>
+          <p>Denuncie focos de mosquito ou participe de campanhas de prevenção.</p>
+          <button class="action-button" @click="navigateTo('report')">Denuncie Focos de Mosquito</button>
+        </div>
+        
+        <div class="contact-info-container">
+          <div class="contact-info" id="contact">
+            <p>Se você tem dúvidas ou deseja mais informações sobre como combater a dengue, entre em contato conosco:</p>
+            <ul>
+              <li><strong>Email:</strong> contato@prevencaodengue.com</li>
+              <li><strong>Telefone:</strong> (11) 1234-5678</li>
+              <li><strong>Endereço:</strong> Rua Exemplo, 123 - Cidade, Estado</li>
+            </ul>
+          </div>
+        </div>
       </section>
     </div>
   </div>
 </template>
-
 
 <script>
 import 'leaflet/dist/leaflet.css';
@@ -178,194 +190,218 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .home-container {
-    font-family: 'Roboto', sans-serif;
-    color: #333;
-    line-height: 1.6;
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+  line-height: 1.6;
 }
 
 .carousel {
-    text-align: center;
-    margin: 20px 0;
-    margin-top: 80px;
-    margin-bottom: 20px;
+  text-align: center;
+  margin: 20px 0;
+  margin-top: 80px;
+  margin-bottom: 20px;
 }
 
 .carousel-container {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-    max-width: 800px;
-    height: 400px;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 800px;
+  height: 400px;
 }
 
 .carousel-image {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    border-radius: 8px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .carousel-control {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    border: none;
-    color: white;
-    font-size: 2rem;
-    padding: 0 15px;
-    cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  padding: 0 15px;
+  cursor: pointer;
 }
 
 .prev {
-    left: 10px;
+  left: 10px;
 }
 
 .next {
-    right: 10px;
+  right: 10px;
 }
 
 .hero {
-    background: url('https://example.com/dengue-banner.jpg') center/cover no-repeat;
-    height: 40vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    position: relative;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  background: url('https://example.com/dengue-banner.jpg') center/cover no-repeat;
+  height: 40vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 .hero-content {
-    text-align: center;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 30px;
-    border-radius: 8px;
-    animation: fadeIn 1.5s ease;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 30px;
+  border-radius: 8px;
+  animation: fadeIn 1.5s ease;
 }
 
 .map-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 450px;
-    margin: 20px 0;
-    margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 450px;
+  margin: 20px 0;
+  margin-top: 40px;
 }
 
 .map {
-    width: 100%;
-    max-width: 1000px;
-    height: 100%;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 1000px;
+  height: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
+  from {
+    opacity: 0;
+  }
 
-    to {
-        opacity: 1;
-    }
+  to {
+    opacity: 1;
+  }
 }
 
 .title {
-    font-size: 3rem;
-    font-weight: bold;
+  font-size: 3rem;
+  font-weight: bold;
 }
 
 .subtitle {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
 }
 
 .learn-more {
-    background-color: #ff6f61;
-    border: none;
-    color: white;
-    padding: 12px 24px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+  background-color: #ff6f61;
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .learn-more:hover {
-    background-color: #ff3d3d;
-    transform: scale(1.05);
+  background-color: #ff3d3d;
+  transform: scale(1.05);
 }
 
 .stats-section {
-    padding: 50px 20px;
-    background-color: #f3f3f3;
+  padding: 50px 20px;
+  background-color: #f3f3f3;
 }
 
 .stats-card-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .stats-card {
-    background-color: white;
-    padding: 20px;
-    margin: 10px;
-    border-radius: 8px;
-    width: 23%;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+  background-color: white;
+  padding: 20px;
+  margin: 10px;
+  border-radius: 8px;
+  width: 23%;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
 .stats-card:hover {
-    transform: translateY(-5px);
+  transform: translateY(-5px);
 }
 
 .info-section {
-    display: flex;
-    justify-content: space-between;
-    padding: 40px 20px;
-    background-color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 40px 20px;
+  background-color: #fff;
 }
 
 .info-card {
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 30%;
-    transition: transform 0.3s ease;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  transition: transform 0.3s ease;
 }
 
 .info-card:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 .call-to-action {
-    background-color: #69c369;
-    color: white;
-    padding: 50px 20px;
-    text-align: center;
+  background-color: #69c369;
+  color: white;
+  padding: 50px 20px;
+  display: flex;
+  justify-content: space-between; 
+  align-items: flex-start;
+}
+
+.denuncia-container {
+  background-color: #69c369;
+  border-radius: 8px;
+  padding: 15px;
+  flex: 1; 
+  margin-top: 20px;
+  margin-right: 20px; 
+}
+
+.contact-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; 
+}
+
+.contact-info {
+  background-color: #69c369;
+  color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 20px;
 }
 
 .action-button {
-    background-color: #fff;
-    color: #656464;
-    border: 1px solid white;
-    padding: 10px 20px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, color 0.3s ease;
+  background-color: #fff;
+  color: #656464;
+  border: 1px solid white;
+  padding: 10px 20px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .action-button:hover {
-    background-color: #ff3d3d;
-    color: white;
+  background-color: #ff3d3d;
+  color: white;
 }
 </style>
