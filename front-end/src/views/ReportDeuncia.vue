@@ -42,7 +42,7 @@
 
             <div class="form-group">
                 <label for="logradouro">Localização do Foco (Endereço):</label>
-                <input type="text" id="logradouro" v-model="report.id_logradouro" required />
+                <input type="text" id="logradouro" v-model="report.logradouro" required />
             </div>
 
             <div class="form-group">
@@ -89,7 +89,7 @@ export default {
                 email_denunciante: "",
                 telefone_denunciante: "",
                 id_municipio: null,
-                id_logradouro: "",
+                logradouro: "",
                 descricao_denuncia: "",
                 image: null,
             },
@@ -156,7 +156,7 @@ export default {
                     formDataDenuncia.append("telefone_denunciante", this.report.telefone_denunciante);
                 }
                 formDataDenuncia.append("id_municipio", this.report.id_municipio);
-                formDataDenuncia.append("id_logradouro", this.report.id_logradouro);
+                formDataDenuncia.append("logradouro", this.report.logradouro);
                 formDataDenuncia.append("descricao_denuncia", this.report.descricao_denuncia);
                 if (this.report.image) {
                     formDataDenuncia.append("image", this.report.image);
@@ -185,7 +185,7 @@ export default {
                 email_denunciante: "",
                 telefone_denunciante: "",
                 id_municipio: null,
-                id_logradouro: "",
+                logradouro: "",
                 descricao_denuncia: "",
                 image: null,
             };

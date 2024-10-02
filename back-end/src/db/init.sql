@@ -97,9 +97,9 @@ create table denuncia (
   nome_denunciante text,
   telefone_denunciante text,
   id_municipio integer not null,
-  logradouro text not null,
+  logradouro text,
   descricao_denuncia text,
-  id_status integer,
+  id_status text,
   chave_denuncia text unique,
   image_url text,
   foreign key (id_municipio) references municipio (id)

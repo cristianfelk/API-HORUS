@@ -15,7 +15,7 @@ const postDenuncia = async (params) => {
             insert into denuncia 
             (anonima, email_denunciante, nome_denunciante, telefone_denunciante, 
              id_municipio, logradouro, descricao_denuncia, id_status, chave_denuncia, image_url)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
         `;
 
         const values = [
@@ -26,7 +26,7 @@ const postDenuncia = async (params) => {
             params.id_municipio,
             params.logradouro,
             params.descricao_denuncia,
-            params.id_status, 
+            params.id_status = 'Pendente', 
             generateRandomKey(10),
             params.image_url || null 
         ];
@@ -41,7 +41,7 @@ const postDenuncia = async (params) => {
 
 const putDenuncia = async (params) => {
     const sql_put = `
-        UPDATE denuncia SET
+        update denuncia set
             anonima = $2, 
             email_denunciante = $3,
             nome_denunciante = $4,
@@ -52,7 +52,7 @@ const putDenuncia = async (params) => {
             id_status = $9,
             chave_denuncia = $10,
             image_url = $11
-        WHERE id = $1
+        where id = $1
     `;
     const { id, anonima, email_denunciante, nome_denunciante, telefone_denunciante, id_municipio, logradouro, descricao_denuncia, id_status, chave_denuncia, image_url } = params;
 
