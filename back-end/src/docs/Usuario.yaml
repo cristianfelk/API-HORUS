@@ -1,0 +1,150 @@
+openapi: 3.0.0
+info:
+  title: API de Gerenciamento de Usuários
+  version: 1.0.0
+  description: API para operações relacionadas ao gerenciamento de usuários
+servers:
+  - url: http://localhost:3000
+tags:
+  - name: Usuário
+    description: Operações relacionadas ao gerenciamento de usuários
+
+paths:
+  /usuario:
+    post:
+      tags:
+        - Usuário
+      summary: Cria um novo usuário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                  description: Nome do usuário
+                email:
+                  type: string
+                  description: Email do usuário
+                senha:
+                  type: string
+                  description: Senha do usuário
+      responses:
+        '201':
+          description: Usuário criado com sucesso
+        '400':
+          description: Erro na criação do usuário
+
+    get:
+      tags:
+        - Usuário
+      summary: Retorna uma lista de usuários
+      responses:
+        '200':
+          description: Lista de usuários retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    nome:
+                      type: string
+                    email:
+                      type: string
+
+  /usuario/{id}:
+    get:
+      tags:
+        - Usuário
+      summary: Retorna os detalhes de um usuário específico
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do usuário
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Dados do usuário retornados com sucesso
+        '404':
+          description: Usuário não encontrado
+
+    delete:
+      tags:
+        - Usuário
+      summary: Exclui um usuário específico
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do usuário
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Usuário excluído com sucesso
+        '404':
+          description: Usuário não encontrado
+
+    put:
+      tags:
+        - Usuário
+      summary: Atualiza um usuário específico
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do usuário
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Usuário atualizado com sucesso
+        '404':
+          description: Usuário não encontrado
+
+    patch:
+      tags:
+        - Usuário
+      summary: Atualiza parcialmente um usuário específico
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID do usuário
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nome:
+                  type: string
+                email:
+                  type: string
+      responses:
+        '200':
+          description: Usuário atualizado parcialmente com sucesso
+        '404':
+          description: Usuário não encontrado

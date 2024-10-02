@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  title: API de Logs
+  version: 1.0.0
+  description: Documentação das operações relacionadas aos logs
+
+paths:
+  /log:
+    get:
+      tags: 
+        - Logs
+      summary: Retorna uma lista de logs
+      responses:
+        200:
+          description: Lista de logs retornada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    mensagem:
+                      type: string
+                    timestamp:
+                      type: string
+                      format: date-time
+
+tags:
+  - name: Logs
+    description: Operações relacionadas aos logs
