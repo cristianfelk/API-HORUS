@@ -1,9 +1,23 @@
 const express = require('express');
 const cors = require('cors');
 const setupSwagger = require('./configs/swagger'); 
+const multer  = require('multer')
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './src/assets/files'); 
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now();
+        cb(null, uniqueSuffix + '_' + file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage })
 
 const app = express();
 app.use(express.json());
+app.use(express.static('./src/assets'))
 
 let domains = ['http://localhost:5173'];
 const corsOptions = {
@@ -22,7 +36,7 @@ app.use(cors(corsOptions));
 
 setupSwagger(app);
 
-require('./routes')(app);
+require('./routes')(app, upload);
 
 app.get('/', (req, res) => {
     res.send('Executando aplicativo!');

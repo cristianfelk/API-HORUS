@@ -10,11 +10,11 @@ const monitoramento = require('./monitoramentoRouter');
 const foco = require('./focoDengueRouter');
 
 
-module.exports = (app) => {
+module.exports = (app, upload) => {
     usuario(app),
     fiscalizacao(app),
     logradouro(app),
-    denuncia(app),
+    denuncia(app, upload),
     municipio(app),
     login(app),
     senha(app),

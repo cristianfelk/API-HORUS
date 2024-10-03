@@ -56,8 +56,8 @@
             </div>
 
             <div class="form-group">
-                <label for="image">Imagem (opcional):</label>
-                <input type="file" id="image" @change="handleFileUpload" />
+                <label for="image_url">Imagem (opcional):</label>
+                <input type="file" id="image_url" @change="handleFileUpload" />
             </div>
 
             <button type="submit" class="submit-button">Enviar Denúncia</button>
@@ -91,7 +91,7 @@ export default {
                 id_municipio: null,
                 logradouro: "",
                 descricao_denuncia: "",
-                image: null,
+                image_url: null,
             },
             latitude: null,
             longitude: null,
@@ -133,7 +133,7 @@ export default {
             console.log(`Latitude: ${lat}, Longitude: ${lng}`);
         },
         handleFileUpload(event) {
-            this.report.image = event.target.files[0];
+            this.report.image_url = event.target.files[0];
         },
         async searchMunicipio() {
             if (this.municipioSearch.length > 2) {
@@ -158,8 +158,8 @@ export default {
                 formDataDenuncia.append("id_municipio", this.report.id_municipio);
                 formDataDenuncia.append("logradouro", this.report.logradouro);
                 formDataDenuncia.append("descricao_denuncia", this.report.descricao_denuncia);
-                if (this.report.image) {
-                    formDataDenuncia.append("image", this.report.image);
+                if (this.report.image_url) {
+                    formDataDenuncia.append("image_url", this.report.image_url);
                 }
 
                 await createDenuncia(formDataDenuncia);
@@ -187,7 +187,7 @@ export default {
                 id_municipio: null,
                 logradouro: "",
                 descricao_denuncia: "",
-                image: null,
+                image_url: null,
             };
             this.municipioSearch = "";
             this.municipioSuggestions = [];

@@ -16,21 +16,21 @@ const moveFile = (file, destination) => {
 
 const postDenuncia = async (req, res, next) => {
     try {
-        const { anonima, nome_denunciante, email_denunciante, telefone_denunciante, id_municipio, id_logradouro, descricao_denuncia } = req.body;
+        const { anonima, email_denunciante, nome_denunciante, telefone_denunciante, id_municipio, logradouro, descricao_denuncia, id_status, chave_denuncia } = req.body;
         const reportData = {
             anonima,
-            nome_denunciante,
             email_denunciante,
+            nome_denunciante,
             telefone_denunciante,
             id_municipio,
-            id_logradouro,
+            logradouro,
             descricao_denuncia,
-            image: null,
+            id_status,
+            chave_denuncia
         };
 
         if (req.file) {
-            const imagePath = await moveFile(req.file, '../docs'); 
-            reportData.image = imagePath;
+            reportData.image_url = req.file.filename;
         }
 
         const ret = await denunciaService.postDenuncia(reportData);

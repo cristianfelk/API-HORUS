@@ -92,7 +92,7 @@ export const getMonitoramento = () => apiClient.get('/monitoramento');
 export const updateMonitoramento = (data) => apiClient.post('/monitoramento', data);
 
 //Denuncia
-export const createDenuncia = (data) => apiClient.post('/denuncia', data);
+export const createDenuncia = (data) => apiClient.post('/denuncia', data, { headers: { 'Content-Type': 'multipart/form-data' } });
 export const updateDenuncia = (data) => apiClient.patch('/denuncia', data);
 export const getDenuncia = (params) => apiClient.get('/denuncia', { params });
 
