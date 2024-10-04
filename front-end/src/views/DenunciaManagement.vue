@@ -48,7 +48,6 @@
                 <p>Carregando denúncias...</p>
             </div>
     
-            <!-- Modal de Edição -->
             <div v-if="isEditing" class="modal">
                 <div class="modal-content">
                     <span class="close" @click="closeModal">&times;</span>
@@ -130,20 +129,20 @@
                 }
             },
             editDenuncia(denuncia) {
-                this.selectedDenuncia = { ...denuncia }; // Cria uma cópia para edição
-                this.isEditing = true; // Abre o modal de edição
+                this.selectedDenuncia = { ...denuncia };
+                this.isEditing = true; 
             },
             async updateDenuncia() {
                 try {
-                    await updateDenuncia(this.selectedDenuncia); // Chama a API para atualizar a denúncia
-                    this.isEditing = false; // Fecha o modal
-                    await this.fetchDenuncias(); // Atualiza a lista de denúncias
+                    await updateDenuncia(this.selectedDenuncia); 
+                    this.isEditing = false; 
+                    await this.fetchDenuncias();
                 } catch (error) {
                     console.error("Erro ao atualizar a denúncia:", error);
                 }
             },
             closeModal() {
-                this.isEditing = false; // Fecha o modal
+                this.isEditing = false; 
             }
         },
     };
@@ -200,7 +199,6 @@
         color: #ff4d4d;
     }
     
-    /* Estilos do modal */
     .modal {
         position: fixed;
         top: 0;
@@ -211,17 +209,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        z-index: 1000; /* Adicionado para garantir que o modal esteja acima de outros elementos */
+        z-index: 1000; 
     }
     
     .modal-content {
         background-color: #fff;
-        padding: 15px; /* Ajustado para diminuir a altura */
+        padding: 15px; 
         border-radius: 8px;
-        width: 500px; /* Ajuste da largura para permitir espaço para dois campos lado a lado */
-        max-width: 90%; /* Para garantir que o modal não ultrapasse a tela em dispositivos menores */
+        width: 500px; 
+        max-width: 90%; 
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        position: relative; /* Para posicionar o botão de fechar */
+        position: relative;
     }
     
     .close {
@@ -234,22 +232,22 @@
     }
     
     .close:hover {
-        color: #ff4d4d; /* Mudança de cor no hover */
+        color: #ff4d4d; 
     }
     
     .form-row {
         display: flex;
-        justify-content: space-between; /* Espaçamento entre os campos */
-        margin-bottom: 15px; /* Espaçamento entre linhas de campos */
+        justify-content: space-between;
+        margin-bottom: 15px; 
     }
     
     .form-group {
-        flex: 1; /* Cada grupo ocupa espaço igual */
-        margin-right: 10px; /* Espaçamento entre os campos */
+        flex: 1; 
+        margin-right: 10px;
     }
     
     .form-group:last-child {
-        margin-right: 0; /* Remove o espaçamento do último campo */
+        margin-right: 0;
     }
     
     .form-group label {
@@ -268,7 +266,7 @@
     }
     
     .form-group textarea {
-        resize: vertical; /* Permite redimensionar verticalmente */
+        resize: vertical;
     }
     
     .submit-button {
@@ -282,7 +280,7 @@
     }
     
     .submit-button:hover {
-        background-color: #218838; /* Escurece ao passar o mouse */
+        background-color: #218838;
     }
     </style>
     
