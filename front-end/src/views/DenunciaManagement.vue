@@ -35,6 +35,7 @@
                         <td>{{ denuncia.id_status || 'Pendente' }}</td>
                         <td>
                             <button @click="editDenuncia(denuncia)">Editar</button>
+                            <button @click="verNoMapa(denuncia)">Ver no mapa</button>
                         </td>
                     </tr>
                 </tbody>
@@ -46,6 +47,14 @@
         </div>
         <div v-else class="loading-message">
             <p>Carregando denúncias...</p>
+        </div>
+
+        <div v-if="isMapVisible" class="modal">
+            <div class="modal-content">
+                <span class="close" @click="closeMapModal">&times;</span>
+                <h2>Localização no Mapa</h2>
+                <div id="map" class="map"></div>
+            </div>
         </div>
 
         <div v-if="isEditing" class="modal">
@@ -80,7 +89,10 @@
                         </div>
                         <div class="form-group">
                             <label>Status:</label>
-                            <input type="text" v-model="selectedDenuncia.id_status" />
+                            <select v-model="selectedDenuncia.confirmado">
+                                <option :value="true">Confirmado</option>
+                                <option :value="false">Pendente</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -101,6 +113,7 @@ import {
     getDenuncia,
     updateDenuncia
 } from "../services/apiService";
+import L from "leaflet";
 
 export default {
     components: {
@@ -111,7 +124,9 @@ export default {
             denuncias: [],
             errorMessage: "",
             isEditing: false,
-            selectedDenuncia: {}
+            isMapVisible: false,
+            selectedDenuncia: {},
+            map: null
         };
     },
     async created() {
@@ -133,6 +148,33 @@ export default {
                 ...denuncia
             };
             this.isEditing = true;
+        },
+        verNoMapa(denuncia) {
+            this.selectedDenuncia = {
+                ...denuncia
+            };
+            this.isMapVisible = true;
+            this.$nextTick(() => {
+                if (!this.map) {
+                    this.initMap(denuncia.latitude, denuncia.longitude);
+                } else {
+                    this.updateMap(denuncia.latitude, denuncia.longitude);
+                }
+            });
+        },
+        initMap(lat, lon) {
+            this.map = L.map('map').setView([lat, lon], 13);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(this.map);
+            L.marker([lat, lon]).addTo(this.map).bindPopup('Local da denúncia').openPopup();
+        },
+        updateMap(lat, lon) {
+            this.map.setView([lat, lon], 13);
+            L.marker([lat, lon]).addTo(this.map).bindPopup('Local da denúncia').openPopup();
+        },
+        closeMapModal() {
+            this.isMapVisible = false;
         },
         async updateDenuncia() {
             try {
@@ -258,6 +300,23 @@ table th {
     font-weight: bold;
 }
 
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.form-group select:focus {
+    outline: none;
+    border-color: #000000;
+    box-shadow: 0 0 5px rgba(25, 25, 25, 0.5);
+}
+
 .form-group input,
 .form-group textarea {
     width: 100%;
@@ -283,5 +342,12 @@ table th {
 
 .submit-button:hover {
     background-color: #218838;
+}
+
+.map {
+    height: 400px;
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 15px;
 }
 </style>
