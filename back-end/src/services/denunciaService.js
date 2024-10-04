@@ -11,11 +11,13 @@ const generateRandomKey = (length) => {
 
 const postDenuncia = async (params) => {
     try {
+        console.log("Parâmetros recebidos:", params);
+
         const sql_post = `
             insert into denuncia 
             (anonima, email_denunciante, nome_denunciante, telefone_denunciante, 
-             id_municipio, logradouro, descricao_denuncia, id_status, chave_denuncia, image_url)
-            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+             id_municipio, logradouro, descricao_denuncia, confirmado, latitude, longitude, chave_denuncia, image_url)
+            values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
         `;
 
         const values = [
@@ -26,7 +28,9 @@ const postDenuncia = async (params) => {
             params.id_municipio,
             params.logradouro,
             params.descricao_denuncia,
-            params.id_status = 'Pendente', 
+            params.confirmado,
+            params.latitude || null,
+            params.longitude || null,
             generateRandomKey(10),
             params.image_url || null 
         ];

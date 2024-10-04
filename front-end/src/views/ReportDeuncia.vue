@@ -68,13 +68,11 @@
 </div>
 </template>
 
-    
 <script>
 import Navbar from "@/components/NavBarHome.vue";
 import {
     searchMunicipioByNome,
-    createDenuncia,
-    adicionarFocoDengue
+    createDenuncia
 } from "../services/apiService";
 
 export default {
@@ -85,16 +83,17 @@ export default {
         return {
             report: {
                 anonima: false,
-                nome_denunciante: "",
                 email_denunciante: "",
+                nome_denunciante: "",
                 telefone_denunciante: "",
                 id_municipio: null,
                 logradouro: "",
                 descricao_denuncia: "",
+                confirmado: false, 
+                latitude: null,
+                longitude: null,
                 image_url: null,
             },
-            latitude: null,
-            longitude: null,
             defaultLat: -26.8481,
             defaultLng: -52.9885,
             map: null,
@@ -121,8 +120,8 @@ export default {
                 lat,
                 lng
             } = event.latlng;
-            this.latitude = lat;
-            this.longitude = lng;
+            this.report.latitude = lat;
+            this.report.longitude = lng; 
 
             if (this.marker) {
                 this.map.removeLayer(this.marker);
@@ -158,19 +157,20 @@ export default {
                 formDataDenuncia.append("id_municipio", this.report.id_municipio);
                 formDataDenuncia.append("logradouro", this.report.logradouro);
                 formDataDenuncia.append("descricao_denuncia", this.report.descricao_denuncia);
+                formDataDenuncia.append("confirmado", this.report.confirmado);
+
+                if (this.report.latitude) {
+                    formDataDenuncia.append("latitude", this.report.latitude);
+                }
+                if (this.report.longitude) {
+                    formDataDenuncia.append("longitude", this.report.longitude);
+                }
+                
                 if (this.report.image_url) {
                     formDataDenuncia.append("image_url", this.report.image_url);
                 }
 
                 await createDenuncia(formDataDenuncia);
-
-                const formDataFoco = new FormData();
-                formDataFoco.append("descricao", 'Denuncia'); 
-                formDataFoco.append("latitude", this.latitude);
-                formDataFoco.append("longitude", this.longitude);
-                formDataFoco.append("confirmado", false); 
-
-                await adicionarFocoDengue(formDataFoco);
 
                 this.message = "Denúncia enviada com sucesso!";
                 this.resetForm();
@@ -188,6 +188,9 @@ export default {
                 logradouro: "",
                 descricao_denuncia: "",
                 image_url: null,
+                latitude: null, 
+                longitude: null, 
+                confirmado: false, 
             };
             this.municipioSearch = "";
             this.municipioSuggestions = [];
@@ -196,7 +199,6 @@ export default {
 };
 </script>
 
-    
 <style scoped>
 .report-container {
     max-width: 600px;

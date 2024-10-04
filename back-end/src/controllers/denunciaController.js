@@ -13,10 +13,23 @@ const moveFile = (file, destination) => {
         });
     });
 }
-
 const postDenuncia = async (req, res, next) => {
     try {
-        const { anonima, email_denunciante, nome_denunciante, telefone_denunciante, id_municipio, logradouro, descricao_denuncia, id_status, chave_denuncia } = req.body;
+        const { 
+            anonima, 
+            email_denunciante, 
+            nome_denunciante, 
+            telefone_denunciante, 
+            id_municipio, 
+            logradouro, 
+            descricao_denuncia, 
+            id_status, 
+            chave_denuncia, 
+            latitude, // Novo campo
+            longitude, // Novo campo
+            confirmado // Novo campo
+        } = req.body;
+
         const reportData = {
             anonima,
             email_denunciante,
@@ -26,7 +39,10 @@ const postDenuncia = async (req, res, next) => {
             logradouro,
             descricao_denuncia,
             id_status,
-            chave_denuncia
+            chave_denuncia,
+            latitude,    // Inclui latitude no objeto de denúncia
+            longitude,   // Inclui longitude no objeto de denúncia
+            confirmado   // Inclui confirmado no objeto de denúncia
         };
 
         if (req.file) {
@@ -39,6 +55,7 @@ const postDenuncia = async (req, res, next) => {
         res.status(500).send(err.message);
     }
 }
+
 
 const getDenuncia = async (req, res, next) => {
     try {
