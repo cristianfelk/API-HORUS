@@ -236,6 +236,38 @@ table th {
     font-weight: bold;
 }
 
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+button {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+}
+
+button.edit-button {
+    background-color: #ffc107;
+}
+
+button.edit-button:hover {
+    background-color: #e0a800;
+}
+
+button.map-button {
+    background-color: #28a745;
+}
+
+button.map-button:hover {
+    background-color: #218838;
+}
+
 .loading-message,
 .error-message {
     text-align: center;
@@ -300,23 +332,7 @@ table th {
     font-weight: bold;
 }
 
-.form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-    background-color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.form-group select:focus {
-    outline: none;
-    border-color: #000000;
-    box-shadow: 0 0 5px rgba(25, 25, 25, 0.5);
-}
-
+.form-group select,
 .form-group input,
 .form-group textarea {
     width: 100%;
@@ -331,7 +347,7 @@ table th {
 }
 
 .submit-button {
-    background-color: #28a745;
+    background-color: #007bff;
     color: white;
     padding: 10px 15px;
     border: none;
@@ -341,7 +357,7 @@ table th {
 }
 
 .submit-button:hover {
-    background-color: #218838;
+    background-color: #0056b3;
 }
 
 .map {
