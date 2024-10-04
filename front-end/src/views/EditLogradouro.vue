@@ -30,7 +30,6 @@
 </div>
 </template>
 
-  
 <script>
 import Navbar from '../components/NavBar.vue';
 import {
@@ -79,7 +78,6 @@ export default {
 };
 </script>
 
-  
 <style scoped>
 .container {
     display: flex;

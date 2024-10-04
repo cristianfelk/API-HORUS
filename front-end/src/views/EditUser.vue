@@ -37,8 +37,8 @@
 import {
     getUserById,
     updateUser
-} from '../services/apiService.js'; 
-import Navbar from '../components/NavBar.vue'; 
+} from '../services/apiService.js';
+import Navbar from '../components/NavBar.vue';
 
 export default {
     name: 'EditUser',
