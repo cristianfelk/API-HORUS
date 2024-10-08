@@ -6,7 +6,7 @@ import { createVuetify } from 'vuetify';
 import 'vuetify/styles';
 import VueCarousel from 'vue-carousel';
 import 'leaflet/dist/leaflet.css';
-import { LMap, LTileLayer, LMarker } from '@vue-leaflet/vue-leaflet'; // Certifique-se de importar apenas uma vez.
+import { LMap, LTileLayer, LMarker } from '@vue-leaflet/vue-leaflet';
 
 const vuetify = createVuetify({});
 

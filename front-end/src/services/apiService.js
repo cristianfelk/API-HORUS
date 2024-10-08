@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { param } from 'jquery';
 
 const apiClient = axios.create({
   baseURL: 'http://localhost:3000',

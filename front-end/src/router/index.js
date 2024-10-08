@@ -1,28 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '@/views/Home.vue';
-import HomeLogin from '@/views/HomeLogin.vue';
-import RecoverPassword from '@/views/RecoverPassword.vue';
-import VerifyCode from '@/views/VerifyCode.vue';
-import Dashboard from '@/views/Dashboard.vue';
-import UserManagement from '@/views/UserManagement.vue';
-import CreateUser from '@/views/CreateUser.vue';
-import EditUser from '@/views/EditUser.vue';
-import MunicipioManagement from '@/views/MunicipioManagement.vue';
-import CreateMunicipio from '@/views/CreateMunicipio.vue';
-import EditMunicipio from '@/views/EditMunicipio.vue';
-import LogradouroManagement from '@/views/LogradouroManagement.vue'
-import CreateLogradouro from '@/views/CreateLogradouro.vue';
-import EditLogradouro from '@/views/EditLogradouro.vue';
-import ResetPassword from '@/views/ResetPassword.vue';
-import LogsCadastrais from '@/views/LogsCadastrais.vue';
-import CreateFiscalizacao from '@/views/CreateFiscalizacao.vue';
-import FiscalizacaoManagement from '@/views/FiscalizacaoManagement.vue';
-import RelFiscalizacao from '@/views/RelFiscalizacoes.vue';
-import ReportDeuncia from '@/views/ReportDeuncia.vue';
-import MonitoramentoManagement from '@/views/MonitoramentoManagement.vue';
-import PrevencaoDengue from '@/views/PrevencaoDengue.vue';
-import AdminFocoDengue from '@/views/AdminFocoDengue.vue';
-import DenunciaManagement from '@/views/DenunciaManagement.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,7 +6,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: Home,
+      component: () => import('@/views/Home.vue'),
       beforeEnter: (to, from, next) => {
         const isAuthenticated = !!localStorage.getItem('authToken');
         if (isAuthenticated) {
@@ -43,126 +19,127 @@ const router = createRouter({
     {
       path: '/AdminFocoDengue',
       name: 'AdminFocoDengue',
-      component: AdminFocoDengue,
+      component: () => import('@/views/AdminFocoDengue.vue'),
     },
     {
       path: '/monitoramento',
       name: 'monitoramento-management',
-      component: MonitoramentoManagement,
+      component: () => import('@/views/MonitoramentoManagement.vue'),    
     },
     {
       path: '/prevention',
       name: 'PrevencaoDengue',
-      component: PrevencaoDengue,
+      component: () => import('@/views/PrevencaoDengue.vue'),
     },
     {
       path: '/HomeLogin',
       name: 'HomeLogin',
-      component: HomeLogin,
+      component: () => import('@/views/HomeLogin.vue'),
     },
     {
       path: '/report',
       name: 'ReportDeuncia',
-      component: ReportDeuncia,
+      component: () => import('@/views/ReportDeuncia.vue'),
     },
     {
       path: '/denuncias',
       name: 'denuncias',
-      component: DenunciaManagement,
+      component: () => import('@/views/DenunciaManagement.vue'),
     },
     {
       path: '/reset-password',
       name: 'reset-password',
-      component: ResetPassword,
+      component: () => import('@/views/ResetPassword.vue'),
     },
     {
       path: '/recover-password',
       name: 'recover-password',
-      component: RecoverPassword,
+      component: () => import('@/views/RecoverPassword.vue'),
     },
     {
       path: '/verify-code',
       name: 'verify-code',
-      component: VerifyCode,
+      component: () => import('@/views/VerifyCode.vue'),
     },
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: Dashboard,
+      component: () => import('@/views/Dashboard.vue'),
       meta: { requiresAuth: true },
     },
     {
       path: '/usuarios',
       name: 'user-management',
-      component: UserManagement,
+      component: () => import('@/views/UserManagement.vue'),
       meta: { requiresAuth: true },
     },
     {
       path: '/usuarios/novo',
       name: 'create-user',
-      component: CreateUser,
+      component: () => import('@/views/CreateUser.vue'),
       meta: { requiresAuth: true },
     },
     {
       path: '/usuarios/:id/editar',
       name: 'edit-user',
-      component: EditUser,
+      component: () => import('@/views/EditUser.vue'),
       meta: { requiresAuth: true },
       props: true,
     },
     {
       path: '/municipios',
       name: 'municipio-management',
-      component: MunicipioManagement,
+      component: () => import('@/views/MunicipioManagement.vue'),
       meta: { requiresAuth: true },
     },
     {
       path: '/municipios/novo',
       name: 'create-municipio',
-      component: CreateMunicipio,
+      component: () => import('@/views/CreateMunicipio.vue'),
       meta: { requiresAuth: true },
     },
     {
       path: '/fiscalizacao/novo',
       name: 'CreateFiscalizacao',
-      component: CreateFiscalizacao
+      component: () => import('@/views/CreateFiscalizacao.vue'),
     },
     {
       path: '/fiscalizacoes',
       name: 'FiscalizacaoManagement',
-      component: FiscalizacaoManagement
+      component: () => import('@/views/FiscalizacaoManagement.vue'),
+
     },
     {
       path: '/logradouros',
       name: 'LogradouroManagement',
-      component: LogradouroManagement,
+      component: () => import('@/views/LogradouroManagement.vue'),
     },
     {
       path: '/create-logradouro',
       name: 'CreateLogradouro',
-      component: CreateLogradouro
+      component: () => import('@/views/CreateLogradouro.vue'),
     },
     {
       path: '/edit-logradouro/:id',
       name: 'EditLogradouro',
-      component: EditLogradouro
+      component: () => import('@/views/EditLogradouro.vue'),
     },
     {
       path: '/municipios/:id/editar',
       name: 'edit-municipio',
-      component: EditMunicipio,
+      component: () => import('@/views/EditMunicipio.vue'),
       meta: { requiresAuth: true },
       props: true,
     },
     {
       path: '/logs',
       name: 'Logs',
-      component: LogsCadastrais,
+      component: () => import('@/views/LogsCadastrais.vue'),
     },
     {
       path: '/rel-fiscalizacao',
       name: 'RelFiscalizacao',
-      component: RelFiscalizacao,
+      component: () => import('@/views/RelFiscalizacoes.vue')
     }
   ],
 });
