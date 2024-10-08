@@ -46,10 +46,10 @@
                     </div>
                     <div class="card-body">
                         <div class="fiscalizacao-cards">
-                            <div v-for="fiscalizacao in ultimasFiscalizacoes" :key="fiscalizacao.id" class="fiscalizacao-card">
-                                <h4>{{ fiscalizacao.descricao }}</h4>
-                                <p><strong>Logradouro:</strong> {{ fiscalizacao.logradouro_fiscalizacao }}</p>
-                                <p><strong>Data e Hora:</strong> {{ fiscalizacao.hora_entrada }}</p>
+                            <div v-for="denuncias in ultimasDenuncias" :key="denuncias.id" class="fiscalizacao-card">
+                                <p><strong>Municipio:</strong> {{ denuncias.id_municipio }}</p>
+                                <p><strong>Descrição:</strong> {{ denuncias.descricao_denuncia }}</p>
+                                <p><strong>Chave denncia:</strong> {{ denuncias.chave_denuncia }}</p>
                             </div>
                         </div>
                     </div>
@@ -65,7 +65,8 @@
 import SideBar from '../components/SideBar.vue';
 import Navbar from '../components/NavBar.vue';
 import {
-    getUltimasFiscalizacoes
+    getUltimasFiscalizacoes,
+    getUltimasDenuncias
 } from '../services/apiService';
 
 export default {
@@ -77,7 +78,8 @@ export default {
     data() {
         return {
             isSidebarCollapsed: false,
-            ultimasFiscalizacoes: []
+            ultimasFiscalizacoes: [],
+            ultimasDenuncias: []
         };
     },
     methods: {
@@ -94,10 +96,19 @@ export default {
             } catch (erro) {
                 console.error('Erro ao buscar últimas fiscalizações:', erro);
             }
+        },
+        async buscarUltimasDenuncias() {
+            try {
+                const resposta = await getUltimasDenuncias(3);
+                this.ultimasDenuncias = resposta.data;
+            } catch (erro) {
+                console.error('Erro ao buscar últimas denuncias:', erro);
+            }
         }
     },
     created() {
         this.buscarUltimasFiscalizacoes();
+        this.buscarUltimasDenuncias();
     }
 }
 </script>

@@ -41,6 +41,16 @@ const postDenuncia = async (params) => {
     }
 };
 
+const getUltimasDenuncias = async (limit = 5) => {
+    const sql_get = `select d.*, m.nome as id_municipio
+                     from denuncia d
+                     left join municipio m on (d.id_municipio = m.id)
+                     order by d.id desc
+                     limit $1`;
+    
+    return await db.query(sql_get, [limit]);
+};
+
 const putDenuncia = async (params) => {
     const sql_put = `
         update denuncia set
@@ -119,5 +129,6 @@ module.exports = {
     deleteDenuncia,
     putDenuncia,
     patchDenuncia,
-    getTotalDenuncias
+    getTotalDenuncias,
+    getUltimasDenuncias
 };

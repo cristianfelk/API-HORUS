@@ -94,6 +94,8 @@ export const updateMonitoramento = (data) => apiClient.post('/monitoramento', da
 export const createDenuncia = (data) => apiClient.post('/denuncia', data, { headers: { 'Content-Type': 'multipart/form-data' } });
 export const updateDenuncia = (id, data) => apiClient.patch(`/denuncia/${id}`, data);
 export const getDenuncia = (params) => apiClient.get('/denuncia', { params });
+export const getUltimasDenuncias = (limit) => apiClient.get(`/denuncia/ultimas`, { params: { limit } });
+
 
 //Focos
 export const getFocosDengue = (params) => apiClient.get('/foco', { params });

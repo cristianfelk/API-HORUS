@@ -109,10 +109,22 @@ const patchDenuncia = async (req, res, next) => {
     }
 }
 
+const getUltimasDenuncias = async (req, res) => {
+    const { limit = 5 } = req.query;
+
+    try {
+        const denuncias = await denunciaService.getUltimasDenuncias(parseInt(limit, 10));
+        res.json(denuncias.rows);
+    } catch (error) {
+        res.status(500).send('Erro ao obter últimas denuncias');
+    }
+};
+
 module.exports = {
     postDenuncia,
     getDenuncia,
     deleteDenuncia,
     putDenuncia,
-    patchDenuncia
+    patchDenuncia,
+    getUltimasDenuncias
 };
