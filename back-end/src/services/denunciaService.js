@@ -11,7 +11,6 @@ const generateRandomKey = (length) => {
 
 const postDenuncia = async (params) => {
     try {
-        console.log("Parâmetros recebidos:", params);
 
         const sql_post = `
             insert into denuncia 
@@ -42,7 +41,6 @@ const postDenuncia = async (params) => {
     }
 };
 
-
 const putDenuncia = async (params) => {
     const sql_put = `
         update denuncia set
@@ -53,20 +51,52 @@ const putDenuncia = async (params) => {
             id_municipio = $6,
             logradouro = $7,
             descricao_denuncia = $8,
-            id_status = $9,
-            chave_denuncia = $10,
-            image_url = $11
+            id_status = $9
         where id = $1
     `;
-    const { id, anonima, email_denunciante, nome_denunciante, telefone_denunciante, id_municipio, logradouro, descricao_denuncia, id_status, chave_denuncia, image_url } = params;
+    const { id, anonima, email_denunciante, nome_denunciante, telefone_denunciante, id_municipio, logradouro, descricao_denuncia, id_status  } = params;
 
-    return await db.query(sql_put, [id, anonima, email_denunciante, nome_denunciante, telefone_denunciante, id_municipio, logradouro, descricao_denuncia, id_status, chave_denuncia, image_url]);
+    return await db.query(sql_put, [id, anonima, email_denunciante, nome_denunciante, telefone_denunciante, id_municipio, logradouro, descricao_denuncia, id_status]);
 };
 
-const getDenuncia = async () => {
-    const sql_get = `select * from denuncia`
-    return await db.query(sql_get)
-}
+const getDenuncia = async (page = 1, limit = 10, chave_denuncia = '', email_denunciante = '') => {
+    const offset = (page - 1) * limit;
+    let sql_get = `select * from denuncia where true`;
+    let values = [];
+
+    if (chave_denuncia) {
+        sql_get += ` and chave_denuncia = $${values.length + 1}`;
+        values.push(chave_denuncia);
+    }
+
+    if (email_denunciante) {
+        sql_get += ` and email_denunciante ilike $${values.length + 1}`;
+        values.push(`%${email_denunciante}%`);
+    }
+
+    sql_get += ` order by id limit $${values.length + 1} offset $${values.length + 2}`;
+    values.push(limit, offset);
+
+    return await db.query(sql_get, values);
+};
+
+const getTotalDenuncias = async (chave_denuncia = '', email_denunciante = '') => {
+    let sql_count = 'select count(*) as total from denuncia where true';
+    let values = [];
+
+    if (chave_denuncia) {
+        sql_count += ` and chave_denuncia = $${values.length + 1}`;
+        values.push(chave_denuncia);
+    }
+
+    if (email_denunciante) {
+        sql_count += ` and email_denunciante ilike $${values.length + 1}`;
+        values.push(`%${email_denunciante}%`);
+    }
+
+    const result = await db.query(sql_count, values);
+    return parseInt(result.rows[0].total, 10);
+};
 
 const deleteDenuncia = async (params) => {
     const sql_delete = `delete from denuncia where id = $1`
@@ -78,7 +108,7 @@ const patchDenuncia = async (params) => {
     let fields = [];
     Object.keys(params).map(p => p).forEach(e => e !== 'id' && fields.push(`${e} = '${params[e]}'`));
     fields = fields.join(', ');
-    const sql = `update denuncia SET ${fields}  id = ${params.id}`;
+    const sql = `update denuncia set ${fields} where id = ${params.id}`;
     await db.query(sql);
 };
 
@@ -88,5 +118,6 @@ module.exports = {
     getDenuncia,
     deleteDenuncia,
     putDenuncia,
-    patchDenuncia
+    patchDenuncia,
+    getTotalDenuncias
 };

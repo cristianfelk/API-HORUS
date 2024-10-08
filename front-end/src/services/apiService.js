@@ -93,7 +93,7 @@ export const updateMonitoramento = (data) => apiClient.post('/monitoramento', da
 
 //Denuncia
 export const createDenuncia = (data) => apiClient.post('/denuncia', data, { headers: { 'Content-Type': 'multipart/form-data' } });
-export const updateDenuncia = (data) => apiClient.patch('/denuncia', data);
+export const updateDenuncia = (id, data) => apiClient.patch(`/denuncia/${id}`, data);
 export const getDenuncia = (params) => apiClient.get('/denuncia', { params });
 
 //Focos

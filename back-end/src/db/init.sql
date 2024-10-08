@@ -99,7 +99,7 @@ create table denuncia (
   id_municipio integer not null,
   logradouro text,
   descricao_denuncia text,
-  confirmado boolean,
+  confirmado varchar(20),
   latitude decimal(9, 6),  
   longitude decimal(9, 6), 
   chave_denuncia text unique,
