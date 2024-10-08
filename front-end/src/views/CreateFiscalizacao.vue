@@ -340,9 +340,9 @@ export default {
 
 <style scoped>
 .form-container {
-    max-width: 600px;
+    max-width: 500px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 15px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     background-color: #fff;
@@ -351,7 +351,8 @@ export default {
 .steps-container {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 30px;
+    align-items: center;
+    margin: 20px 0;
     position: relative;
 }
 
@@ -359,9 +360,9 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
     text-align: center;
-    z-index: 1;
+    width: 100%;
+    flex: 1;
 }
 
 .step-number {
@@ -374,15 +375,14 @@ export default {
     background-color: #e0e0e0;
     color: #555;
     font-weight: bold;
-    margin-bottom: 8px;
+    font-size:8px;
+    /* Ajuste do tamanho da fonte */
+    margin-bottom: 4px;
     z-index: 2;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.step.active .step-number {
-    background-color: #4caf50;
-    color: white;
-}
-
+.step.active .step-number,
 .step.completed .step-number {
     background-color: #4caf50;
     color: white;
@@ -392,10 +392,10 @@ export default {
     content: '';
     position: absolute;
     top: 15px;
-    left: 15px;
-    right: 15px;
+    left: 0;
+    right: 0;
     height: 4px;
-    background-color: #e7e0e0;
+    background-color: #e0e0e0;
     z-index: 0;
 }
 
@@ -403,40 +403,62 @@ export default {
     background-color: #4caf50;
 }
 
-.suggestions-list {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 70px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    max-height: 180px;
-    overflow-y: auto;
-    background-color: #d9d9d9;
-    z-index: 1000;
+.step::before {
+    content: '';
     position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #e0e0e0;
+    z-index: -1;
 }
 
-.suggestions-list li {
-    padding: 10px;
-    cursor: pointer;
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
-.suggestions-list li:hover {
-    background-color: #f0f0f0;
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.form-group select,
+.form-group input {
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    margin-bottom: 5px;
+    box-sizing: border-box;
+}
+
+::placeholder {
+    color: #b7b7b7;
+    opacity: 0.8;
 }
 
 .button-container {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .button-container>button {
-    margin: 0 10px;
+    padding: 8px 16px;
+    margin: 0 8px;
+    font-size: 14px;
 }
 
 .back-button {
-    padding: 10px 20px;
     background-color: #f44336;
     color: white;
     border: none;
@@ -450,7 +472,6 @@ export default {
 }
 
 .next-button {
-    padding: 10px 20px;
     background-color: #4caf50;
     color: white;
     border: none;
@@ -461,44 +482,5 @@ export default {
 
 .next-button:hover {
     background-color: #45a049;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
-    margin-bottom: 5px;
-}
-
-.form-group select {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.form-group input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 100%;
-    margin-bottom: 6px;
-}
-
-::placeholder {
-    color: #b7b7b7;
-    opacity: 3;
-}
-
-.form-group input::placeholder {
-    color: #b7b7b7;
-    font-style: italic;
 }
 </style>

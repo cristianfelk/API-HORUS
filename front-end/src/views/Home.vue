@@ -194,12 +194,14 @@ export default {
 </script>
 
 <style scoped>
+/* Estilos gerais */
 .home-container {
     font-family: 'Roboto', sans-serif;
     color: #333;
     line-height: 1.6;
 }
 
+/* Estilo do carousel */
 .carousel {
     text-align: center;
     margin: 20px 0;
@@ -243,6 +245,7 @@ export default {
     right: 10px;
 }
 
+/* Estilo da hero section */
 .hero {
     background: url('https://example.com/dengue-banner.jpg') center/cover no-repeat;
     height: 40vh;
@@ -262,31 +265,9 @@ export default {
     animation: fadeIn 1.5s ease;
 }
 
-.map-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 450px;
-    margin: 20px 0;
-    margin-top: 40px;
-}
-
-.map {
-    width: 100%;
-    max-width: 1000px;
-    height: 100%;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
 @keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .title {
@@ -315,6 +296,7 @@ export default {
     transform: scale(1.05);
 }
 
+/* Estilo da seção de estatísticas */
 .stats-section {
     padding: 50px 20px;
     background-color: #f3f3f3;
@@ -322,17 +304,19 @@ export default {
 
 .stats-card-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-wrap: wrap;
+    gap: 20px;
 }
 
 .stats-card {
     background-color: white;
     padding: 20px;
-    margin: 10px;
     border-radius: 8px;
     width: 23%;
+    max-width: 300px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
     transition: transform 0.3s ease;
 }
 
@@ -340,6 +324,24 @@ export default {
     transform: translateY(-5px);
 }
 
+/* Estilo do mapa */
+.map-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 450px;
+    margin: 20px 0;
+}
+
+.map {
+    width: 100%;
+    max-width: 1000px;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo da seção de informações */
 .info-section {
     display: flex;
     justify-content: space-between;
@@ -360,6 +362,7 @@ export default {
     transform: scale(1.05);
 }
 
+/* Estilo da seção de call-to-action */
 .call-to-action {
     background-color: #69c369;
     color: white;
@@ -407,4 +410,120 @@ export default {
     background-color: #ff3d3d;
     color: white;
 }
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .carousel-container {
+        height: 220px;
+    }
+
+    .hero {
+        height: 35vh;
+        padding: 20px;
+    }
+
+    .hero-content {
+        padding: 20px;
+    }
+
+    .title {
+        font-size: 2rem;
+        line-height: 1.2;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+
+    .learn-more {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+
+    .stats-section {
+        padding: 30px 10px;
+    }
+
+    .stats-card-container {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .stats-card {
+        width: 90%;
+        max-width: 300px;
+        padding: 15px;
+        text-align: center;
+    }
+
+    .map-container {
+        height: 300px;
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .info-section {
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 10px;
+    }
+
+    .info-card {
+        width: 90%;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .call-to-action {
+        flex-direction: column;
+        padding: 20px;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .denuncia-container, .contact-info {
+        width: 100%;
+        padding: 15px;
+        margin: 0;
+    }
+}
+
+/* Ajustes para telas ainda menores (smartphones) */
+@media (max-width: 480px) {
+    .carousel-container {
+        height: 180px;
+    }
+
+    .title {
+        font-size: 1.6rem;
+        line-height: 1.1;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .learn-more, .action-button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+    }
+
+    .stats-card {
+        width: 100%;
+        max-width: 280px;
+        padding: 12px;
+    }
+
+    .map-container {
+        height: 250px;
+    }
+
+    .info-card {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
 </style>
