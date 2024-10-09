@@ -89,6 +89,9 @@ export default {
         registrarFiscalizacao() {
             this.$router.push('/fiscalizacao/novo');
         },
+        registrarDenuncia() {
+            this.$router.push('/report');
+        },
         async buscarUltimasFiscalizacoes() {
             try {
                 const resposta = await getUltimasFiscalizacoes(3);

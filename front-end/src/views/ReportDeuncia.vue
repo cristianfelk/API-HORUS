@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import Navbar from "@/components/NavBarHome.vue";
+import Navbar from "@/components/NavBar.vue";
 import {
     searchMunicipioByNome,
     createDenuncia
