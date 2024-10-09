@@ -1,6 +1,6 @@
 <template>
     <div class="remover-focos">
-        <Navbar />
+      <Navbar />
       <h1>Remover Focos</h1>
       <ul class="focos-list">
         <li v-for="foco in focos" :key="foco.id" class="foco-item">
@@ -12,12 +12,19 @@
             <p><strong>Data de Registro:</strong> {{ formatDate(foco.data_registro) }}</p>
           </div>
           <div class="button-group">
-            <button @click="removerFoco(foco.descricao)" class="btn-remove">Remover</button>
-            <button @click="verNoMapa(foco.latitude, foco.longitude)" class="btn-map">Ver no Mapa</button>
+            <button @click="removerFoco(foco.id)" class="btn-remove">Remover</button>
+            <button @click="abrirModal(foco.latitude, foco.longitude)" class="btn-map">Ver no Mapa</button>
           </div>
         </li>
       </ul>
-      <div id="map" class="map-container"></div>
+      
+      <div v-if="isModalVisible" class="modal">
+        <div class="modal-content">
+          <span class="close" @click="fecharModal">&times;</span>
+          <h2>Localização do Foco</h2>
+          <div id="map" class="map-container"></div>
+        </div>
+      </div>
     </div>
   </template>
   
@@ -33,7 +40,8 @@
     data() {
       return {
         focos: [],
-        map: null
+        map: null,
+        isModalVisible: false
       };
     },
     methods: {
@@ -41,7 +49,6 @@
         try {
           const response = await getFocosDengue();
           this.focos = response.data;
-          this.addFocosToMap();
         } catch (error) {
           console.error('Erro ao buscar focos:', error);
         }
@@ -50,48 +57,54 @@
         try {
           await deleteFoco(id);
           this.focos = this.focos.filter(foco => foco.id !== id);
-          this.updateMap();
         } catch (error) {
           console.error('Erro ao remover foco:', error);
         }
       },
-      addFocosToMap() {
-        this.focos.forEach(foco => {
-          const lat = parseFloat(foco.latitude);
-          const lng = parseFloat(foco.longitude);
-          const circle = L.circle([lat, lng], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 50,
-          }).addTo(this.map);
-          foco.circle = circle;
-        });
-      },
-      updateMap() {
-        this.focos.forEach(foco => {
-          if (foco.circle) {
-            foco.circle.remove();
+      abrirModal(latitude, longitude) {
+        this.isModalVisible = true;
+        this.$nextTick(() => {
+          if (!this.map) {
+            this.iniciarMapa(latitude, longitude);
+          } else {
+            this.atualizarMapa(latitude, longitude);
           }
         });
-        this.addFocosToMap();
       },
-      initMap() {
-        this.map = L.map('map').setView([-26.8481, -52.9885], 14);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      iniciarMapa(lat, lng) {
+        this.map = L.map('map').setView([lat, lng], 16);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
           maxZoom: 19,
           attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         }).addTo(this.map);
-        this.addFocosToMap();
+        this.adicionarCirculo(lat, lng);
       },
-      verNoMapa(lat, lng) {
-        const latitude = parseFloat(lat);
-        const longitude = parseFloat(lng);
-        this.map.setView([latitude, longitude], 16);  
-        L.popup()
-          .setLatLng([latitude, longitude])
-          .setContent(`<p>Foco localizado aqui!</p>`)
-          .openOn(this.map);
+      atualizarMapa(lat, lng) {
+        this.map.setView([lat, lng], 16);
+        this.adicionarCirculo(lat, lng);
+      },
+      adicionarCirculo(lat, lng) {
+        if (this.map) {
+          this.map.eachLayer((layer) => {
+            if (layer instanceof L.Circle) {
+              this.map.removeLayer(layer);
+            }
+          });
+        }
+  
+        L.circle([lat, lng], {
+          color: 'red',
+          fillColor: '#f03',
+          fillOpacity: 0.5,
+          radius: 50
+        }).addTo(this.map).bindPopup("Foco localizado aqui!").openPopup();
+      },
+      fecharModal() {
+        this.isModalVisible = false;
+        if (this.map) {
+          this.map.remove();
+          this.map = null;
+        }
       },
       formatDate(dateString) {
         const date = new Date(dateString);
@@ -100,9 +113,6 @@
     },
     created() {
       this.fetchFocos();
-    },
-    mounted() {
-      this.initMap();
     }
   };
   </script>
@@ -170,7 +180,43 @@
     background-color: #1976d2;
   }
   
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    position: relative;
+  }
+  
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 1.5em;
+    color: #888;
+    cursor: pointer;
+  }
+  
+  .close:hover {
+    color: #333;
+  }
+  
   .map-container {
+    width: 100%;
     height: 300px;
     margin-top: 20px;
     border-radius: 10px;
