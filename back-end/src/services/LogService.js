@@ -28,7 +28,7 @@ const getLogMonitoramento = async () => {
     return await db.query(sql_get)
 }
 
-const getLogdenuncia = async () => {
+const getLogDenuncia = async () => {
     const sql_get = `select 
             acao,
             tabela,
@@ -65,5 +65,5 @@ const getLogdenuncia = async () => {
 module.exports = {
     // getLog,
     getLogMonitoramento,
-    getLogdenuncia
+    getLogDenuncia
 };

@@ -83,7 +83,8 @@ export const getUltimasFiscalizacoes = (limit) => apiClient.get(`/fiscalizacao/u
 export const getFiscalizacaoRel = (params) => apiClient.get('/fiscalizacao/relatorio', { params });
 
 // Logs
-export const getLog = () => apiClient.get('/log');
+export const getLogMonitoramento = () => apiClient.get('/logMonitoramento');
+export const getLogDenuncia = () => apiClient.get('/logDenuncia');
 
 //Monitoramento
 export const getMonitoramento = () => apiClient.get('/monitoramento');
