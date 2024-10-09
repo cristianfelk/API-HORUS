@@ -13,38 +13,15 @@
             </select>
         </div>
 
-        <!-- Tabela de logs dinâmica -->
+        <!-- Tabela de logs -->
         <table v-if="logs.length">
             <thead>
                 <tr>
                     <th>Ação</th>
                     <th>Tabela</th>
                     <th>Usuário</th>
-                    <!-- Renderiza colunas específicas com base no tipo de log -->
-                    <template v-if="selectedLogType === 'monitoramento'">
-                        <th>Casos Ativos (Antigos)</th>
-                        <th>Casos Mortes (Antigos)</th>
-                        <th>Casos Confirmados (Antigos)</th>
-                        <th>Casos Monitorados (Antigos)</th>
-                        <th>Casos Ativos (Novos)</th>
-                        <th>Casos Mortes (Novos)</th>
-                        <th>Casos Confirmados (Novos)</th>
-                        <th>Casos Monitorados (Novos)</th>
-                    </template>
-                    <template v-else-if="selectedLogType === 'denuncia'">
-                        <th>Anônima (Antigos)</th>
-                        <th>Latitude (Antigos)</th>
-                        <th>Longitude (Antigos)</th>
-                        <th>Confirmado (Antigos)</th>
-                        <th>Logradouro (Antigos)</th>
-                        <th>Descrição (Antigos)</th>
-                        <th>Anônima (Novos)</th>
-                        <th>Latitude (Novos)</th>
-                        <th>Longitude (Novos)</th>
-                        <th>Confirmado (Novos)</th>
-                        <th>Logradouro (Novos)</th>
-                        <th>Descrição (Novos)</th>
-                    </template>
+                    <th>Data do Log</th>
+                    <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -52,36 +29,58 @@
                     <td>{{ log.acao }}</td>
                     <td>{{ log.tabela }}</td>
                     <td>{{ log.usuario_acao }}</td>
-                    <!-- Exibe dados do log de monitoramento -->
-                    <template v-if="selectedLogType === 'monitoramento'">
-                        <td>{{ log.old_casos_ativos }}</td>
-                        <td>{{ log.old_casos_mortes }}</td>
-                        <td>{{ log.old_casos_confirmados }}</td>
-                        <td>{{ log.old_casos_monitorados }}</td>
-                        <td>{{ log.new_casos_ativos }}</td>
-                        <td>{{ log.new_casos_mortes }}</td>
-                        <td>{{ log.new_casos_confirmados }}</td>
-                        <td>{{ log.new_casos_monitorados }}</td>
-                    </template>
-                    <!-- Exibe dados do log de denúncia -->
-                    <template v-else-if="selectedLogType === 'denuncia'">
-                        <td>{{ log.old_anonima }}</td>
-                        <td>{{ log.old_latitude }}</td>
-                        <td>{{ log.old_longitude }}</td>
-                        <td>{{ log.old_confirmado }}</td>
-                        <td>{{ log.old_logradouro }}</td>
-                        <td>{{ log.old_descricao_denuncia }}</td>
-                        <td>{{ log.new_anonima }}</td>
-                        <td>{{ log.new_latitude }}</td>
-                        <td>{{ log.new_longitude }}</td>
-                        <td>{{ log.new_confirmado }}</td>
-                        <td>{{ log.new_logradouro }}</td>
-                        <td>{{ log.new_descricao_denuncia }}</td>
-                    </template>
+                    <td>{{ log.data_log }}</td>
+                    <td>
+                        <button @click="openModal(log)">Ver Log</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
         <p v-else>Nenhum log encontrado.</p>
+
+        <!-- Modal para exibir os dados antigos e novos -->
+        <div v-if="showModal" class="modal">
+            <div class="modal-content">
+                <span class="close" @click="closeModal">&times;</span>
+                <h2>Detalhes do Log</h2>
+                <div class="log-details">
+                    <div class="log-column">
+                        <h3>Dados Antigos</h3>
+                        <template v-if="selectedLogType === 'monitoramento'">
+                            <p><strong>Casos Ativos:</strong> {{ currentLog.old_casos_ativos }}</p>
+                            <p><strong>Casos Mortes:</strong> {{ currentLog.old_casos_mortes }}</p>
+                            <p><strong>Casos Confirmados:</strong> {{ currentLog.old_casos_confirmados }}</p>
+                            <p><strong>Casos Monitorados:</strong> {{ currentLog.old_casos_monitorados }}</p>
+                        </template>
+                        <template v-else-if="selectedLogType === 'denuncia'">
+                            <p><strong>Anônima:</strong> {{ currentLog.old_anonima }}</p>
+                            <p><strong>Latitude:</strong> {{ currentLog.old_latitude }}</p>
+                            <p><strong>Longitude:</strong> {{ currentLog.old_longitude }}</p>
+                            <p><strong>Confirmado:</strong> {{ currentLog.old_confirmado }}</p>
+                            <p><strong>Logradouro:</strong> {{ currentLog.old_logradouro }}</p>
+                            <p><strong>Descrição:</strong> {{ currentLog.old_descricao_denuncia }}</p>
+                        </template>
+                    </div>
+                    <div class="log-column">
+                        <h3>Dados Novos</h3>
+                        <template v-if="selectedLogType === 'monitoramento'">
+                            <p><strong>Casos Ativos:</strong> {{ currentLog.new_casos_ativos }}</p>
+                            <p><strong>Casos Mortes:</strong> {{ currentLog.new_casos_mortes }}</p>
+                            <p><strong>Casos Confirmados:</strong> {{ currentLog.new_casos_confirmados }}</p>
+                            <p><strong>Casos Monitorados:</strong> {{ currentLog.new_casos_monitorados }}</p>
+                        </template>
+                        <template v-else-if="selectedLogType === 'denuncia'">
+                            <p><strong>Anônima:</strong> {{ currentLog.new_anonima }}</p>
+                            <p><strong>Latitude:</strong> {{ currentLog.new_latitude }}</p>
+                            <p><strong>Longitude:</strong> {{ currentLog.new_longitude }}</p>
+                            <p><strong>Confirmado:</strong> {{ currentLog.new_confirmado }}</p>
+                            <p><strong>Logradouro:</strong> {{ currentLog.new_logradouro }}</p>
+                            <p><strong>Descrição:</strong> {{ currentLog.new_descricao_denuncia }}</p>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </template>
@@ -101,7 +100,9 @@ export default {
     data() {
         return {
             logs: [],
-            selectedLogType: 'monitoramento', // Tipo de log padrão
+            selectedLogType: 'monitoramento',
+            showModal: false,
+            currentLog: null,
         };
     },
     created() {
@@ -120,6 +121,14 @@ export default {
             } catch (error) {
                 console.error('Erro ao buscar logs:', error);
             }
+        },
+        openModal(log) {
+            this.currentLog = log;
+            this.showModal = true;
+        },
+        closeModal() {
+            this.showModal = false;
+            this.currentLog = null;
         },
     },
 };
@@ -149,8 +158,63 @@ th {
     background-color: #f4f4f4;
 }
 
-pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
+button {
+    padding: 5px 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.modal {
+    display: flex;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 70%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+}
+
+.close {
+    align-self: flex-end;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: red;
+}
+
+.log-details {
+    display: flex;
+    justify-content: space-between;
+}
+
+.log-column {
+    width: 48%;
+}
+
+.log-column h3 {
+    margin-bottom: 10px;
 }
 </style>
