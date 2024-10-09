@@ -1,5 +1,6 @@
 const LogController = require('../controllers/LogController');
 
 module.exports = (app) => { 
-    app.get('/log', LogController.getLog); 
+    app.get('/logMonitoramento', LogController.getLogMonitoramento); 
+    app.get('/logDenuncia', LogController.getLogDenuncia); 
 };

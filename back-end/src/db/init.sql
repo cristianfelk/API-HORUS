@@ -185,3 +185,85 @@ values
 ('São Paulo', 'SP', 35),
 ('Sergipe', 'SE', 28),
 ('Tocantins', 'TO', 17);
+
+create or replace function log_table_changes()
+returns trigger as $$
+begin
+    insert into log (acao, tabela, usuario_acao, dados_antigos, dados_alterados, data_log)
+    values (
+        tg_op,  
+        tg_table_name,
+        current_user,
+        case when tg_op = 'DELETE' then row_to_json(old) else row_to_json(old) end,
+        case when tg_op = 'UPDATE' then row_to_json(new) else null end,
+        current_timestamp  
+    );
+    return new;
+end;
+$$ language plpgsql;
+
+create trigger trigger_log_monitoramento_update
+after update on monitoramento
+for each row
+when (old.* is distinct from new.*)
+execute function log_table_changes();
+
+create trigger trigger_log_monitoramento_delete
+before delete on monitoramento
+for each row
+execute function log_table_changes();
+
+create trigger trigger_log_denuncia_update
+after update on denuncia
+for each row
+when (old.* is distinct from new.*)
+execute function log_table_changes();
+
+create trigger trigger_log_denuncia_delete
+before delete on denuncia
+for each row
+execute function log_table_changes();
+
+create trigger trigger_log_fiscalizacao_update
+after update on fiscalizacao
+for each row
+when (old.* is distinct from new.*)
+execute function log_table_changes();
+
+create trigger trigger_log_fiscalizacao_delete
+before delete on fiscalizacao
+for each row
+execute function log_table_changes();
+
+create trigger trigger_log_logradouro_update
+after update on logradouro
+for each row
+when (old.* is distinct from new.*)
+execute function log_table_changes();
+
+create trigger trigger_log_logradouro_delete
+before delete on logradouro
+for each row
+execute function log_table_changes();
+
+create trigger trigger_log_municipio_update
+after update on municipio
+for each row
+when (old.* is distinct from new.*)
+execute function log_table_changes();
+
+create trigger trigger_log_municipio_delete
+before delete on municipio
+for each row
+execute function log_table_changes();
+
+create trigger trigger_log_focos_dengue_update
+after update on focos_dengue
+for each row
+when (old.* is distinct from new.*)
+execute function log_table_changes();
+
+create trigger trigger_log_focos_dengue_delete
+before delete on focos_dengue
+for each row
+execute function log_table_changes();
