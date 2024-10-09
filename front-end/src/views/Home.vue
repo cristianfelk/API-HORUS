@@ -194,14 +194,12 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos gerais */
 .home-container {
     font-family: 'Roboto', sans-serif;
     color: #333;
     line-height: 1.6;
 }
 
-/* Estilo do carousel */
 .carousel {
     text-align: center;
     margin: 20px 0;
@@ -245,7 +243,6 @@ export default {
     right: 10px;
 }
 
-/* Estilo da hero section */
 .hero {
     background: url('https://example.com/dengue-banner.jpg') center/cover no-repeat;
     height: 40vh;
@@ -296,7 +293,6 @@ export default {
     transform: scale(1.05);
 }
 
-/* Estilo da seção de estatísticas */
 .stats-section {
     padding: 50px 20px;
     background-color: #f3f3f3;
@@ -324,7 +320,6 @@ export default {
     transform: translateY(-5px);
 }
 
-/* Estilo do mapa */
 .map-container {
     display: flex;
     justify-content: center;
@@ -341,7 +336,6 @@ export default {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilo da seção de informações */
 .info-section {
     display: flex;
     justify-content: space-between;

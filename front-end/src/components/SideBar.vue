@@ -60,11 +60,23 @@
                 <span v-if="!isSidebarCollapsed">Monitoramento</span>
             </router-link>
         </li>
-        <li class="sidebar-item">
-            <router-link to="/AdminFocoDengue">
-                <img src="https://img.icons8.com/?size=100&id=4464&format=png&color=000000" alt="Monitoramento" class="menu-icon" />
+        <li class="sidebar-item dropdown">
+            <a href="#" class="dropdown-toggle">
+                <img src="https://img.icons8.com/?size=100&id=4464&format=png&color=000000" alt="Focos" class="menu-icon" />
                 <span v-if="!isSidebarCollapsed">Focos</span>
-            </router-link>
+            </a>
+            <ul class="dropdown-menu" v-if="!isSidebarCollapsed">
+                <li class="dropdown-item">
+                    <router-link to="/AdminFocoDengue">
+                        <span v-if="!isSidebarCollapsed">Adicionar foco</span>
+                    </router-link>
+                </li>
+                <li class="dropdown-item">
+                    <router-link to="/RemoverFoco">
+                        <span v-if="!isSidebarCollapsed">Remover foco</span>
+                    </router-link>
+                </li>
+            </ul>
         </li>
         <li class="sidebar-item dropdown">
             <a href="#" class="dropdown-toggle">

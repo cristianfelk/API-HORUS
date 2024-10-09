@@ -16,7 +16,18 @@ const getFoco = async (req, res, next) => {
     } 
 }
 
+const deleteFoco = async (req, res, next) => {
+    try {
+        await focoDengueService.deleteFoco(req.params)
+            .then(ret => res.status(204).send(ret))
+            .catch(err => res.status(500).send(err))
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     postFoco,
-    getFoco
+    getFoco,
+    deleteFoco
 };

@@ -19,7 +19,13 @@ const getFoco = async () => {
     return await db.query(sql_get);
 }
 
+const deleteFoco = async (descricao) => {
+    const sql_delete = `delete from focos_dengue where descricao = $1`;
+    await db.query(sql_delete, [descricao]);
+};
+
 module.exports = {
     postFoco,
-    getFoco
+    getFoco,
+    deleteFoco
 };

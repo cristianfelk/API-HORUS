@@ -22,6 +22,11 @@ const router = createRouter({
       component: () => import('@/views/AdminFocoDengue.vue'),
     },
     {
+      path: '/RemoverFoco',
+      name: 'RemoverFoco',
+      component: () => import('@/views/RemoverFocos.vue'),
+    },
+    {
       path: '/monitoramento',
       name: 'monitoramento-management',
       component: () => import('@/views/MonitoramentoManagement.vue'),    

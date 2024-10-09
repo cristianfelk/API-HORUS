@@ -82,7 +82,6 @@ export const deleteFiscalizacao = (id) => apiClient.delete(`/fiscalizacao/${id}`
 export const getUltimasFiscalizacoes = (limit) => apiClient.get(`/fiscalizacao/ultimas`, { params: { limit } });
 export const getFiscalizacaoRel = (params) => apiClient.get('/fiscalizacao/relatorio', { params });
 
-
 // Logs
 export const getLog = () => apiClient.get('/log');
 
@@ -96,10 +95,10 @@ export const updateDenuncia = (id, data) => apiClient.patch(`/denuncia/${id}`, d
 export const getDenuncia = (params) => apiClient.get('/denuncia', { params });
 export const getUltimasDenuncias = (limit) => apiClient.get(`/denuncia/ultimas`, { params: { limit } });
 
-
 //Focos
 export const getFocosDengue = (params) => apiClient.get('/foco', { params });
 export const updateFoco = (data) => apiClient.patch('/foco', data);
 export const adicionarFocoDengue = (data) => apiClient.post('/foco', data);
+export const deleteFoco = (descricao) => apiClient.delete(`/foco/${descricao}`);
 
 export default apiClient;
