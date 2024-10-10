@@ -63,6 +63,7 @@ export default {
             users: [],
             showConfirmation: false,
             currentUserId: null,
+            userProfile: localStorage.getItem('userProfile'), 
         };
     },
     methods: {
@@ -105,7 +106,6 @@ export default {
         },
         generatePDF() {
             const doc = new jsPDF();
-
             doc.setFontSize(18);
             doc.text('Relatório de Usuários', 14, 20);
 
@@ -128,7 +128,12 @@ export default {
         }
     },
     mounted() {
-        this.fetchUsers();
+        if (this.userProfile !== 'admin') {
+            alert('Acesso não autorizado. Você não tem permissão para acessar esta página.');
+            this.$router.push('/'); 
+        } else {
+            this.fetchUsers(); 
+        }
     },
 }
 </script>

@@ -46,11 +46,16 @@ export default {
 
                 if (response.data.success) {
                     localStorage.setItem('authToken', response.data.token);
+                    localStorage.setItem('userProfile', response.data.user.perfil);
+                    localStorage.setItem('userName', response.data.user.nome);
+                    localStorage.setItem('userId', response.data.user.id);
+
                     this.$router.push('/dashboard');
                 } else {
                     this.errorMessage = 'Login ou senha incorretos';
                 }
             } catch (error) {
+                console.error('Erro no login:', error);
                 this.errorMessage = 'Usuário ou senha incorreto. Verifique suas credenciais.';
             }
         },
