@@ -63,7 +63,30 @@
                 <p><strong>Logradouro:</strong> {{ selectedFiscalizacao.logradouro_fiscalizacao }}</p>
                 <p><strong>Número:</strong> {{ selectedFiscalizacao.numero }}</p>
                 <p><strong>Complemento:</strong> {{ selectedFiscalizacao.complemento }}</p>
+                <p><strong>Quarteirão:</strong> {{ selectedFiscalizacao.quarteirao }}</p>
+                <p><strong>Sequência:</strong> {{ selectedFiscalizacao.sequencia }}</p>
+                <p><strong>Tipo de Imóvel:</strong> {{ selectedFiscalizacao.tipo_imovel }}</p>
                 <p><strong>Hora Entrada:</strong> {{ selectedFiscalizacao.hora_entrada }}</p>
+                <p><strong>Visita:</strong> {{ selectedFiscalizacao.visita }}</p>
+                <p><strong>Pendência:</strong> {{ selectedFiscalizacao.pendencia }}</p>
+                <!-- Outros campos adicionais -->
+                <p><strong>A1:</strong> {{ selectedFiscalizacao.a1 }}</p>
+                <p><strong>A2:</strong> {{ selectedFiscalizacao.a2 }}</p>
+                <p><strong>B:</strong> {{ selectedFiscalizacao.b }}</p>
+                <p><strong>C:</strong> {{ selectedFiscalizacao.c }}</p>
+                <p><strong>D1:</strong> {{ selectedFiscalizacao.d1 }}</p>
+                <p><strong>D2:</strong> {{ selectedFiscalizacao.d2 }}</p>
+                <p><strong>E:</strong> {{ selectedFiscalizacao.e }}</p>
+                <p><strong>Eliminado:</strong> {{ selectedFiscalizacao.eliminado }}</p>
+                <p><strong>Inicial:</strong> {{ selectedFiscalizacao.inicial }}</p>
+                <p><strong>Final:</strong> {{ selectedFiscalizacao.final }}</p>
+                <p><strong>Quantidade Tubitos:</strong> {{ selectedFiscalizacao.qtd_tubitos }}</p>
+                <p><strong>IM Tratado:</strong> {{ selectedFiscalizacao.im_trat }}</p>
+                <p><strong>Tipo Focal:</strong> {{ selectedFiscalizacao.tipo_focal }}</p>
+                <p><strong>Quantidade Grama:</strong> {{ selectedFiscalizacao.qtd_grama }}</p>
+                <p><strong>Quantidade Tratado:</strong> {{ selectedFiscalizacao.qtd_tratado }}</p>
+                <p><strong>Tipo Perifocal:</strong> {{ selectedFiscalizacao.tipo_perifocal }}</p>
+                <p><strong>Quantidade Gramas:</strong> {{ selectedFiscalizacao.qtd_gramas }}</p>
                 <button @click="closeDetails" class="close-button">Fechar</button>
             </div>
         </div>
@@ -79,6 +102,7 @@
 </div>
 </template>
 
+  
 <script>
 import Navbar from '../components/NavBar.vue';
 import {
@@ -178,7 +202,7 @@ export default {
     mounted() {
         this.fetchFiscalizacao();
     }
-}
+};
 </script>
 
 <style scoped>
