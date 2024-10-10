@@ -117,45 +117,6 @@ create table log (
   data_log timestamp
 );
 
-create or replace function atualizar_data_atualizacao()
-returns trigger as $$
-begin
-    new.data_atualizacao := current_timestamp;
-    return new;
-end;
-$$ language plpgsql;
-
-create trigger trigger_atualizacao_usuario
-before update on usuario
-for each row
-when (old.* is distinct from new.*)
-execute function atualizar_data_atualizacao();
-
-create or replace function log_usuario_alteracoes()
-returns trigger as $$
-begin
-    insert into log (acao, tabela, usuario_acao, dados_antigos, dados_alterados, data_log)
-    values (
-        tg_op,  
-        'usuario',  
-        current_user,
-        jsonb_build_object(
-            'old', row_to_json(old)
-        ),
-        jsonb_build_object( 
-            'new', row_to_json(new)
-        ),
-        current_timestamp  
-    );
-    return new;
-end;
-$$ language plpgsql;
-
-create trigger trigger_log_usuario
-after insert or update or delete on usuario
-for each row
-execute function log_usuario_alteracoes();
-
 insert into uf (nome, sigla, ibge) 
 values 
 ('Acre', 'AC', 12),
@@ -273,6 +234,17 @@ after insert on log
 for each row
 execute function delete_old_logs();
 
+create trigger trigger_atualizacao_usuario
+before update on usuario
+for each row
+when (old.* is distinct from new.*)
+execute function atualizar_data_atualizacao();
+
+create trigger trigger_log_usuario
+after insert or update or delete on usuario
+for each row
+execute function log_usuario_alteracoes();
+
 create or replace function delete_old_logs()
 returns TRIGGER as $$
 begin
@@ -280,5 +252,34 @@ begin
   where data_log < now() - INTERVAL '90 days';
   
   return null;
+end;
+$$ language plpgsql;
+
+
+create or replace function atualizar_data_atualizacao()
+returns trigger as $$
+begin
+    new.data_atualizacao := current_timestamp;
+    return new;
+end;
+$$ language plpgsql;
+
+create or replace function log_usuario_alteracoes()
+returns trigger as $$
+begin
+    insert into log (acao, tabela, usuario_acao, dados_antigos, dados_alterados, data_log)
+    values (
+        tg_op,  
+        'usuario',  
+        current_user,
+        jsonb_build_object(
+            'old', row_to_json(old)
+        ),
+        jsonb_build_object( 
+            'new', row_to_json(new)
+        ),
+        current_timestamp  
+    );
+    return new;
 end;
 $$ language plpgsql;
