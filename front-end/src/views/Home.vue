@@ -79,9 +79,9 @@
                 <div class="contact-info" id="contact">
                     <p>Se você tem dúvidas ou deseja mais informações sobre como combater a dengue, entre em contato conosco:</p>
                     <ul>
-                        <li><strong>Email:</strong> contato@prevencaodengue.com</li>
-                        <li><strong>Telefone:</strong> (11) 1234-5678</li>
-                        <li><strong>Endereço:</strong> Rua Exemplo, 123 - Cidade, Estado</li>
+                        <li><strong>Atendimento:</strong> Segunda à Sexta - 07:30 às 11:30 | 13:00 às 17:00</li>
+                        <li><strong>Telefone:</strong> (49) 3366-6640</li>
+                        <li><strong>Endereço:</strong> Avenida Belém, 353 - Centro - Pinhalzinho</li>
                     </ul>
                 </div>
             </div>
