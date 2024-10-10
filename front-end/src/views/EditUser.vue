@@ -1,7 +1,8 @@
 <template>
 <div class="edit-user-container">
     <Navbar />
-    <div class="edit-user">
+    <div v-if="loading" class="loading-message">Carregando dados do usuário...</div>
+    <div v-else class="edit-user">
         <h2>Editar Usuário</h2>
         <form @submit.prevent="patchUsuario">
             <div class="form-group">
@@ -33,6 +34,7 @@
 </div>
 </template>
 
+  
 <script>
 import {
     getUserById,
@@ -53,7 +55,8 @@ export default {
                 senha: '',
                 email: '',
                 status: ''
-            }
+            },
+            loading: true
         };
     },
     methods: {
@@ -64,6 +67,9 @@ export default {
                 this.user = response.data;
             } catch (error) {
                 console.error('Erro ao buscar usuário:', error);
+                alert('Erro ao carregar dados do usuário.');
+            } finally {
+                this.loading = false;
             }
         },
         async patchUsuario() {
@@ -77,12 +83,12 @@ export default {
                     status: this.user.status || null
                 };
 
-                console.log('Atualizando usuário com os seguintes dados:', updatedUser);
-                const response = await updateUser(userId, updatedUser);
-                console.log('Resposta da atualização:', response.data);
+                await updateUser(userId, updatedUser);
+                alert('Usuário atualizado com sucesso');
                 this.$router.push('/usuarios');
             } catch (error) {
                 console.error('Erro ao atualizar usuário:', error);
+                alert('Erro ao atualizar o usuário');
             }
         }
     },
@@ -92,12 +98,20 @@ export default {
 };
 </script>
 
+  
 <style scoped>
 .edit-user-container {
     display: flex;
     flex-direction: column;
     height: 90vh;
     margin-top: 60px;
+}
+
+.loading-message {
+    margin-top: 100px;
+    font-size: 18px;
+    color: #555;
+    text-align: center;
 }
 
 .edit-user {

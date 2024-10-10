@@ -20,12 +20,11 @@ const getUsuario = async () => {
     return await db.query(sql_get);
 }
 
-const getUsuarioById = async (params) => {
+const getUsuarioById  = async (params) => {
     const sql_get = `select * from usuario where id = $1`;
     const { id } = params;
-    return await db.query(sql_get, [id]);
+    return (await db.query(sql_get, [id])).rows;   
 }
-
 
 const getUsuarioByEmail = async (email) => {
     const sql_get = `select * from usuario where email = $1`;
