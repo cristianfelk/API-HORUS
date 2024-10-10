@@ -15,6 +15,15 @@
 
         <label for="tipoImovel">Tipo de Imóvel:</label>
         <input type="text" v-model="filters.tipo_imovel" placeholder="Filtrar por Tipo de Imóvel" />
+        <div class="fields">
+            <h3>Selecione os campos para incluir no PDF:</h3>
+            <div class="checkbox-group">
+                <div v-for="(label, field) in availableFields" :key="field" class="checkbox-item">
+                    <input type="checkbox" v-model="selectedFields" :value="field" id="field-{{ field }}" />
+                    <label :for="'field-' + field">{{ label }}</label>
+                </div>
+            </div>
+        </div>
 
         <button @click="clearFilters">Limpar Filtros</button>
     </div>
@@ -33,7 +42,7 @@ import {
 
 export default {
     components: {
-        Navbar,
+        Navbar
     },
     data() {
         return {
@@ -44,6 +53,36 @@ export default {
                 logradouro_fiscalizacao: '',
                 tipo_imovel: '',
             },
+            availableFields: {
+                quarteirao: 'Quarteirão',
+                sequencia: 'Sequência',
+                logradouro_fiscalizacao: 'Logradouro',
+                numero: 'Número',
+                complemento: 'Complemento',
+                hora_entrada: 'Hora de Entrada',
+                tipo_imovel: 'Tipo de Imóvel',
+                visita: 'Visita',
+                pendencia: 'Pendência',
+                status: 'Status',
+                a1: 'A1',
+                a2: 'A2',
+                b: 'B',
+                c: 'C',
+                d1: 'D1',
+                d2: 'D2',
+                e: 'E',
+                eliminado: 'Eliminado',
+                inicial: 'Inicial',
+                final: 'Final',
+                qtd_tubitos: 'Qtd. Tubitos',
+                im_trat: 'Im. Tratado',
+                tipo_focal: 'Tipo Focal',
+                qtd_grama: 'Qtd. Gramas',
+                qtd_tratado: 'Qtd. Tratado',
+                tipo_perifocal: 'Tipo Perifocal',
+                qtd_gramas: 'Qtd. Gramas',
+            },
+            selectedFields: ['quarteirao', 'sequencia', 'logradouro_fiscalizacao', 'numero', 'complemento', 'hora_entrada', 'tipo_imovel'],
         };
     },
     computed: {
@@ -71,25 +110,15 @@ export default {
             const doc = new jsPDF();
             doc.text('Relatório de Fiscalizações', 10, 10);
 
-            const columns = [
-                'Quarteirão',
-                'Sequência',
-                'Logradouro',
-                'Número',
-                'Complemento',
-                'Hora de Entrada',
-                'Tipo de Imóvel',
-            ];
-
-            const rows = this.filteredFiscalizacoes.map((fiscalizacao) => [
-                fiscalizacao.quarteirao,
-                fiscalizacao.sequencia,
-                fiscalizacao.logradouro_fiscalizacao,
-                fiscalizacao.numero,
-                fiscalizacao.complemento,
-                this.formatDate(fiscalizacao.hora_entrada),
-                fiscalizacao.tipo_imovel,
-            ]);
+            const columns = this.selectedFields.map((field) => this.availableFields[field]);
+            const rows = this.filteredFiscalizacoes.map((fiscalizacao) =>
+                this.selectedFields.map((field) => {
+                    if (field === 'hora_entrada') {
+                        return this.formatDate(fiscalizacao.hora_entrada);
+                    }
+                    return fiscalizacao[field] || '';
+                })
+            );
 
             doc.autoTable({
                 head: [columns],
@@ -116,6 +145,7 @@ export default {
                 logradouro_fiscalizacao: '',
                 tipo_imovel: '',
             };
+            this.selectedFields = []; // Limpa os checkboxes selecionados
         },
     },
     mounted() {
@@ -148,6 +178,30 @@ export default {
     border-radius: 4px;
 }
 
+.fields {
+    margin-bottom: 20px;
+}
+
+.fields h3 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-item input[type='checkbox'] {
+    margin-right: 5px;
+}
+
 button {
     margin-top: 10px;
     padding: 10px 15px;
@@ -159,18 +213,5 @@ button {
 
 button:hover {
     background-color: #45a049;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-th,
-td {
-    padding: 8px;
-    text-align: left;
-    border: 1px solid #ddd;
 }
 </style>
