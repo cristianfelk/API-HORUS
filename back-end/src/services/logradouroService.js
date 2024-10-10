@@ -15,7 +15,12 @@ const postLogradouro = async (params) => {
 }
 
 const getLogradouroById  = async (params) => {
-    const sql_get = `select * from logradouro where id = $1`;
+    const sql_get = `select 
+                        l.municipio_id,
+                        cep, logradouro, complemento, bairro, m.nome as descricao
+                        from logradouro l
+                        left join municipio m on (l.municipio_id = m.id)
+                        where l.id = $1`;
     const { id } = params;
     return (await db.query(sql_get, [id])).rows;   
 }

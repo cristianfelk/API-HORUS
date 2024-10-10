@@ -1,12 +1,13 @@
 <template>
 <div class="container">
     <Navbar />
-    <div class="form-container">
+    <div v-if="loading" class="loading">Carregando dados do logradouro...</div>
+    <div v-else class="form-container">
         <h1>Editar Logradouro</h1>
         <form @submit.prevent="updateLogradouro">
             <div class="form-group">
-                <label for="municipio_id">Município ID:</label>
-                <input v-model="logradouro.municipio_id" type="number" id="municipio_id" required />
+                <label for="municipio_id">Município:</label>
+                <input v-model="logradouro.descricao" type="text" id="descricao" required disabled class="disabled-style" />
             </div>
             <div class="form-group">
                 <label for="cep">CEP:</label>
@@ -48,25 +49,36 @@ export default {
                 cep: '',
                 logradouro: '',
                 complemento: '',
-                bairro: ''
-            }
+                bairro: '',
+                descricao: ''
+            },
+            loading: true
         };
     },
     async created() {
         try {
             const id = this.$route.params.id;
             const response = await getLogradouroById(id);
-            this.logradouro = response.data;
+            this.logradouro = response.data[0];
+            this.loading = false;
         } catch (error) {
             console.error('Erro ao carregar logradouro:', error);
             alert('Erro ao carregar logradouro');
+            this.loading = false;
         }
     },
     methods: {
         async updateLogradouro() {
             try {
                 const id = this.$route.params.id;
-                await updateLogradouro(id, this.logradouro);
+                const logradouroAtualizado = {
+                    municipio_id: this.logradouro.municipio_id,
+                    cep: this.logradouro.cep,
+                    logradouro: this.logradouro.logradouro,
+                    complemento: this.logradouro.complemento,
+                    bairro: this.logradouro.bairro
+                };
+                await updateLogradouro(id, logradouroAtualizado);
                 alert('Logradouro atualizado com sucesso');
                 this.$router.push('/logradouros');
             } catch (error) {
@@ -84,6 +96,12 @@ export default {
     flex-direction: column;
     align-items: center;
     padding: 20px;
+}
+
+.loading {
+    font-size: 18px;
+    color: #555;
+    margin-top: 20px;
 }
 
 .form-container {
@@ -136,6 +154,12 @@ button:hover {
 
 button:focus {
     outline: none;
+}
+
+.disabled-style {
+    background-color: #d5d5d5;
+    color: #000000;
+    cursor: not-allowed;
 }
 
 @media (max-width: 768px) {

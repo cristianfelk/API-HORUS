@@ -125,7 +125,7 @@ const router = createRouter({
       component: () => import('@/views/CreateLogradouro.vue'),
     },
     {
-      path: '/edit-logradouro/:id',
+      path: '/logradouros/:id/editar',
       name: 'EditLogradouro',
       component: () => import('@/views/EditLogradouro.vue'),
     },
