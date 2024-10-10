@@ -35,7 +35,7 @@
                     <p>{{ stats.casos_monitorados }}</p>
                 </div>
                 <div class="stats-card">
-                    <h3>Mortes</h3>
+                    <h3>Óbitos</h3>
                     <p>{{ stats.casos_mortes }}</p>
                 </div>
             </div>

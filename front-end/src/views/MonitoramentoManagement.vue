@@ -8,7 +8,7 @@
                 <div class="stat-input">
                     <h2>Casos Confirmados</h2>
                     <input type="number" v-model="monitoramento.casos_confirmados" />
-                    <h2>Casos Mortes</h2>
+                    <h2>Casos Óbitos</h2>
                     <input type="number" v-model="monitoramento.casos_mortes" />
                     <h2>Casos Monitorados</h2>
                     <input type="number" v-model="monitoramento.casos_monitorados" />
