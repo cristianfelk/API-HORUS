@@ -1,20 +1,11 @@
 const db = require('../configs/pg')
 
-// const getLog = async () => {
-//     const sql_get = `select 
-//                         id, acao, tabela, 
-//                         usuario_acao, dados_antigos, 
-//                         dados_alterados, 
-//                         to_char(data_log, 'DD/MM/YYYY HH24:MI:SS') as data_log
-//                     from log`;
-//     return await db.query(sql_get)
-// }
-
 const getLogMonitoramento = async () => {
     const sql_get = `select 
             acao,
             tabela,
             usuario_acao,
+            to_char(data_log, 'DD/MM/YYYY HH24:MI:SS') as data_log,
             dados_antigos->'casos_ativos' as old_casos_ativos,
             dados_antigos->'casos_mortes' as old_casos_mortes,
             dados_antigos->'casos_confirmados' as old_casos_confirmados,
@@ -33,6 +24,7 @@ const getLogDenuncia = async () => {
             acao,
             tabela,
             usuario_acao,
+            to_char(data_log, 'DD/MM/YYYY HH24:MI:SS') as data_log,
             dados_antigos->'anonima' as old_anonima,
             dados_antigos->'latitude' as old_latitude,
             dados_antigos->'image_url' as old_image_url,
@@ -63,7 +55,6 @@ const getLogDenuncia = async () => {
 }
 
 module.exports = {
-    // getLog,
     getLogMonitoramento,
     getLogDenuncia
 };

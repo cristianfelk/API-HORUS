@@ -267,3 +267,18 @@ create trigger trigger_log_focos_dengue_delete
 before delete on focos_dengue
 for each row
 execute function log_table_changes();
+
+create trigger trigger_delete_old_logs
+after insert on log
+for each row
+execute function delete_old_logs();
+
+create or replace function delete_old_logs()
+returns TRIGGER as $$
+begin
+  delete from log
+  where data_log < now() - INTERVAL '90 days';
+  
+  return null;
+end;
+$$ language plpgsql;
