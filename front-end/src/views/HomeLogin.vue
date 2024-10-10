@@ -12,7 +12,7 @@
                     <label for="senha">Senha</label>
                     <input type="password" v-model="senha" id="senha" placeholder="Digite sua senha">
                 </div>
-                <p class="forgot-password-link" @click="navigateToRecoverPassword">Esqueci minha senha</p>
+                <!-- <p class="forgot-password-link" @click="navigateToRecoverPassword">Esqueci minha senha</p> -->
                 <button type="submit" class="login-button">Entrar</button>
                 <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
             </form>
