@@ -51,6 +51,7 @@ create table usuario (
   senha text not null,
   salt text not null,
   status varchar(50),
+  perfil varchar(10),
   data_cadastro date,
   data_atualizacao timestamp,
   reset_token text,

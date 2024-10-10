@@ -15,6 +15,7 @@
                         <th>Nome</th>
                         <th>Login</th>
                         <th>Email</th>
+                        <th>Perfil</th>
                         <th>Status</th>
                         <th>Ações</th>
                     </tr>
@@ -25,6 +26,7 @@
                         <td>{{ user.nome }}</td>
                         <td>{{ user.login }}</td>
                         <td>{{ user.email }}</td>
+                        <td>{{ user.perfil }}</td>
                         <td>{{ user.status }}</td>
                         <td>
                             <button @click="editUser(user.id)" class="edit-button">Editar</button>

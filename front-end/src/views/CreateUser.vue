@@ -27,8 +27,16 @@
             <label for="status">Status</label>
             <select v-model="form.status" id="status" required>
                 <option value="" disabled>Selecione o status</option>
-                <option value="Ativo">Ativo</option>
-                <option value="Inativo">Inativo</option>
+                <option value="ativo">Ativo</option>
+                <option value="inativo">Inativo</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="perfil">Perfil</label>
+            <select v-model="form.perfil" id="perfil" required>
+                <option value="" disabled>Selecione o perfil</option>
+                <option value="admin">Admin</option>
+                <option value="fiscal">Fiscal</option>
             </select>
         </div>
 
@@ -38,7 +46,6 @@
 </div>
 </template>
 
-  
 <script>
 import Navbar from '../components/NavBar.vue';
 import {
@@ -59,8 +66,9 @@ export default {
                 senha: '',
                 email: '',
                 status: '',
+                perfil: '',
             },
-            errorMessage: '', 
+            errorMessage: '',
         };
     },
     methods: {
@@ -75,6 +83,7 @@ export default {
                     senha: '',
                     email: '',
                     status: '',
+                    perfil: '',
                 };
             } catch (error) {
                 console.error('Erro ao cadastrar usuário:', error);
@@ -99,7 +108,6 @@ export default {
 };
 </script>
 
-  
 <style scoped>
 .create-user {
     padding: 20px;

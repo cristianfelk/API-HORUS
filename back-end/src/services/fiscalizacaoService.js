@@ -84,9 +84,8 @@ const getTotalFiscalizacoes = async (logradouro = '', complemento = '') => {
 const getUltimasFiscalizacoes = async (limit = 5) => {
     const sql_get = `select *, to_char(hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as hora_entrada
                      from fiscalizacao
-                     order by hora_entrada desc
+                     order by  to_char(hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as hora_entrada desc
                      limit $1`;
-    
     return await db.query(sql_get, [limit]);
 };
 
