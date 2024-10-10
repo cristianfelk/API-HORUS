@@ -43,8 +43,8 @@ const postFiscalizacao = async (params) => {
 
 const getFiscalizacao = async (page = 1, limit = 10, logradouro = '', complemento = '') => {
     const offset = (page - 1) * limit;
-    let sql_get = `select *, to_char(hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as hora_entrada
-                    from fiscalizacao where true`;
+    let sql_get = `select *, to_char(hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as format_data
+                   from fiscalizacao where true`;
     let values = [];
 
     if (logradouro) {
@@ -57,11 +57,12 @@ const getFiscalizacao = async (page = 1, limit = 10, logradouro = '', complement
         values.push(`%${complemento}%`);
     }
 
-    sql_get += ` order by id desc limit $${values.length + 1} offset $${values.length + 2}`;
+    sql_get += ` order by hora_entrada desc limit $${values.length + 1} offset $${values.length + 2}`;
     values.push(limit, offset);
 
     return await db.query(sql_get, values);
 };
+
 
 const getTotalFiscalizacoes = async (logradouro = '', complemento = '') => {
     let sql_count = 'select count(*) as total from fiscalizacao where true';
@@ -84,7 +85,7 @@ const getTotalFiscalizacoes = async (logradouro = '', complemento = '') => {
 const getUltimasFiscalizacoes = async (limit = 5) => {
     const sql_get = `select *, to_char(hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as hora_entrada
                      from fiscalizacao
-                     order by  to_char(hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as hora_entrada desc
+                     order by id desc
                      limit $1`;
     return await db.query(sql_get, [limit]);
 };

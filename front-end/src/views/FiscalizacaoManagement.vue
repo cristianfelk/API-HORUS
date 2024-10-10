@@ -26,7 +26,7 @@
                     <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesAndamento" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
                         <h3>{{ fiscalizacao.logradouro_fiscalizacao + ' - ' + fiscalizacao.numero }}</h3>
                         <p><strong>Complemento:</strong> {{ fiscalizacao.complemento }}</p>
-                        <p><strong>Hora Entrada:</strong> {{ fiscalizacao.hora_entrada }}</p>
+                        <p><strong>Hora Entrada:</strong> {{ fiscalizacao.format_data }}</p>
                         <div class="card-actions">
                             <button @click.stop="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
                             <button @click.stop="confirmDelete(fiscalizacao.id)" class="delete-button">Excluir</button>
@@ -66,10 +66,9 @@
                 <p><strong>Quarteirão:</strong> {{ selectedFiscalizacao.quarteirao }}</p>
                 <p><strong>Sequência:</strong> {{ selectedFiscalizacao.sequencia }}</p>
                 <p><strong>Tipo de Imóvel:</strong> {{ selectedFiscalizacao.tipo_imovel }}</p>
-                <p><strong>Hora Entrada:</strong> {{ selectedFiscalizacao.hora_entrada }}</p>
+                <p><strong>Hora Entrada:</strong> {{ selectedFiscalizacao.format_data }}</p>
                 <p><strong>Visita:</strong> {{ selectedFiscalizacao.visita }}</p>
                 <p><strong>Pendência:</strong> {{ selectedFiscalizacao.pendencia }}</p>
-                <!-- Outros campos adicionais -->
                 <p><strong>A1:</strong> {{ selectedFiscalizacao.a1 }}</p>
                 <p><strong>A2:</strong> {{ selectedFiscalizacao.a2 }}</p>
                 <p><strong>B:</strong> {{ selectedFiscalizacao.b }}</p>

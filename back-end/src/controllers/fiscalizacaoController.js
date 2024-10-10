@@ -23,7 +23,7 @@ const getFiscalizacao = async (req, res) => {
             }
         });
     } catch (error) {
-        res.status(500).send('Erro ao obter municípios');
+        res.status(500).send('Erro ao obter fiscalização');
     }
 };
 
