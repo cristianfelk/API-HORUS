@@ -117,7 +117,6 @@ export default {
 
 .login-icon {
     height: 20px;
-    /* Ajuste o tamanho do ícone conforme necessário */
 }
 
 .login-text {

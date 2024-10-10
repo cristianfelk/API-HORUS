@@ -15,7 +15,6 @@
 </div>
 </template>
 
-  
 <script>
 import {
     requestPasswordReset
@@ -48,7 +47,6 @@ export default {
 };
 </script>
 
-  
 <style scoped>
 .recover-password-container {
     display: flex;

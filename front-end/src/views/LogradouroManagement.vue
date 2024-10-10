@@ -135,8 +135,6 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos principais */
-
 .logradouro-management-container {
     display: flex;
     flex-direction: column;
@@ -269,7 +267,6 @@ export default {
     color: white;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
     .filter-container {
         flex-direction: column;

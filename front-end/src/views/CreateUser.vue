@@ -60,7 +60,7 @@ export default {
                 email: '',
                 status: '',
             },
-            errorMessage: '', // Mensagem de erro para exibir no front-end
+            errorMessage: '', 
         };
     },
     methods: {
@@ -79,14 +79,12 @@ export default {
             } catch (error) {
                 console.error('Erro ao cadastrar usuário:', error);
 
-                // Exibe a mensagem de erro específica com base no retorno da API
                 if (error.response && error.response.data && error.response.data.error) {
                     this.errorMessage = error.response.data.error;
                 } else {
                     this.errorMessage = 'Erro ao cadastrar usuário. Verifique os dados e tente novamente.';
                 }
 
-                // Exibe a notificação de erro
                 this.$toast.error(this.errorMessage);
             }
         },

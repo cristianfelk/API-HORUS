@@ -19,7 +19,6 @@
 </div>
 </template>
 
-  
 <script>
 import {
     ref
@@ -78,7 +77,6 @@ export default {
 };
 </script>
 
-  
 <style scoped>
 .reset-password {
     max-width: 400px;

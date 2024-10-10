@@ -375,8 +375,7 @@ export default {
     background-color: #e0e0e0;
     color: #555;
     font-weight: bold;
-    font-size:8px;
-    /* Ajuste do tamanho da fonte */
+    font-size: 8px;
     margin-bottom: 4px;
     z-index: 2;
     transition: background-color 0.3s, color 0.3s;

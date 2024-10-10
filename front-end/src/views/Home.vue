@@ -263,8 +263,13 @@ export default {
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .title {
@@ -356,7 +361,6 @@ export default {
     transform: scale(1.05);
 }
 
-/* Estilo da seção de call-to-action */
 .call-to-action {
     background-color: #69c369;
     color: white;
@@ -405,7 +409,6 @@ export default {
     color: white;
 }
 
-/* Responsividade para dispositivos móveis */
 @media (max-width: 768px) {
     .carousel-container {
         height: 220px;
@@ -477,14 +480,14 @@ export default {
         gap: 20px;
     }
 
-    .denuncia-container, .contact-info {
+    .denuncia-container,
+    .contact-info {
         width: 100%;
         padding: 15px;
         margin: 0;
     }
 }
 
-/* Ajustes para telas ainda menores (smartphones) */
 @media (max-width: 480px) {
     .carousel-container {
         height: 180px;
@@ -499,7 +502,8 @@ export default {
         font-size: 0.9rem;
     }
 
-    .learn-more, .action-button {
+    .learn-more,
+    .action-button {
         font-size: 0.9rem;
         padding: 8px 16px;
     }
@@ -519,5 +523,4 @@ export default {
         padding: 10px;
     }
 }
-
 </style>

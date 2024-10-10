@@ -56,7 +56,7 @@ export default {
             try {
                 await createLogradouro(this.logradouro);
                 alert('Logradouro cadastrado com sucesso');
-                this.$router.push('/logradouros'); // Redireciona para a lista de logradouros
+                this.$router.push('/logradouros');
             } catch (error) {
                 console.error('Erro ao cadastrar logradouro:', error);
                 alert('Erro ao cadastrar logradouro');

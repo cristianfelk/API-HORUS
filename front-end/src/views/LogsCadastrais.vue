@@ -4,7 +4,6 @@
     <div class="logs-container">
         <h1>Logs Cadastrais</h1>
 
-        <!-- Dropdown para selecionar o tipo de log -->
         <div class="log-selector">
             <label for="logType">Selecione o Tipo de Log:</label>
             <select id="logType" v-model="selectedLogType" @change="fetchLogs">
@@ -13,7 +12,6 @@
             </select>
         </div>
 
-        <!-- Tabela de logs -->
         <table v-if="logs.length">
             <thead>
                 <tr>
@@ -38,7 +36,6 @@
         </table>
         <p v-else>Nenhum log encontrado.</p>
 
-        <!-- Modal para exibir os dados antigos e novos -->
         <div v-if="showModal" class="modal">
             <div class="modal-content">
                 <span class="close" @click="closeModal">&times;</span>

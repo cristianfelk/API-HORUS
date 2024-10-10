@@ -98,7 +98,6 @@ export default {
     flex-direction: column;
     height: 90vh;
     margin-top: 60px;
-    /* Para evitar que o conteúdo fique oculto pela navbar */
 }
 
 .edit-user {

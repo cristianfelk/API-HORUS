@@ -210,7 +210,6 @@ export default {
     box-sizing: border-box;
 }
 
-/* Responsividade */
 @media (max-width: 768px) {
     .dashboard-container {
         flex-direction: column;
