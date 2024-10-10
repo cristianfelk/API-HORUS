@@ -22,9 +22,6 @@ create table focos_dengue (
     data_registro timestamp default current_timestamp 
 );
 
-insert into monitoramento (casos_confirmados, casos_mortes, casos_monitorados, casos_ativos) 
-values (0, 0, 0, 0);
-
 create table municipio (
   id integer primary key not null,
   nome varchar(250) not null,
@@ -147,6 +144,9 @@ values
 ('São Paulo', 'SP', 35),
 ('Sergipe', 'SE', 28),
 ('Tocantins', 'TO', 17);
+
+insert into monitoramento (casos_confirmados, casos_mortes, casos_monitorados, casos_ativos) 
+values (0, 0, 0, 0);
 
 create or replace function log_table_changes()
 returns trigger as $$
