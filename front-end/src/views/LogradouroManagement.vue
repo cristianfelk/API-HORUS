@@ -5,15 +5,15 @@
         <h2 class="title">Gerenciamento de Logradouros</h2>
         <div class="filter-container">
             <label for="cep-filter">Filtrar por CEP:</label>
-            <input id="cep-filter" v-model="filters.cep" type="text" placeholder="Digite o CEP">
+            <input id="cep-filter" v-model="filters.cep" type="text" placeholder="Digite o CEP" />
 
             <label for="bairro-filter">Filtrar por Bairro:</label>
-            <input id="bairro-filter" v-model="filters.bairro" type="text" placeholder="Digite o bairro">
+            <input id="bairro-filter" v-model="filters.bairro" type="text" placeholder="Digite o bairro" />
 
             <button @click="applyFilters" class="apply-filter-button">Aplicar Filtros</button>
         </div>
         <div class="button-container">
-            <button @click="createLogradouro" class="create-button">Cadastrar Novo Logradouro</button>
+            <button @click="openModal" class="create-button">Cadastrar Novo Logradouro</button>
         </div>
         <div class="logradouro-table-container">
             <table class="logradouro-table">
@@ -52,13 +52,59 @@
             <button @click="deleteLogradouro(currentLogradouroId)" class="confirm-button">Sim</button>
             <button @click="cancelDelete" class="cancel-button">Não</button>
         </div>
+
+        <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
+            <div class="modal-content">
+                <h3>Cadastrar Novo Logradouro</h3>
+                <form @submit.prevent="saveLogradouro">
+                    <div class="form-group municipio-group">
+                        <label for="municipio">Município:</label>
+                        <input type="text" id="municipio" v-model="municipioSearch" @input="searchMunicipio" placeholder="Digite o nome do município" required />
+                        <ul v-if="municipioSuggestions.length" class="suggestions-list">
+                            <li v-for="municipio in municipioSuggestions" :key="municipio.id" @click="selectMunicipio(municipio)" class="suggestion-item">
+                                {{ municipio.nome }}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="modal-input-group">
+                        <label for="cep">CEP:</label>
+                        <input type="text" v-model="newLogradouro.cep" id="cep" placeholder="Digite o CEP" required>
+                    </div>
+
+                    <div class="modal-input-group">
+                        <label for="logradouro">Logradouro:</label>
+                        <input type="text" v-model="newLogradouro.logradouro" id="logradouro" placeholder="Digite o logradouro" required>
+                    </div>
+
+                    <div class="modal-input-group">
+                        <label for="complemento">Complemento:</label>
+                        <input type="text" v-model="newLogradouro.complemento" id="complemento" placeholder="Digite o complemento">
+                    </div>
+
+                    <div class="modal-input-group">
+                        <label for="bairro">Bairro:</label>
+                        <input type="text" v-model="newLogradouro.bairro" id="bairro" placeholder="Digite o bairro" required>
+                    </div>
+
+                    <div class="modal-buttons">
+                        <button type="submit" class="save-button">Salvar</button>
+                        <button @click="closeModal" type="button" class="cancel-button">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 </template>
 
+  
 <script>
 import axios from 'axios';
 import Navbar from '@/components/NavBar.vue';
+import {
+    searchMunicipioByNome
+} from "../services/apiService";
 
 export default {
     name: 'LogradouroManagement',
@@ -73,9 +119,19 @@ export default {
             currentPage: 1,
             hasMore: false,
             filters: {
-                uf: '',
-                nome: ''
-            }
+                cep: '',
+                bairro: ''
+            },
+            showModal: false,
+            newLogradouro: {
+                municipio_id: '', // Armazena o ID do município
+                cep: '',
+                logradouro: '',
+                complemento: '',
+                bairro: ''
+            },
+            municipioSearch: "",
+            municipioSuggestions: []
         };
     },
     methods: {
@@ -96,8 +152,41 @@ export default {
                 console.error('Erro ao buscar logradouros:', error);
             }
         },
-        createLogradouro() {
-            this.$router.push('/logradouros/novo');
+        closeModal() {
+            this.showModal = false;
+            this.resetNewLogradouro();
+        },
+        async searchMunicipio() {
+            if (this.municipioSearch.length > 2) {
+                const response = await searchMunicipioByNome(this.municipioSearch);
+                this.municipioSuggestions = response.data;
+            }
+        },
+        selectMunicipio(municipio) {
+            this.newLogradouro.municipio_id = municipio.id; // Armazena o ID do município selecionado
+            this.municipioSearch = municipio.nome;
+            this.municipioSuggestions = [];
+        },
+        async saveLogradouro() {
+            try {
+                await axios.post('http://localhost:3000/logradouro', this.newLogradouro);
+                this.fetchLogradouros(this.currentPage);
+                this.closeModal();
+            } catch (error) {
+                console.error('Erro ao cadastrar logradouro:', error);
+            }
+        },
+        resetNewLogradouro() {
+            this.newLogradouro = {
+                municipio_id: '',
+                cep: '',
+                logradouro: '',
+                complemento: '',
+                bairro: ''
+            };
+        },
+        openModal() {
+            this.showModal = true; // Abre o modal
         },
         editLogradouro(logradouroId) {
             this.$router.push(`/logradouros/${logradouroId}/editar`);
@@ -216,18 +305,12 @@ export default {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
     overflow-x: auto;
 }
 
 .logradouro-table {
     width: 100%;
-    max-width: 1200px;
     border-collapse: collapse;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: white;
-    border-radius: 5px;
-    overflow: hidden;
 }
 
 .logradouro-table th,
@@ -265,6 +348,91 @@ export default {
 .delete-button {
     background-color: #dc3545;
     color: white;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 10px;
+}
+
+.confirmation-popup {
+    width: 80%;
+    max-width: 400px;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-input-group {
+    margin-bottom: 15px;
+}
+
+.modal-input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.modal-input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.save-button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.save-button:hover {
+    background-color: #218838;
+}
+
+.cancel-button {
+    padding: 10px 20px;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancel-button:hover {
+    background-color: #c82333;
 }
 
 @media (max-width: 768px) {
@@ -330,17 +498,5 @@ export default {
     .logradouro-table td:nth-of-type(6)::before {
         content: "Ações";
     }
-}
-
-.pagination {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 10px;
-}
-
-.confirmation-popup {
-    width: 80%;
-    max-width: 400px;
 }
 </style>
