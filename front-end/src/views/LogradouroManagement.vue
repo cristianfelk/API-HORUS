@@ -98,7 +98,6 @@
 </div>
 </template>
 
-  
 <script>
 import axios from 'axios';
 import Navbar from '@/components/NavBar.vue';
