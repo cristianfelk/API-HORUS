@@ -8,13 +8,14 @@
         </button>
     </div>
     <ul class="sidebar-menu">
+        <!-- Cadastros -->
         <li class="sidebar-item dropdown">
             <a href="#" class="dropdown-toggle">
                 <img src="https://img.icons8.com/?size=100&id=k1xXzD3NEvLF&format=png&color=000000" alt="Cadastros" class="menu-icon" />
                 <span v-if="!isSidebarCollapsed">Cadastros</span>
             </a>
             <ul class="dropdown-menu" v-if="!isSidebarCollapsed">
-                <li class="dropdown-item">
+                <li v-if="userProfile === 'admin'" class="dropdown-item">
                     <router-link to="/usuarios">
                         <img src="https://img.icons8.com/ios-filled/50/user.png" alt="Usuário" class="menu-icon" />
                         <span v-if="!isSidebarCollapsed">Usuário</span>
@@ -34,7 +35,8 @@
                 </li>
             </ul>
         </li>
-        <li class="sidebar-item dropdown">
+        <!-- Controles -->
+        <li v-if="userProfile === 'admin'" class="sidebar-item dropdown">
             <a href="#" class="dropdown-toggle">
                 <img src="https://img.icons8.com/ios-filled/50/management.png" alt="Controles" class="menu-icon" />
                 <span v-if="!isSidebarCollapsed">Controles</span>
@@ -54,12 +56,14 @@
                 </li>
             </ul>
         </li>
-        <li class="sidebar-item">
+        <!-- Monitoramento -->
+        <li v-if="userProfile === 'admin'" class="sidebar-item">
             <router-link to="/monitoramento">
                 <img src="https://img.icons8.com/?size=100&id=2150&format=png&color=000000" alt="Monitoramento" class="menu-icon" />
                 <span v-if="!isSidebarCollapsed">Monitoramento</span>
             </router-link>
         </li>
+        <!-- Focos -->
         <li class="sidebar-item dropdown">
             <a href="#" class="dropdown-toggle">
                 <img src="https://img.icons8.com/?size=100&id=4464&format=png&color=000000" alt="Focos" class="menu-icon" />
@@ -78,7 +82,8 @@
                 </li>
             </ul>
         </li>
-        <li class="sidebar-item dropdown">
+        <!-- Relatórios -->
+        <li v-if="userProfile === 'admin'" class="sidebar-item dropdown">
             <a href="#" class="dropdown-toggle">
                 <img src="https://img.icons8.com/?size=100&id=57715&format=png&color=000000" alt="Relatórios" class="menu-icon" />
                 <span v-if="!isSidebarCollapsed">Relatórios</span>
@@ -96,7 +101,8 @@
                 </li>
             </ul>
         </li>
-        <li class="sidebar-item">
+        <!-- Logs -->
+        <li v-if="userProfile === 'admin'" class="sidebar-item">
             <router-link to="/logs">
                 <img src="https://img.icons8.com/?size=100&id=jmDBJzRWW4s0&format=png&color=000000" alt="Logs" class="menu-icon" />
                 <span v-if="!isSidebarCollapsed">Logs</span>
@@ -112,7 +118,6 @@
 </div>
 </template>
 
-  
 <script>
 export default {
     name: "SideBar",
@@ -121,6 +126,11 @@ export default {
             type: Boolean,
             required: true,
         },
+    },
+    data() {
+        return {
+            userProfile: localStorage.getItem("userProfile"),
+        };
     },
     methods: {
         toggleSidebar() {
@@ -133,8 +143,7 @@ export default {
     },
 };
 </script>
-
-  
+    
 <style scoped>
 .sidebar {
     width: 240px;
