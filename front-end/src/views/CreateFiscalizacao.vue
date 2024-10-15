@@ -191,7 +191,7 @@ export default {
                 tipo_imovel: '',
                 hora_entrada: this.getCurrentDateTime(),
                 timestamp_entrada: null,
-                usuario_id: null,
+                usuario_id: this.getLoggedUserId(), // Adicionando o usuário logado ao campo usuario_id
                 a1: '',
                 a2: '',
                 b: '',
@@ -242,6 +242,7 @@ export default {
                 this.currentStep--;
             }
         },
+
         focusNextField(nextFieldId) {
             const nextField = document.getElementById(nextFieldId);
             if (nextField) {
@@ -259,7 +260,7 @@ export default {
                 tipo_imovel: '',
                 hora_entrada: this.getCurrentDateTime(),
                 timestamp_entrada: null,
-                usuario_id: null,
+                usuario_id: this.getLoggedUserId(),
                 a1: '',
                 a2: '',
                 b: '',
@@ -301,6 +302,7 @@ export default {
                 this.postFiscalizacao();
             }
         },
+
         async searchLogradouro() {
             if (this.fiscalizacao.logradouro_fiscalizacao.length > 2) {
                 try {
@@ -313,10 +315,12 @@ export default {
                 this.logradouroSuggestions = [];
             }
         },
+
         selectLogradouro(logradouro) {
             this.fiscalizacao.logradouro_fiscalizacao = logradouro.logradouro;
             this.logradouroSuggestions = [];
         },
+
         async searchComplemento() {
             if (this.fiscalizacao.complemento.length > 2) {
                 try {
@@ -329,11 +333,15 @@ export default {
                 this.complementoSuggestions = [];
             }
         },
+
         selectComplemento(complemento) {
             this.fiscalizacao.complemento = complemento.complemento;
             this.complementoSuggestions = [];
-        }
+        },
 
+        getLoggedUserId() {
+            return localStorage.getItem('userId'); 
+        }
     },
 };
 </script>
