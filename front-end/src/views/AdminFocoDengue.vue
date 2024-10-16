@@ -41,7 +41,7 @@ import {
 
 export default {
     components: {
-        Navbar
+        Navbar,
     },
     data() {
         return {
@@ -63,7 +63,7 @@ export default {
             this.map = L.map('map').setView([this.defaultLat, this.defaultLng], 13);
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
-                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             }).addTo(this.map);
             this.map.on('click', this.addMarker);
         },
@@ -72,7 +72,7 @@ export default {
                 color: 'red',
                 fillColor: '#f03',
                 fillOpacity: 0.5,
-                radius: 25
+                radius: 25,
             }).addTo(this.map);
             this.updateLocation(e);
         },
@@ -158,6 +158,7 @@ h2 {
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
+    flex-wrap: wrap;
 }
 
 .coordinate-value {
@@ -179,5 +180,30 @@ h2 {
 
 .btn-submit:hover {
     background-color: #e55b50;
+}
+
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 15px;
+        margin: 20px auto;
+    }
+
+    .map-container {
+        height: 200px;
+    }
+
+    .coordinates-container {
+        flex-direction: column;
+    }
+
+    .form-group label,
+    .form-group span {
+        display: block;
+        text-align: center;
+    }
+
+    .btn-submit {
+        font-size: 14px;
+    }
 }
 </style>
