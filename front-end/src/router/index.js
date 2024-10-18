@@ -145,6 +145,11 @@ const router = createRouter({
       path: '/rel-fiscalizacao',
       name: 'RelFiscalizacao',
       component: () => import('@/views/RelFiscalizacoes.vue')
+    },
+    {
+      path: '/rel-focos',
+      name: 'RelatorioFocos',
+      component: () => import('@/views/RelatorioFocos.vue')
     }
   ],
 });
