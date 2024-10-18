@@ -99,6 +99,11 @@
                         <span v-if="!isSidebarCollapsed">Relatório de fiscalizações</span>
                     </router-link>
                 </li>
+                <li class="dropdown-item">
+                    <router-link to="/rel-focos">
+                        <span v-if="!isSidebarCollapsed">Relatório de focos</span>
+                    </router-link>
+                </li>
             </ul>
         </li>
         <!-- Logs -->
