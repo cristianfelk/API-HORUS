@@ -123,7 +123,7 @@ const patchDenuncia = async (params) => {
 };
 
 const getDenunciasConfirmadas = async (params) => {
-    const sql_get = `select latitude, longitude from denuncia where confirmado = 'Confirmado'`;
+    const sql_get = `select * from denuncia where confirmado = 'Confirmado'`;
     return await db.query(sql_get);
 };
 

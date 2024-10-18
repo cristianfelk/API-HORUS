@@ -103,6 +103,7 @@ create table denuncia (
   longitude decimal(9, 6), 
   chave_denuncia text unique,
   image_url text,
+  data_registro timestamp default current_timestamp
   foreign key (id_municipio) references municipio (id)
 );
 
