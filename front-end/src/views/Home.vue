@@ -96,7 +96,8 @@ import Navbar from '@/components/NavBarHome.vue';
 import L from 'leaflet';
 import {
     getMonitoramento,
-    getFocosDengue
+    getFocosDengue,
+    getDenunciasConfirmadas
 } from '../services/apiService';
 import image1 from '../assets/contradengue.png';
 import image2 from '../assets/acaodengue.png';
@@ -160,10 +161,22 @@ export default {
         async loadFocosDengue() {
             try {
                 const response = await getFocosDengue();
+                const responseDenuncia = await getDenunciasConfirmadas();
                 const focos = response.data;
+                const denuncias = responseDenuncia.data;
                 focos.forEach(foco => {
                     const lat = parseFloat(foco.latitude);
                     const lng = parseFloat(foco.longitude);
+                    L.circle([lat, lng], {
+                        color: 'red',
+                        fillColor: '#f03',
+                        fillOpacity: 0.5,
+                        radius: 50,
+                    }).addTo(this.map);
+                });
+                denuncias.forEach(denuncia => {
+                    const lat = parseFloat(denuncia.latitude);
+                    const lng = parseFloat(denuncia.longitude);
                     L.circle([lat, lng], {
                         color: 'red',
                         fillColor: '#f03',

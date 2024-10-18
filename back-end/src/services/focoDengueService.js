@@ -15,12 +15,12 @@ const postFoco = async (params) => {
 }
 
 const getFoco = async () => {
-    const sql_get = `select * from focos_dengue where confirmado = true`;
+    const sql_get = `select * from focos_dengue where confirmado = true and excluido = false`;
     return await db.query(sql_get);
 }
 
 const deleteFoco = async (params) => {
-    const sql_delete = `delete from focos_dengue where id = $1`
+    const sql_delete = `update focos_dengue set excluido = true where id = $1`
     const { id } = params
     await db.query(sql_delete, [id])
 }

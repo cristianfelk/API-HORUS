@@ -122,6 +122,10 @@ const patchDenuncia = async (params) => {
     await db.query(sql);
 };
 
+const getDenunciasConfirmadas = async (params) => {
+    const sql_get = `select latitude, longitude from denuncia where confirmado = 'Confirmado'`;
+    return await db.query(sql_get);
+};
 
 module.exports = {
     postDenuncia,
@@ -130,5 +134,6 @@ module.exports = {
     putDenuncia,
     patchDenuncia,
     getTotalDenuncias,
-    getUltimasDenuncias
+    getUltimasDenuncias,
+    getDenunciasConfirmadas
 };

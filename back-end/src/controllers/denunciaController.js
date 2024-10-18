@@ -120,11 +120,22 @@ const getUltimasDenuncias = async (req, res) => {
     }
 };
 
+const getDenunciasConfirmadas = async (req, res, next) => {
+    try {
+        await denunciaService.getDenunciasConfirmadas()
+            .then(ret => res.status(200).send(ret.rows))
+            .catch(err => res.status(500).send(err.message))
+    } catch (err) {
+        next(err);
+    } 
+}
+
 module.exports = {
     postDenuncia,
     getDenuncia,
     deleteDenuncia,
     putDenuncia,
     patchDenuncia,
-    getUltimasDenuncias
+    getUltimasDenuncias,
+    getDenunciasConfirmadas
 };

@@ -18,7 +18,8 @@ create table focos_dengue (
     descricao varchar(255) not null,
     confirmado boolean,     
     latitude decimal(9, 6) not null,  
-    longitude decimal(9, 6) not null,      
+    longitude decimal(9, 6) not null, 
+    excluido boolean,     
     data_registro timestamp default current_timestamp 
 );
 

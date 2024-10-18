@@ -5,7 +5,7 @@ module.exports = (app, upload) => {
 
     app.post('/denuncia', upload.single('image_url'), denunciaController.postDenuncia)
     app.get('/denuncia/ultimas', denunciaController.getUltimasDenuncias)
-
+    app.get('/denunciaConfirmada', denunciaController.getDenunciasConfirmadas)
 
     app.route(basePath)
         .get(denunciaController.getDenuncia);
