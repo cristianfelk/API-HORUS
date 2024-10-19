@@ -41,7 +41,6 @@ import {
 } from '../services/apiService';
 import logo from '../assets/pinhalzinho.png';
 
-
 export default {
     components: {
         Navbar
@@ -85,6 +84,7 @@ export default {
                 qtd_gramas: 'Qtd. Gramas',
             },
             selectedFields: ['quarteirao', 'sequencia', 'logradouro_fiscalizacao', 'numero', 'complemento', 'hora_entrada', 'tipo_imovel'],
+            userProfile: localStorage.getItem("userName"),
         };
     },
     computed: {
@@ -131,11 +131,12 @@ export default {
                 align: 'center'
             });
 
-            const username = "Emitido por: Usuario";
+            const username = this.userProfile;
+            const emit = `Emitido por: ${username}`;
             const emissionDate = `Data de emissão: ${new Date().toLocaleDateString('pt-BR')}`;
             doc.setFontSize(8);
-            doc.text(username, doc.internal.pageSize.getWidth() - 45, 15); 
-            doc.text(emissionDate, doc.internal.pageSize.getWidth() - 45, 20);
+            doc.text(emit, doc.internal.pageSize.getWidth() - 51, 30);
+            doc.text(emissionDate, doc.internal.pageSize.getWidth() - 51, 35);
 
             const columns = this.selectedFields.map((field) => this.availableFields[field]);
             const rows = this.filteredFiscalizacoes.map((fiscalizacao) =>
@@ -149,7 +150,7 @@ export default {
             doc.autoTable({
                 head: [columns],
                 body: rows,
-                startY: 60,
+                startY: 40,
             });
 
             doc.save('relatorio_fiscalizacoes.pdf');
