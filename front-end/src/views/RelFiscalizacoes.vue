@@ -39,6 +39,8 @@ import 'jspdf-autotable';
 import {
     getFiscalizacaoRel
 } from '../services/apiService';
+import logo from '../assets/pinhalzinho.png';
+
 
 export default {
     components: {
@@ -108,7 +110,32 @@ export default {
         },
         generatePDF() {
             const doc = new jsPDF();
-            doc.text('Relatório de Fiscalizações', 10, 10);
+
+            const logoRel = logo;
+            doc.addImage(logoRel, 'png', 15, 8, 30, 30);
+
+            const title = "Secretária Municipal de Saúde - Pinhalzinho SC";
+            const address = "Endereço: Avenida Belém, 353 - Centro - Pinhalzinho";
+            const phone = "Telefone: (49) 3366-6640";
+            doc.setFontSize(10);
+            doc.text('Relatório de Fiscalizações', doc.internal.pageSize.getWidth() / 2, 14, {
+                align: 'center'
+            });
+            doc.text(title, doc.internal.pageSize.getWidth() / 2, 20, {
+                align: 'center'
+            });
+            doc.text(address, doc.internal.pageSize.getWidth() / 2, 26, {
+                align: 'center'
+            });
+            doc.text(phone, doc.internal.pageSize.getWidth() / 2, 32, {
+                align: 'center'
+            });
+
+            const username = "Emitido por: Usuario";
+            const emissionDate = `Data de emissão: ${new Date().toLocaleDateString('pt-BR')}`;
+            doc.setFontSize(8);
+            doc.text(username, doc.internal.pageSize.getWidth() - 45, 15); 
+            doc.text(emissionDate, doc.internal.pageSize.getWidth() - 45, 20);
 
             const columns = this.selectedFields.map((field) => this.availableFields[field]);
             const rows = this.filteredFiscalizacoes.map((fiscalizacao) =>
@@ -119,11 +146,10 @@ export default {
                     return fiscalizacao[field] || '';
                 })
             );
-
             doc.autoTable({
                 head: [columns],
                 body: rows,
-                startY: 20,
+                startY: 60,
             });
 
             doc.save('relatorio_fiscalizacoes.pdf');
@@ -145,7 +171,7 @@ export default {
                 logradouro_fiscalizacao: '',
                 tipo_imovel: '',
             };
-            this.selectedFields = []; // Limpa os checkboxes selecionados
+            this.selectedFields = [];
         },
     },
     mounted() {
