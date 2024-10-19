@@ -1,24 +1,24 @@
 <template>
-    <nav class="navbar">
-      <div class="navbar-left">
+<nav class="navbar">
+    <div class="navbar-left">
         <img @click="goDashboard" src="@/assets/logoPzo.png" alt="Logo" class="logo" />
-      </div>
-    </nav>
-  </template>
-  
-  <script>
-  export default {
+    </div>
+</nav>
+</template>
+
+<script>
+export default {
     name: 'Navbar',
     methods: {
-      goDashboard() {
-        this.$router.push('/dashboard');
-      }
+        goDashboard() {
+            this.$router.push('/dashboard');
+        }
     }
-  }
-  </script>
-  
-  <style scoped>
-  .navbar {
+}
+</script>
+
+<style scoped>
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -30,21 +30,20 @@
     right: 0;
     height: 60px;
     z-index: 9999;
-  }
-  
-  .logo {
+}
+
+.logo {
     height: 40px;
     cursor: pointer;
-  }
-  
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 768px) {
     .navbar {
-      padding: 10px;
+        padding: 10px;
     }
-  
+
     .logo {
-      height: 35px;
+        height: 35px;
     }
-  }
-  </style>
-  
+}
+</style>
