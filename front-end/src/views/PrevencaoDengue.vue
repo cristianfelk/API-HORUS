@@ -24,7 +24,6 @@
 </div>
 </template>
 
-  
 <script>
 import Navbar from "@/components/NavBarHome.vue";
 
@@ -36,7 +35,6 @@ export default {
 };
 </script>
 
-  
 <style scoped>
 .prevencao-container {
     display: flex;

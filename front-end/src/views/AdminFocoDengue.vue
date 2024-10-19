@@ -49,6 +49,7 @@ export default {
             latitude: null,
             longitude: null,
             confirmado: true,
+            excluido: false,
             denuncia_id: null,
             defaultLat: -26.8481,
             defaultLng: -52.9885,
@@ -97,6 +98,7 @@ export default {
                     longitude: this.longitude,
                     denuncia_id: null,
                     confirmado: true,
+                    excluido: false,
                 });
                 alert('Foco de dengue adicionado com sucesso!');
                 location.reload();

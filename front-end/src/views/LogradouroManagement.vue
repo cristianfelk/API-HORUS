@@ -123,7 +123,7 @@ export default {
             },
             showModal: false,
             newLogradouro: {
-                municipio_id: '', // Armazena o ID do município
+                municipio_id: '',
                 cep: '',
                 logradouro: '',
                 complemento: '',
@@ -162,7 +162,7 @@ export default {
             }
         },
         selectMunicipio(municipio) {
-            this.newLogradouro.municipio_id = municipio.id; // Armazena o ID do município selecionado
+            this.newLogradouro.municipio_id = municipio.id;
             this.municipioSearch = municipio.nome;
             this.municipioSuggestions = [];
         },

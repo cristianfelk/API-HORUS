@@ -2,12 +2,13 @@ const db = require('../configs/pg')
 
 const postFoco = async (params) => {
     try {
-        const sql_post = ` insert into focos_dengue (descricao, latitude, longitude, confirmado)
+        const sql_post = ` insert into focos_dengue (descricao, latitude, longitude, confirmado, excluido)
             values ( 
                     '${params.descricao}', 
                     ${params.latitude},
                     ${params.longitude},
-                    ${params.confirmado})`
+                    ${params.confirmado},
+                    ${params.excluido})`
         await db.query(sql_post)
     } catch (error) {
 

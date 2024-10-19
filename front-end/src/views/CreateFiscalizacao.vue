@@ -340,7 +340,7 @@ export default {
         },
 
         getLoggedUserId() {
-            return localStorage.getItem('userId'); 
+            return localStorage.getItem('userId');
         }
     },
 };

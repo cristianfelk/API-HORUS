@@ -89,7 +89,7 @@ export default {
                 id_municipio: null,
                 logradouro: "",
                 descricao_denuncia: "",
-                confirmado: 'Não confirmado',
+                status: 'Não confirmado',
                 latitude: null,
                 longitude: null,
                 image_url: null,
@@ -157,7 +157,7 @@ export default {
                 formDataDenuncia.append("id_municipio", this.report.id_municipio);
                 formDataDenuncia.append("logradouro", this.report.logradouro);
                 formDataDenuncia.append("descricao_denuncia", this.report.descricao_denuncia);
-                formDataDenuncia.append("confirmado", this.report.confirmado);
+                formDataDenuncia.append("status", this.report.status);
 
                 if (this.report.latitude) {
                     formDataDenuncia.append("latitude", this.report.latitude);
@@ -190,7 +190,7 @@ export default {
                 image_url: null,
                 latitude: null,
                 longitude: null,
-                confirmado: false,
+                status: false,
             };
             this.municipioSearch = "";
             this.municipioSuggestions = [];

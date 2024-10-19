@@ -28,7 +28,6 @@
 </div>
 </template>
 
-  
 <script>
 import L from 'leaflet';
 import {
@@ -121,7 +120,6 @@ export default {
 };
 </script>
 
-  
 <style scoped>
 .remover-focos {
     max-width: 600px;

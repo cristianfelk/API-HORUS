@@ -101,7 +101,6 @@
 </div>
 </template>
 
-  
 <script>
 import Navbar from '../components/NavBar.vue';
 import {
