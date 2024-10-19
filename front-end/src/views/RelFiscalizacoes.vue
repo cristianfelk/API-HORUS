@@ -135,8 +135,8 @@ export default {
             const emit = `Emitido por: ${username}`;
             const emissionDate = `Data de emissão: ${new Date().toLocaleDateString('pt-BR')}`;
             doc.setFontSize(8);
-            doc.text(emit, doc.internal.pageSize.getWidth() - 51, 30);
-            doc.text(emissionDate, doc.internal.pageSize.getWidth() - 51, 35);
+            doc.text(emit, doc.internal.pageSize.getWidth() - 51, 26);
+            doc.text(emissionDate, doc.internal.pageSize.getWidth() - 51, 32);
 
             const columns = this.selectedFields.map((field) => this.availableFields[field]);
             const rows = this.filteredFiscalizacoes.map((fiscalizacao) =>
