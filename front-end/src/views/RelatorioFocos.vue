@@ -104,8 +104,8 @@ export default {
                 const lat = parseFloat(denuncia.latitude);
                 const lng = parseFloat(denuncia.longitude);
                 L.circle([lat, lng], {
-                    color: 'red',
-                    fillColor: '#f03',
+                    color: 'blue',
+                    fillColor: '#03a9f4',
                     fillOpacity: 0.5,
                     radius: 50
                 }).addTo(this.map).bindPopup(`<p>Data: ${this.formatDate(denuncia.data_registro)}</p>`);
@@ -114,6 +114,14 @@ export default {
         formatDate(dateString) {
             const date = new Date(dateString);
             return date.toLocaleString();
+        },
+        setMesAtual() {
+            const hoje = new Date();
+            const ano = hoje.getFullYear();
+            const mes = hoje.getMonth();
+
+            this.dataInicio = `${ano}-${String(mes + 1).padStart(2, '0')}-01`;
+            this.dataFim = new Date(ano, mes + 1, 0).toISOString().split('T')[0];
         }
     },
     async created() {
@@ -122,6 +130,7 @@ export default {
     },
     mounted() {
         this.iniciarMapa();
+        this.setMesAtual();
     }
 };
 </script>
