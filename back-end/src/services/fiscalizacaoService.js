@@ -39,7 +39,7 @@ const postFiscalizacao = async (params) => {
     } catch (error) {
 
     }
-}
+};
 
 const getFiscalizacao = async (page = 1, limit = 10, logradouro = '', complemento = '') => {
     const offset = (page - 1) * limit;
@@ -62,7 +62,6 @@ const getFiscalizacao = async (page = 1, limit = 10, logradouro = '', complement
 
     return await db.query(sql_get, values);
 };
-
 
 const getTotalFiscalizacoes = async (logradouro = '', complemento = '') => {
     let sql_count = 'select count(*) as total from fiscalizacao where true';
@@ -94,7 +93,7 @@ const deleteFiscalizacao = async (params) => {
     const sql_delete = `delete from fiscalizacao where id = $1`
     const { id } = params
     await db.query(sql_delete, [id])
-}
+};
 
 const putFiscalizacao = async (params) => {
     const sql_put = `update fiscalizacao set
@@ -109,7 +108,7 @@ const putFiscalizacao = async (params) => {
             where id = $1`
     const { id, quarteirao, sequencia, numero, tipo_imovel, status, usuario_id, data_fiscalizacao, bairro_fiscalizacao } = params 
     return await db.query(sql_put, [id, quarteirao, sequencia, numero, tipo_imovel, status, usuario_id, data_fiscalizacao, bairro_fiscalizacao])
-}
+};
 
 const patchFiscalizacao = async (params) => {
     let fields = [];
@@ -123,7 +122,7 @@ const patchFiscalizacao = async (params) => {
 const getFiscalizacaoRel = async () => {
     const sql_get = `select * from fiscalizacao`;
     return await db.query(sql_get);
-}
+};
 
 module.exports = {
     postFiscalizacao,

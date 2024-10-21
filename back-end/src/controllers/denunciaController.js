@@ -12,7 +12,8 @@ const moveFile = (file, destination) => {
             resolve(targetPath);
         });
     });
-}
+};
+
 const postDenuncia = async (req, res, next) => {
     try {
         const { 
@@ -84,7 +85,7 @@ const deleteDenuncia = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 const putDenuncia = async (req, res, next) => {
     try {
@@ -95,7 +96,7 @@ const putDenuncia = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 const patchDenuncia = async (req, res, next) => {
     try {
@@ -107,7 +108,7 @@ const patchDenuncia = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 const getUltimasDenuncias = async (req, res) => {
     const { limit = 5 } = req.query;
@@ -128,7 +129,7 @@ const getDenunciasConfirmadas = async (req, res, next) => {
     } catch (err) {
         next(err);
     } 
-}
+};
 
 module.exports = {
     postDenuncia,

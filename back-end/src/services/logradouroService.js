@@ -12,7 +12,7 @@ const postLogradouro = async (params) => {
     } catch (error) {
 
     }
-}
+};
 
 const getLogradouroById  = async (params) => {
     const sql_get = `select 
@@ -23,7 +23,7 @@ const getLogradouroById  = async (params) => {
                         where l.id = $1`;
     const { id } = params;
     return (await db.query(sql_get, [id])).rows;   
-}
+};
 
 const getLogradourosByNome = async (logradouro) => {
     const sql_search = `
@@ -90,7 +90,7 @@ const deleteLogradouro = async (params) => {
     const sql_delete = `delete from logradouro where id = $1`
     const { id } = params
     await db.query(sql_delete, [id])
-}
+};
 
 const putLogradouro = async (params) => {
     const sql_put = `update logradouro set
@@ -102,7 +102,7 @@ const putLogradouro = async (params) => {
             where id = $1`
     const { id, municipio_id, cep, logradouro, complemento, bairro } = params 
     return await db.query(sql_put, [id, municipio_id, cep, logradouro, complemento, bairro])
-}
+};
 
 const patchLogradouro = async (params) => {
     let fields = [];

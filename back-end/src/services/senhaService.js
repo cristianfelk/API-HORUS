@@ -31,7 +31,7 @@ const verifyPasswordResetToken = async (token) => {
     } else {
         throw new Error('Token inválido ou expirado.');
     }
-}
+};
 
 const resetPassword = async (token, newPassword) => {
     const salt = crypto.randomBytes(16).toString('hex');

@@ -18,7 +18,7 @@ async function connectDatabase() {
     console.error('Erro ao conectar ao banco de dados:', err);
     process.exit(1);
   }
-}
+};
 
 async function insertMunicipio(data) {
   const query = `
@@ -31,7 +31,7 @@ async function insertMunicipio(data) {
     await db.query(query, values);
   } catch (err) {
   }
-}
+};
 
 async function insertLogradouro(data) {
   const query = `
@@ -44,7 +44,7 @@ async function insertLogradouro(data) {
     await db.query(query, values);
   } catch (err) {
   }
-}
+};
 
 async function importMunicipios(filePath) {
   const rows = [];
@@ -67,7 +67,7 @@ async function importMunicipios(filePath) {
         reject(err);
       });
   });
-}
+};
 
 async function importLogradouros(filePath) {
   const rows = [];
@@ -90,7 +90,7 @@ async function importLogradouros(filePath) {
         reject(err);
       });
   });
-}
+};
 
 async function importCSV(municipioFilePath, logradouroFilePath) {
   await connectDatabase();
@@ -104,7 +104,7 @@ async function importCSV(municipioFilePath, logradouroFilePath) {
   } finally {
     db.end();
   }
-}
+};
 
 module.exports = {
   importCSV

@@ -43,7 +43,7 @@ const getUsuarioById = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 const deleteUsuario = async (req, res, next) => {
     try {
@@ -53,7 +53,7 @@ const deleteUsuario = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 const putUsuario = async (req, res, next) => {
     try {
@@ -65,7 +65,7 @@ const putUsuario = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 const patchUsuario = async (req, res, next) => {
     try {
@@ -77,7 +77,7 @@ const patchUsuario = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 module.exports = {
     postUsuario,

@@ -4,7 +4,7 @@ const postFoco = async (req, res, next) => {
     await focoDengueService.postFoco(req.body)
         .then(ret => res.status(201).send(ret))
         .catch(err => res.status(500).send(err))
-}
+};
 
 const getFoco = async (req, res, next) => {
     try {
@@ -14,7 +14,7 @@ const getFoco = async (req, res, next) => {
     } catch (err) {
         next(err);
     } 
-}
+};
 
 const deleteFoco = async (req, res, next) => {
     try {
@@ -24,7 +24,7 @@ const deleteFoco = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 module.exports = {
     postFoco,

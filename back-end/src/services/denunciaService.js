@@ -112,7 +112,7 @@ const deleteDenuncia = async (params) => {
     const sql_delete = `delete from denuncia where id = $1`
     const { id } = params
     await db.query(sql_delete, [id])
-}
+};
 
 const patchDenuncia = async (params) => {
     let fields = [];

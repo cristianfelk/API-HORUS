@@ -4,7 +4,18 @@
 
     <div class="denuncia-management">
         <h1 class="title">Monitoramento de Denúncias</h1>
-        <p class="subtitle">Acompanhe todas as denúncias registradas e seus detalhes.</p>
+
+        <div class="filter-container">
+            <p>Pesquisar por:</p>
+            <select v-model="filtroSelecionado" @change="aplicarFiltro">
+                <option value="">Selecionar filtro</option>
+                <option value="nome_denunciante">Nome</option>
+                <option value="email_denunciante">Email</option>
+                <option value="chave_denuncia">Chave da Denúncia</option>
+                <option value="logradouro">Logradouro</option>
+            </select>
+            <input v-model="filtroValor" @input="aplicarFiltro" placeholder="Digite o valor do filtro" />
+        </div>
 
         <div v-if="denuncias && denuncias.length" class="denuncia-list">
             <div class="table-responsive">
@@ -23,7 +34,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="denuncia in denuncias" :key="denuncia.id">
+                        <tr v-for="denuncia in denunciasFiltradas" :key="denuncia.id">
                             <td>{{ denuncia.id }}</td>
                             <td v-if="!denuncia.anonima">{{ denuncia.nome_denunciante }}</td>
                             <td v-else>Anônima</td>
@@ -137,7 +148,20 @@ export default {
             currentPage: 1,
             itemsPerPage: 10,
             totalPages: 1,
+            filtroSelecionado: '',
+            filtroValor: '',
         };
+    },
+    computed: {
+        denunciasFiltradas() {
+            if (!this.filtroSelecionado || !this.filtroValor) {
+                return this.denuncias;
+            }
+            return this.denuncias.filter(denuncia =>
+                denuncia[this.filtroSelecionado] ?.toLowerCase()
+                .includes(this.filtroValor.toLowerCase())
+            );
+        },
     },
     async created() {
         await this.fetchDenuncias();
@@ -158,6 +182,7 @@ export default {
                 console.error("Erro ao buscar as denúncias:", error);
             }
         },
+        aplicarFiltro() {},
         editDenuncia(denuncia) {
             this.selectedDenuncia = {
                 ...denuncia
@@ -221,70 +246,148 @@ export default {
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #f4f7fa;
+    background-color: #f0f4f8;
     min-height: 100vh;
 }
 
 .denuncia-management {
     width: 100%;
     max-width: 1200px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 30px;
-    margin: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    margin: 20px 0;
 }
 
 .title {
-    font-size: 2.5em;
-    margin-bottom: 10px;
-    color: #333;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    color: #444;
+    font-weight: bold;
+    text-align: center;
 }
 
-.subtitle {
-    font-size: 1.2em;
-    color: #555;
-    margin-bottom: 20px;
+.filter-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: #e8f0fe;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+
+.filter-container p {
+    margin: 0;
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.filter-container select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 180px;
+    margin-right: 25%;
+}
+
+.filter-container input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 250px;
+    margin-right: 21%;
+}
+
+.filter-container select:focus,
+.filter-container input:focus {
+    border-color: #007bff;
+    outline: none;
 }
 
 .denuncia-list {
     width: 100%;
+    margin-bottom: 30px;
+}
+
+.table-responsive {
+    overflow-x: auto;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    font-size: 1rem;
 }
 
 th,
 td {
-    padding: 12px;
+    padding: 15px;
     text-align: left;
-    border-bottom: 1px solid #000000;
+    border-bottom: 1px solid #ddd;
 }
 
 th {
     background-color: #69c369;
-    color: #ffffff;
-    font-weight: bold;
+    color: white;
+    font-weight: 600;
 }
 
 tr:hover {
-    background-color: #f1f1f1;
+    background-color: #f5f5f5;
+}
+
+.action-button {
+    padding: 8px 12px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    background-color: #7a93ae;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+.action-button:hover {
+    background-color: #8698ac;
 }
 
 .pagination-controls {
     display: flex;
     justify-content: space-between;
-    margin-top: 10px;
+    align-items: center;
+}
+
+.pagination-button {
+    padding: 8px 12px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.pagination-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination-button:hover:enabled {
+    background-color: #0056b3;
 }
 
 .error-message,
 .loading-message {
     text-align: center;
-    font-size: 1.1em;
-    color: #f44336;
+    font-size: 1.2rem;
+    color: #dc3545;
+    padding: 20px;
 }
 
 .modal {
@@ -301,43 +404,35 @@ tr:hover {
 }
 
 .modal-content {
-    background-color: #ffffff;
-    padding: 30px;
-    border-radius: 8px;
-    width: 90%;
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
     max-width: 600px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    position: relative;
 }
 
 .close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
     cursor: pointer;
-    font-size: 1.5em;
     color: #888;
-    float: right;
 }
 
 .close:hover {
     color: #333;
 }
 
-.form-row {
-    display: flex;
-    justify-content: space-between;
+.form-group {
     margin-bottom: 20px;
 }
 
-.form-group {
-    flex: 1;
-    margin-right: 10px;
-}
-
-.form-group:last-child {
-    margin-right: 0;
-}
-
 label {
+    font-weight: bold;
     display: block;
-    font-weight: 600;
     margin-bottom: 5px;
     color: #333;
 }
@@ -347,9 +442,9 @@ select,
 textarea {
     width: 100%;
     padding: 10px;
+    font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 1em;
     transition: border-color 0.3s;
 }
 
@@ -357,18 +452,16 @@ input:focus,
 select:focus,
 textarea:focus {
     border-color: #007bff;
-    outline: none;
 }
 
 textarea {
     resize: vertical;
-    height: 100px;
+    min-height: 100px;
 }
 
 .form-controls {
     display: flex;
     justify-content: flex-end;
-    margin-top: 20px;
 }
 
 .submit-button,
@@ -377,8 +470,7 @@ textarea {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 1em;
-    margin-left: 10px;
+    font-size: 1rem;
     transition: background-color 0.3s;
 }
 
@@ -394,42 +486,11 @@ textarea {
 .cancel-button {
     background-color: #dc3545;
     color: white;
+    margin-left: 10px;
 }
 
 .cancel-button:hover {
     background-color: #c82333;
-}
-
-.button-container {
-    display: flex;
-    gap: 10px;
-}
-
-.button {
-    padding: 8px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.9em;
-    transition: background-color 0.3s;
-}
-
-.button.edit {
-    background-color: #007bff;
-    color: white;
-}
-
-.button.edit:hover {
-    background-color: #0056b3;
-}
-
-.button.map {
-    background-color: #17a2b8;
-    color: white;
-}
-
-.button.map:hover {
-    background-color: #138496;
 }
 
 .map {

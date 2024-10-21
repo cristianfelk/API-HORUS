@@ -3,7 +3,7 @@ const db = require('../configs/pg')
 async function getMonitoramento() {
   const result = await db.query('select * from monitoramento order by id desc limit 1');
   return result.rows[0];
-}
+};
 
 async function updateMonitoramento(data) {
   const { casos_confirmados, casos_mortes, casos_monitorados, casos_ativos } = data;
@@ -15,7 +15,7 @@ async function updateMonitoramento(data) {
     [casos_confirmados, casos_mortes, casos_monitorados, casos_ativos]
   );
   return result.rows[0];
-}
+};
 
 module.exports = {
   getMonitoramento,

@@ -7,7 +7,7 @@ async function getMonitoramento(req, res) {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 
 async function updateMonitoramento(req, res) {
   try {
@@ -16,7 +16,7 @@ async function updateMonitoramento(req, res) {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-}
+};
 
 module.exports = {
   getMonitoramento,

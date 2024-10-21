@@ -4,7 +4,7 @@ const postFiscalizacao = async (req, res, next) => {
     await fiscalizacaoService.postFiscalizacao(req.body)
         .then(ret => res.status(201).send(ret))
         .catch(err => res.status(500).send(err))
-}
+};
 
 const getFiscalizacao = async (req, res) => {
     const { page = 1, limit = 10, logradouro = '', complemento = '' } = req.query;
@@ -46,7 +46,7 @@ const deleteFiscalizacao = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 const putFiscalizacao = async (req, res, next) => {
     try {
@@ -58,7 +58,7 @@ const putFiscalizacao = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 const patchFiscalizacao = async (req, res, next) => {
     try {
@@ -70,7 +70,7 @@ const patchFiscalizacao = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 const getFiscalizacaoRel = async (req, res, next) => {
     try {

@@ -7,4 +7,4 @@ module.exports = (app) => {
     app.delete('/usuario/:id', usuarioController.deleteUsuario)
     app.put('/usuario/:id', usuarioController.putUsuario)
     app.patch('/usuario/:id', usuarioController.patchUsuario)
-} 
+};

@@ -13,7 +13,7 @@ const postLogin = async (req, res, next) => {
   } catch (err) {
       next(err);
   } 
-}
+};
 
 module.exports = {
     postLogin

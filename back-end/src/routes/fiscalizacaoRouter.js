@@ -8,4 +8,4 @@ module.exports = (app) => {
     app.delete('/fiscalizacao/:id', fiscalizacaoController.deleteFiscalizacao)
     app.put('/fiscalizacao/:id', fiscalizacaoController.putFiscalizacao)
     app.patch('/fiscalizacao/:id', fiscalizacaoController.patchFiscalizacao)
-} 
+};

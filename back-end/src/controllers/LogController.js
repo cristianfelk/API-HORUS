@@ -8,7 +8,7 @@ const getLogMonitoramento = async (req, res, next) => {
     } catch (err) {
         next(err);
     } 
-}
+};
 
 const getLogDenuncia = async (req, res, next) => {
     try {
@@ -18,7 +18,7 @@ const getLogDenuncia = async (req, res, next) => {
     } catch (err) {
         next(err);
     } 
-}
+};
 
 module.exports = {
     getLogMonitoramento,

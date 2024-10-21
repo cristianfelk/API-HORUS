@@ -104,8 +104,8 @@ export default {
                 const lat = parseFloat(denuncia.latitude);
                 const lng = parseFloat(denuncia.longitude);
                 L.circle([lat, lng], {
-                    color: 'blue',
-                    fillColor: '#03a9f4',
+                    color: 'red',
+                    fillColor: '#f03',
                     fillOpacity: 0.5,
                     radius: 50
                 }).addTo(this.map).bindPopup(`<p>Data: ${this.formatDate(denuncia.data_registro)}</p>`);

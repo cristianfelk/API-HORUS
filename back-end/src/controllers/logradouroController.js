@@ -4,7 +4,7 @@ const postLogradouro = async (req, res, next) => {
     await logradouroService.postLogradouro(req.body)
         .then(ret => res.status(201).send(ret))
         .catch(err => res.status(500).send(err))
-}
+};
 
 const getLogradouro = async (req, res) => {
     const { page = 1, limit = 10, cep = '', bairro = '' } = req.query;
@@ -35,7 +35,7 @@ const getLogradouroById = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 const getLogradourosByNome = async (req, res) => {
     const { logradouro } = req.params;
@@ -65,7 +65,7 @@ const deleteLogradouro = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 const putLogradouro = async (req, res, next) => {
     try {
@@ -77,7 +77,7 @@ const putLogradouro = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 const patchLogradouro = async (req, res, next) => {
     try {
@@ -89,7 +89,7 @@ const patchLogradouro = async (req, res, next) => {
     } catch (err) {
         next(err);
     }
-}
+};
 
 module.exports = {
     postLogradouro,

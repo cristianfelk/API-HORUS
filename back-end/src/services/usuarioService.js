@@ -27,32 +27,32 @@ const postUsuario = async (params) => {
 const getUsuario = async () => {
     const sql_get = `select * from usuario`;
     return await db.query(sql_get);
-}
+};
 
 const getUsuarioById  = async (params) => {
     const sql_get = `select * from usuario where id = $1`;
     const { id } = params;
     return (await db.query(sql_get, [id])).rows;   
-}
+};
 
 const getUsuarioByEmail = async (email) => {
     const sql_get = `select * from usuario where email = $1`;
     const result = await db.query(sql_get, [email]);
     return result.rows[0]; 
-}
+};
 
 const getUsuarioByLogin = async (login) => {
     const sql_get = `select * from usuario where login = $1`;
     const result = await db.query(sql_get, [login]);
     return result.rows[0]; 
-}
+};
 
 
 const deleteUsuario = async (params) => {
     const sql_delete = `delete from usuario where id = $1`;
     const { id } = params;
     await db.query(sql_delete, [id]);
-}
+};
 
 const putUsuario = async (params) => {
     let sql_put = `update usuario set
@@ -81,7 +81,7 @@ const putUsuario = async (params) => {
     }
 
     return await db.query(sql_put, values);
-}
+};
 
 const patchUsuario = async (params) => {
     const salt = crypto.randomBytes(16).toString('hex');

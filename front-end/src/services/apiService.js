@@ -26,7 +26,7 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       localStorage.removeItem('authToken');
-      window.location.href = '/';
+      window.location.href = '/HomeLogin';
     }
     console.error('Erro na resposta da API:', error.response || error.message);
     return Promise.reject(error);
