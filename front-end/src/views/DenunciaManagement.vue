@@ -49,6 +49,7 @@
                             <td>
                                 <button @click="editDenuncia(denuncia)" class="action-button">Editar</button>
                                 <button @click="verNoMapa(denuncia)" class="action-button">Ver no mapa</button>
+                                <button @click="verImagem(denuncia.image_url)" class="action-button">Visualizar Imagem</button>
                             </td>
                         </tr>
                     </tbody>
@@ -121,6 +122,14 @@
                 </form>
             </div>
         </div>
+
+        <div v-if="isImageVisible" class="modal">
+            <div class="modal-content">
+                <span class="close" @click="closeImageModal">&times;</span>
+                <h2>Visualizar Imagem</h2>
+                <img :src="currentImageUrl" alt="Imagem da Denúncia" class="image-preview" />
+            </div>
+        </div>
     </div>
 </div>
 </template>
@@ -143,6 +152,8 @@ export default {
             errorMessage: "",
             isEditing: false,
             isMapVisible: false,
+            isImageVisible: false,
+            currentImageUrl: null,
             selectedDenuncia: null,
             map: null,
             currentPage: 1,
@@ -202,39 +213,45 @@ export default {
                 }
             });
         },
+        verImagem(imageNome) {
+            this.currentImageUrl = `http://localhost:3000/files/${imageNome}`;
+            this.isImageVisible = true;
+        },
         initMap(lat, lon) {
             this.map = L.map("map").setView([lat, lon], 13);
             L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                maxZoom: 19,
             }).addTo(this.map);
-            L.marker([lat, lon]).addTo(this.map).bindPopup("Local da denúncia").openPopup();
+            L.marker([lat, lon]).addTo(this.map);
         },
         updateMap(lat, lon) {
             this.map.setView([lat, lon], 13);
-            L.marker([lat, lon]).addTo(this.map).bindPopup("Local da denúncia").openPopup();
+            L.marker([lat, lon]).addTo(this.map);
+        },
+        async updateDenuncia() {
+            try {
+                await updateDenuncia(this.selectedDenuncia);
+                this.closeModal();
+                await this.fetchDenuncias(this.currentPage);
+            } catch (error) {
+                console.error("Erro ao atualizar denúncia:", error);
+            }
+        },
+        changePage(page) {
+            if (page < 1 || page > this.totalPages) return;
+            this.fetchDenuncias(page);
         },
         closeMapModal() {
             this.isMapVisible = false;
             this.map = null;
         },
-        async updateDenuncia() {
-            try {
-                await updateDenuncia(this.selectedDenuncia.id, this.selectedDenuncia);
-                this.isEditing = false;
-                this.selectedDenuncia = null;
-                await this.fetchDenuncias(this.currentPage);
-            } catch (error) {
-                console.error("Erro ao atualizar a denúncia:", error);
-            }
-        },
         closeModal() {
             this.isEditing = false;
             this.selectedDenuncia = null;
         },
-        changePage(newPage) {
-            if (newPage >= 1 && newPage <= this.totalPages) {
-                this.fetchDenuncias(newPage);
-            }
+        closeImageModal() {
+            this.isImageVisible = false;
+            this.currentImageUrl = "";
         },
     },
 };
@@ -258,6 +275,11 @@ export default {
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
     padding: 40px;
     margin: 20px 0;
+}
+
+.image-preview {
+    max-width: 100%;
+    height: auto;
 }
 
 .title {
