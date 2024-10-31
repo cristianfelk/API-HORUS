@@ -45,11 +45,12 @@
                             <td>{{ denuncia.id_municipio }}</td>
                             <td>{{ denuncia.logradouro }}</td>
                             <td>{{ denuncia.descricao_denuncia }}</td>
-                            <td>{{ denuncia.confirmado }}</td>
-                            <td>
-                                <button @click="editDenuncia(denuncia)" class="action-button">Editar</button>
-                                <button @click="verNoMapa(denuncia)" class="action-button">Ver no mapa</button>
-                                <button @click="verImagem(denuncia.image_url)" class="action-button">Visualizar Imagem</button>
+                            <td>{{ denuncia.status }}</td>
+                            <td class="icons">
+                                <img src="https://img.icons8.com/?size=100&id=71201&format=png&color=000000" @click="editDenuncia(denuncia)" alt="Editar" class="action-icon" />
+                                <img src="https://img.icons8.com/?size=100&id=7891&format=png&color=000000" @click="verNoMapa(denuncia)" alt="Ver no mapa" class="action-icon" />
+                                <img src="https://img.icons8.com/?size=100&id=68826&format=png&color=000000" @click="verImagem(denuncia.image_url)" alt="Visualizar Imagem" class="action-icon" />
+                                <img src="https://img.icons8.com/?size=100&id=67884&format=png&color=000000" @click="confirmDelete(denuncia.id)" alt="Deletar denuncia" class="action-icon" />
                             </td>
                         </tr>
                     </tbody>
@@ -105,7 +106,7 @@
                     </div>
                     <div class="form-group">
                         <label for="status">Status:</label>
-                        <select id="status" v-model="selectedDenuncia.confirmado" required>
+                        <select id="status" v-model="selectedDenuncia.status" required>
                             <option value="Confirmado">Confirmado</option>
                             <option value="Não Confirmado">Não Confirmado</option>
                             <option value="Resolvido">Resolvido</option>
@@ -130,6 +131,13 @@
                 <img :src="currentImageUrl" alt="Imagem da Denúncia" class="image-preview" />
             </div>
         </div>
+        <div v-if="showConfirmation" class="confirmation-popup">
+            <div class="modal-content">
+                <p>Você tem certeza que deseja excluir esta de denuncia?</p>
+                <button @click="deleteDenuncia(currentDenunciaId)" class="confirm-button">Confirmar</button>
+                <button @click="cancelDelete" class="cancel-button">Cancelar</button>
+            </div>
+        </div>
     </div>
 </div>
 </template>
@@ -138,7 +146,8 @@
 import Navbar from "@/components/NavBar.vue";
 import {
     getDenuncia,
-    updateDenuncia
+    updateDenuncia,
+    deleteDenuncia
 } from "../services/apiService";
 import L from "leaflet";
 
@@ -161,6 +170,8 @@ export default {
             totalPages: 1,
             filtroSelecionado: '',
             filtroValor: '',
+            currentDenunciaId: null,
+            showConfirmation: false,
         };
     },
     computed: {
@@ -212,6 +223,23 @@ export default {
                     this.updateMap(denuncia.latitude, denuncia.longitude);
                 }
             });
+        },
+        confirmDelete(denunciaId) {
+            this.currentDenunciaId = denunciaId;
+            this.showConfirmation = true;
+        },
+        async deleteDenuncia(denunciaId) {
+            try {
+                await deleteDenuncia(denunciaId);
+                this.fetchDenuncias();
+                this.showConfirmation = false;
+            } catch (error) {
+                console.error('Erro ao excluir denuncia:', error);
+            }
+        },
+        cancelDelete() {
+            this.showConfirmation = false;
+            this.currentDenunciaId = null;
         },
         verImagem(imageNome) {
             this.currentImageUrl = `http://localhost:3000/files/${imageNome}`;
@@ -269,12 +297,12 @@ export default {
 
 .denuncia-management {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1400px;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
-    padding: 40px;
-    margin: 20px 0;
+    padding: 10px;
+    margin: 2px 0;
 }
 
 .image-preview {
@@ -361,6 +389,40 @@ th {
 
 tr:hover {
     background-color: #f5f5f5;
+}
+
+.icons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.icons .action-icon:last-child {
+    margin-right: 0;
+}
+
+.confirmation-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.confirmation-popup p {
+    margin-bottom: 20px;
+    color: rgb(0, 0, 0);
 }
 
 .action-button {

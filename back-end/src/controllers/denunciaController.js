@@ -80,8 +80,9 @@ const getDenuncia = async (req, res) => {
 
 const deleteDenuncia = async (req, res, next) => {
     try {
-        await denunciaService.deleteDenuncia(req.params);
-        res.status(204).send();
+        await denunciaService.deleteDenuncia(req.params)
+            .then(ret => res.status(204).send(ret))
+            .catch(err => res.status(500).send(err))
     } catch (err) {
         next(err);
     }

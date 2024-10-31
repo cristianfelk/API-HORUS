@@ -109,9 +109,17 @@ const getTotalDenuncias = async (chave_denuncia = '', email_denunciante = '') =>
 };
 
 const deleteDenuncia = async (params) => {
-    const sql_delete = `delete from denuncia where id = $1`
-    const { id } = params
-    await db.query(sql_delete, [id])
+    const sql_delete = `DELETE FROM denuncia WHERE id = $1`;
+    const { id } = params;
+
+    try {
+        console.log(`Tentando excluir a denúncia com ID: ${id}`); // Debug
+        const result = await db.query(sql_delete, [id]);
+        console.log(`Resultado da exclusão:`, result); // Debug
+    } catch (error) {
+        console.error('Erro ao excluir a denúncia:', error); // Tratamento de erro
+        throw new Error('Não foi possível excluir a denúncia.');
+    }
 };
 
 const patchDenuncia = async (params) => {
