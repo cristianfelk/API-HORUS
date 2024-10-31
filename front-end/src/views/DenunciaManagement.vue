@@ -108,7 +108,7 @@
                         <label for="status">Status:</label>
                         <select id="status" v-model="selectedDenuncia.status" required>
                             <option value="Confirmado">Confirmado</option>
-                            <option value="Não Confirmado">Não Confirmado</option>
+                            <option value="Não confirmado">Não confirmado</option>
                             <option value="Resolvido">Resolvido</option>
                         </select>
                     </div>

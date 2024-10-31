@@ -7,7 +7,7 @@ const postUsuario = async (params) => {
         const senhaCriptografada = crypto.createHash('sha256').update(params.senha + salt).digest('hex');
 
         const sql_post = `insert into usuario (nome, login, senha, salt, email, status, perfil, data_cadastro)
-                          VALUES ($1, $2, $3, $4, $5, $6, $7, current_date)`;
+                          values ($1, $2, $3, $4, $5, $6, $7, current_date)`;
         const values = [
             params.nome,
             params.login,

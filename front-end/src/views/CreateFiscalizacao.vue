@@ -191,7 +191,7 @@ export default {
                 tipo_imovel: '',
                 hora_entrada: this.getCurrentDateTime(),
                 timestamp_entrada: null,
-                usuario_id: this.getLoggedUserId(), // Adicionando o usuário logado ao campo usuario_id
+                usuario_id: this.getLoggedUserId(),
                 a1: '',
                 a2: '',
                 b: '',

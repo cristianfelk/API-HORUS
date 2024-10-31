@@ -44,7 +44,7 @@ const postFiscalizacao = async (params) => {
 const getFiscalizacao = async (page = 1, limit = 10, logradouro = '', complemento = '') => {
     const offset = (page - 1) * limit;
     let sql_get = `select *, to_char(hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as format_data
-                   from fiscalizacao where true`;
+                   from fiscalizacao where true and excluido != true`;
     let values = [];
 
     if (logradouro) {

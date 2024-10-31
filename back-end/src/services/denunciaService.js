@@ -11,7 +11,7 @@ const generateRandomKey = (length) => {
 
 const postDenuncia = async (params) => {
     try {
-
+        console.log(params)
         const sql_post = `
             insert into denuncia 
             (anonima, email_denunciante, nome_denunciante, telefone_denunciante, 
@@ -62,17 +62,17 @@ const putDenuncia = async (params) => {
             id_municipio = $6,
             logradouro = $7,
             descricao_denuncia = $8,
-            id_status = $9
+            status = $9
         where id = $1
     `;
-    const { id, anonima, email_denunciante, nome_denunciante, telefone_denunciante, id_municipio, logradouro, descricao_denuncia, id_status  } = params;
+    const { id, anonima, email_denunciante, nome_denunciante, telefone_denunciante, id_municipio, logradouro, descricao_denuncia, status  } = params;
 
-    return await db.query(sql_put, [id, anonima, email_denunciante, nome_denunciante, telefone_denunciante, id_municipio, logradouro, descricao_denuncia, id_status]);
+    return await db.query(sql_put, [id, anonima, email_denunciante, nome_denunciante, telefone_denunciante, id_municipio, logradouro, descricao_denuncia, status]);
 };
 
 const getDenuncia = async (page = 1, limit = 10, chave_denuncia = '', email_denunciante = '') => {
     const offset = (page - 1) * limit;
-    let sql_get = `select * from denuncia where true`;
+    let sql_get = `select * from denuncia where true and excluido != true`;
     let values = [];
 
     if (chave_denuncia) {
@@ -112,12 +112,7 @@ const getTotalDenuncias = async (chave_denuncia = '', email_denunciante = '') =>
 const deleteDenuncia = async (params) => {
     const sql_delete = `update denuncia set excluido = true where id = $1`;
     const { id } = params;
-
-    try {
-        const result = await db.query(sql_delete, [id]);
-    } catch (error) {
-        throw new Error('Não foi possível excluir a denúncia.');
-    }
+    await db.query(sql_delete, [id]);
 };
 
 const patchDenuncia = async (params) => {

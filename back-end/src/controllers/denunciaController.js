@@ -24,11 +24,10 @@ const postDenuncia = async (req, res, next) => {
             id_municipio, 
             logradouro, 
             descricao_denuncia, 
-            id_status, 
+            status, 
             chave_denuncia, 
             latitude, 
             longitude,
-            confirmado 
         } = req.body;
 
         const reportData = {
@@ -39,11 +38,10 @@ const postDenuncia = async (req, res, next) => {
             id_municipio,
             logradouro,
             descricao_denuncia,
-            id_status,
+            status,
             chave_denuncia,
             latitude,  
             longitude, 
-            confirmado   
         };
 
         if (req.file) {
