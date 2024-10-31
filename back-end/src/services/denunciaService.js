@@ -11,7 +11,6 @@ const generateRandomKey = (length) => {
 
 const postDenuncia = async (params) => {
     try {
-        console.log(params)
         const sql_post = `
             insert into denuncia 
             (anonima, email_denunciante, nome_denunciante, telefone_denunciante, 
@@ -85,7 +84,7 @@ const getDenuncia = async (page = 1, limit = 10, chave_denuncia = '', email_denu
         values.push(`%${email_denunciante}%`);
     }
 
-    sql_get += ` order by id limit $${values.length + 1} offset $${values.length + 2}`;
+    sql_get += ` order by id desc limit $${values.length + 1} offset $${values.length + 2}`;
     values.push(limit, offset);
 
     return await db.query(sql_get, values);

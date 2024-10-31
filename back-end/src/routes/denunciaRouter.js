@@ -7,11 +7,11 @@ module.exports = (app, upload) => {
     app.get('/denuncia/ultimas', denunciaController.getUltimasDenuncias)
     app.get('/denunciaConfirmada', denunciaController.getDenunciasConfirmadas)
     app.delete('/denuncia/:id', denunciaController.deleteDenuncia)
-
+    app.patch('/denuncia/:id', denunciaController.patchDenuncia)
+    
     app.route(basePath)
         .get(denunciaController.getDenuncia);
 
     app.route(`${basePath}/:id`)
         .put(denunciaController.putDenuncia)
-        .patch(denunciaController.patchDenuncia);
 };

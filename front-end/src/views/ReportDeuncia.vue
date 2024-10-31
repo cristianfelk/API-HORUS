@@ -190,7 +190,7 @@ export default {
                 image_url: null,
                 latitude: null,
                 longitude: null,
-            };
+zzzz            };
             this.municipioSearch = "";
             this.municipioSuggestions = [];
         },

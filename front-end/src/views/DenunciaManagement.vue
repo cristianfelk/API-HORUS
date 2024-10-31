@@ -258,11 +258,12 @@ export default {
         },
         async updateDenuncia() {
             try {
-                await updateDenuncia(this.selectedDenuncia);
-                this.closeModal();
+                await updateDenuncia(this.selectedDenuncia.id, this.selectedDenuncia);
+                this.isEditing = false;
+                this.selectedDenuncia = null;
                 await this.fetchDenuncias(this.currentPage);
             } catch (error) {
-                console.error("Erro ao atualizar denúncia:", error);
+                console.error("Erro ao atualizar a denúncia:", error);
             }
         },
         changePage(page) {
