@@ -91,6 +91,7 @@ const patchUsuario = async (params) => {
     let fields = [];
     Object.keys(paramsSemSenha).forEach(e => e !== 'id' && fields.push(`${e} = '${paramsSemSenha[e]}'`));
     fields.push(`senha = '${senhaCriptografada}'`);
+    fields.push(`salt = '${salt}'`);
     fields = fields.join(', ');
 
     const sql = `update usuario set ${fields} where id = ${params.id}`;
