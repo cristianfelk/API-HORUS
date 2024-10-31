@@ -69,7 +69,9 @@
 </template>
 
 <script>
+import 'leaflet/dist/leaflet.css';
 import Navbar from "@/components/NavBar.vue";
+import L from 'leaflet';
 import {
     searchMunicipioByNome,
     createDenuncia
@@ -190,7 +192,8 @@ export default {
                 image_url: null,
                 latitude: null,
                 longitude: null,
-zzzz            };
+                status: false,
+            };
             this.municipioSearch = "";
             this.municipioSuggestions = [];
         },
