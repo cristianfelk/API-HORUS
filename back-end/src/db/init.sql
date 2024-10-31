@@ -53,7 +53,8 @@ create table usuario (
   data_cadastro date,
   data_atualizacao timestamp,
   reset_token text,
-  reset_token_expiration timestamp
+  reset_token_expiration timestamp,
+  excluido boolean default false
 );
 
 create table fiscalizacao (
@@ -86,6 +87,7 @@ create table fiscalizacao (
   qtd_tratado varchar(100),
   tipo_perifocal varchar(100),
   qtd_gramas varchar(100),
+  excluido boolean default false,
   foreign key (usuario_id) references usuario (id)
 );
 
@@ -104,6 +106,7 @@ create table denuncia (
   chave_denuncia text unique,
   image_url text,
   data_registro timestamp default current_timestamp,
+  excluido boolean default false,
   foreign key (id_municipio) references municipio (id)
 );
 

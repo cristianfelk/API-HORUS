@@ -6,7 +6,7 @@ const postUsuario = async (params) => {
         const salt = crypto.randomBytes(16).toString('hex');
         const senhaCriptografada = crypto.createHash('sha256').update(params.senha + salt).digest('hex');
 
-        const sql_post = `INSERT INTO usuario (nome, login, senha, salt, email, status, perfil, data_cadastro)
+        const sql_post = `insert into usuario (nome, login, senha, salt, email, status, perfil, data_cadastro)
                           VALUES ($1, $2, $3, $4, $5, $6, $7, current_date)`;
         const values = [
             params.nome,
@@ -25,7 +25,7 @@ const postUsuario = async (params) => {
 };
 
 const getUsuario = async () => {
-    const sql_get = `select * from usuario`;
+    const sql_get = `select * from usuario where excluido != true`;
     return await db.query(sql_get);
 };
 
@@ -49,7 +49,7 @@ const getUsuarioByLogin = async (login) => {
 
 
 const deleteUsuario = async (params) => {
-    const sql_delete = `delete from usuario where id = $1`;
+    const sql_delete = `update usuario set excluido = true where id = $1`;
     const { id } = params;
     await db.query(sql_delete, [id]);
 };

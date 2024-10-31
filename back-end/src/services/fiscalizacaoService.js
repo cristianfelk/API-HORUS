@@ -83,14 +83,14 @@ const getTotalFiscalizacoes = async (logradouro = '', complemento = '') => {
 
 const getUltimasFiscalizacoes = async (limit = 5) => {
     const sql_get = `select *, to_char(hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as hora_entrada
-                     from fiscalizacao
+                     from fiscalizacao where excluido != true
                      order by id desc
                      limit $1`;
     return await db.query(sql_get, [limit]);
 };
 
 const deleteFiscalizacao = async (params) => {
-    const sql_delete = `delete from fiscalizacao where id = $1`
+    const sql_delete = `update fiscalizacao set excluido = true where id = $1`
     const { id } = params
     await db.query(sql_delete, [id])
 };
@@ -120,7 +120,7 @@ const patchFiscalizacao = async (params) => {
 };
 
 const getFiscalizacaoRel = async () => {
-    const sql_get = `select * from fiscalizacao`;
+    const sql_get = `select * from fiscalizacao where excluido != true`;
     return await db.query(sql_get);
 };
 

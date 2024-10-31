@@ -45,6 +45,7 @@ const getUltimasDenuncias = async (limit = 5) => {
     const sql_get = `select d.*, m.nome as id_municipio
                      from denuncia d
                      left join municipio m on (d.id_municipio = m.id)
+                     where excluido != true
                      order by d.id desc
                      limit $1`;
     
@@ -109,15 +110,12 @@ const getTotalDenuncias = async (chave_denuncia = '', email_denunciante = '') =>
 };
 
 const deleteDenuncia = async (params) => {
-    const sql_delete = `DELETE FROM denuncia WHERE id = $1`;
+    const sql_delete = `update denuncia set excluido = true where id = $1`;
     const { id } = params;
 
     try {
-        console.log(`Tentando excluir a denúncia com ID: ${id}`); // Debug
         const result = await db.query(sql_delete, [id]);
-        console.log(`Resultado da exclusão:`, result); // Debug
     } catch (error) {
-        console.error('Erro ao excluir a denúncia:', error); // Tratamento de erro
         throw new Error('Não foi possível excluir a denúncia.');
     }
 };
@@ -131,7 +129,7 @@ const patchDenuncia = async (params) => {
 };
 
 const getDenunciasConfirmadas = async (params) => {
-    const sql_get = `select * from denuncia where status = 'Confirmado'`;
+    const sql_get = `select * from denuncia where status = 'Confirmado' and excluido != true`;
     return await db.query(sql_get);
 };
 
