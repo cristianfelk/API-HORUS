@@ -1,5 +1,8 @@
 FROM postgres:15.2-alpine
 
+RUN apk add --no-cache tzdata
+ENV TZ=America/Sao_Paulo
+
 COPY init.sql /docker-entrypoint-initdb.d/
 
 ENV POSTGRES_USER admin
