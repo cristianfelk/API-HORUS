@@ -127,7 +127,7 @@
         <div v-if="isImageVisible" class="modal">
             <div class="modal-content">
                 <span class="close" @click="closeImageModal">&times;</span>
-                <h2>Visualizar Imagem</h2>
+                <h2>Imagem denúncia</h2>
                 <img :src="currentImageUrl" alt="Imagem da Denúncia" class="image-preview" />
             </div>
         </div>
@@ -166,7 +166,7 @@ export default {
             selectedDenuncia: null,
             map: null,
             currentPage: 1,
-            itemsPerPage: 10,
+            itemsPerPage: 5,
             totalPages: 1,
             filtroSelecionado: '',
             filtroValor: '',

@@ -2,7 +2,6 @@
 <div class="municipio-management-container">
     <Navbar />
     <div class="municipio-management">
-        <h2 class="title">Gerenciamento de Municípios</h2>
         <div class="filter-container">
             <label for="uf-filter">Filtrar por UF:</label>
             <input id="uf-filter" v-model="filters.uf" type="text" placeholder="Digite UF">

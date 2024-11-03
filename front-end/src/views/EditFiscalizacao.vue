@@ -50,17 +50,15 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="pendencia">Pendência:</label>
-                    <select v-model="fiscalizacao.pendencia" id="pendencia">
-                        <option value="S">Sim</option>
-                        <option value="N">Não</option>
-                    </select>
+                    <label for="tipo_imovel">Tipo de Imóvel:</label>
+                    <input v-model="fiscalizacao.pendencia" id="tipo_imovel" type="text" placeholder="Tipo de Imóvel" />
                 </div>
                 <div class="form-group">
                     <label for="status">Status:</label>
                     <select v-model="fiscalizacao.status" id="status">
-                        <option value="1">Ativo</option>
-                        <option value="0">Inativo</option>
+                        <option value="1">Novo</option>
+                        <option value="2">Em andamento</option>
+                        <option value="3">Finalizado</option>
                     </select>
                 </div>
             </div>
