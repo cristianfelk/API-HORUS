@@ -137,6 +137,13 @@ const router = createRouter({
       props: true,
     },
     {
+      path: '/fiscalizacoes/:id/editar',
+      name: 'edit-fiscalizacao',
+      component: () => import('@/views/EditFiscalizacao.vue'),
+      meta: { requiresAuth: true },
+      props: true,
+    },
+    {
       path: '/logs',
       name: 'Logs',
       component: () => import('@/views/LogsCadastrais.vue'),

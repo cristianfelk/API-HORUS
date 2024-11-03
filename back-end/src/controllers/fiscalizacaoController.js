@@ -81,6 +81,16 @@ const getFiscalizacaoRel = async (req, res, next) => {
     }
 };
 
+const getFiscalizacaoById = async (req, res, next) => {
+    try {
+        await fiscalizacaoService.getFiscalizacaoById(req.params)
+            .then(ret => res.status(200).send(ret))
+            .catch(err => res.status(500).send(err))
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     postFiscalizacao,
     getFiscalizacao,
@@ -88,5 +98,6 @@ module.exports = {
     putFiscalizacao,
     patchFiscalizacao,
     getUltimasFiscalizacoes,
-    getFiscalizacaoRel
+    getFiscalizacaoRel,
+    getFiscalizacaoById
 };

@@ -114,7 +114,6 @@ const patchFiscalizacao = async (params) => {
     let fields = [];
     Object.keys(params).map(p => p).forEach(e => e !== 'id' && fields.push(`${e} = '${params[e]}'`));
     fields = fields.join(', ');
-    console.log(params)
     const sql = `update fiscalizacao set ${fields} where id = ${params.id}`;
     await db.query(sql);
 };
@@ -122,6 +121,12 @@ const patchFiscalizacao = async (params) => {
 const getFiscalizacaoRel = async () => {
     const sql_get = `select * from fiscalizacao where excluido != true`;
     return await db.query(sql_get);
+};
+
+const getFiscalizacaoById  = async (params) => {
+    const sql_get = `select * from fiscalizacao where id = $1`;
+    const { id } = params;
+    return (await db.query(sql_get, [id])).rows;   
 };
 
 module.exports = {
@@ -132,5 +137,6 @@ module.exports = {
     patchFiscalizacao,
     getTotalFiscalizacoes,
     getUltimasFiscalizacoes,
-    getFiscalizacaoRel
+    getFiscalizacaoRel,
+    getFiscalizacaoById
 };

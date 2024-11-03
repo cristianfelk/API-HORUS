@@ -81,6 +81,8 @@ export const getFiscalizacao = (params) => apiClient.get('/fiscalizacao', { para
 export const deleteFiscalizacao = (id) => apiClient.delete(`/fiscalizacao/${id}`);
 export const getUltimasFiscalizacoes = (limit) => apiClient.get(`/fiscalizacao/ultimas`, { params: { limit } });
 export const getFiscalizacaoRel = (params) => apiClient.get('/fiscalizacao/relatorio', { params });
+export const getFiscalizacaoById = (id) => apiClient.get(`/fiscalizacao/${id}`);
+export const updateFiscalizacao = (id, data) => apiClient.patch(`/fiscalizacao/${id}`, data);
 
 // Logs
 export const getLogMonitoramento = () => apiClient.get('/logMonitoramento');
