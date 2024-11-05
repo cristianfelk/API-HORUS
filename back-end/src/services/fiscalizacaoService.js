@@ -43,8 +43,12 @@ const postFiscalizacao = async (params) => {
 
 const getFiscalizacao = async (page = 1, limit = 10, logradouro = '', complemento = '') => {
     const offset = (page - 1) * limit;
-    let sql_get = `select *, to_char(hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as format_data
-                   from fiscalizacao where true and excluido != true`;
+    let sql_get = `select f.*, 
+                        to_char(f.hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as format_data,
+                        concat(f.usuario_id, ' - ', u.nome) as usuario_id
+                   from fiscalizacao f
+                   left join usuario u on (f.usuario_id = u.id )
+                   where true and f.excluido != true`;
     let values = [];
 
     if (logradouro) {
@@ -81,7 +85,7 @@ const getTotalFiscalizacoes = async (logradouro = '', complemento = '') => {
     return parseInt(result.rows[0].total, 10);
 };
 
-const getUltimasFiscalizacoes = async (limit = 5) => {
+const getUltimasFiscalizacoes = async (limit = 6) => {
     const sql_get = `select *, to_char(hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as hora_entrada
                      from fiscalizacao where excluido != true
                      order by id desc

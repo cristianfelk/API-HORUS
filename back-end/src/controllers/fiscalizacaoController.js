@@ -28,7 +28,7 @@ const getFiscalizacao = async (req, res) => {
 };
 
 const getUltimasFiscalizacoes = async (req, res) => {
-    const { limit = 5 } = req.query;
+    const { limit = 6 } = req.query;
 
     try {
         const fiscalizacoes = await fiscalizacaoService.getUltimasFiscalizacoes(parseInt(limit, 10));

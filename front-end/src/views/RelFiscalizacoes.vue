@@ -3,29 +3,46 @@
     <Navbar />
     <h1>Relatório de Fiscalizações</h1>
 
-    <div class="filters">
-        <label for="quarteirao">Quarteirão:</label>
-        <input type="text" v-model="filters.quarteirao" placeholder="Filtrar por Quarteirão" />
+    <div class="tabs">
+        <button :class="{ active: activeTab === 'filtros' }" @click="activeTab = 'filtros'">Filtros Gerais</button>
+        <button :class="{ active: activeTab === 'listar' }" @click="activeTab = 'listar'">Listar</button>
+    </div>
 
-        <label for="sequencia">Sequência:</label>
-        <input type="text" v-model="filters.sequencia" placeholder="Filtrar por Sequência" />
-
-        <label for="logradouro">Logradouro:</label>
-        <input type="text" v-model="filters.logradouro_fiscalizacao" placeholder="Filtrar por Logradouro" />
-
-        <label for="tipoImovel">Tipo de Imóvel:</label>
-        <input type="text" v-model="filters.tipo_imovel" placeholder="Filtrar por Tipo de Imóvel" />
-        <div class="fields">
-            <h3>Selecione os campos para incluir no PDF:</h3>
-            <div class="checkbox-group">
-                <div v-for="(label, field) in availableFields" :key="field" class="checkbox-item">
-                    <input type="checkbox" v-model="selectedFields" :value="field" id="field-{{ field }}" />
-                    <label :for="'field-' + field">{{ label }}</label>
-                </div>
-            </div>
+    <div v-if="activeTab === 'filtros'" class="filters">
+        <div class="filter-item date-range">
+            <label for="dataInicial">Data Inicial:</label>
+            <input type="date" v-model="filters.dataInicial" />
+            <label for="dataFinal">Data Final:</label>
+            <input type="date" v-model="filters.dataFinal" />
+        </div>
+        <div class="filter-item">
+            <label for="quarteirao">Quarteirão:</label>
+            <input type="text" v-model="filters.quarteirao" placeholder="Filtrar por Quarteirão" />
+        </div>
+        <div class="filter-item">
+            <label for="sequencia">Sequência:</label>
+            <input type="text" v-model="filters.sequencia" placeholder="Filtrar por Sequência" />
+        </div>
+        <div class="filter-item">
+            <label for="logradouro">Logradouro:</label>
+            <input type="text" v-model="filters.logradouro_fiscalizacao" placeholder="Filtrar por Logradouro" />
+        </div>
+        <div class="filter-item">
+            <label for="tipoImovel">Tipo de Imóvel:</label>
+            <input type="text" v-model="filters.tipo_imovel" placeholder="Filtrar por Tipo de Imóvel" />
         </div>
 
         <button @click="clearFilters">Limpar Filtros</button>
+    </div>
+
+    <div v-if="activeTab === 'listar'" class="fields">
+        <h3>Selecione os campos para incluir no PDF:</h3>
+        <div class="checkbox-group">
+            <div v-for="(label, field) in availableFields" :key="field" class="checkbox-item">
+                <input type="checkbox" v-model="selectedFields" :value="field" id="field-{{ field }}" />
+                <label :for="'field-' + field">{{ label }}</label>
+            </div>
+        </div>
     </div>
 
     <button @click="generatePDF">Gerar PDF</button>
@@ -46,6 +63,10 @@ export default {
         Navbar
     },
     data() {
+        const today = new Date();
+        const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
         return {
             fiscalizacoes: [],
             filters: {
@@ -53,6 +74,8 @@ export default {
                 sequencia: '',
                 logradouro_fiscalizacao: '',
                 tipo_imovel: '',
+                dataInicial: firstDayOfMonth.toISOString().split('T')[0],
+                dataFinal: lastDayOfMonth.toISOString().split('T')[0]
             },
             availableFields: {
                 quarteirao: 'Quarteirão',
@@ -81,23 +104,32 @@ export default {
                 qtd_grama: 'Qtd. Gramas',
                 qtd_tratado: 'Qtd. Tratado',
                 tipo_perifocal: 'Tipo Perifocal',
-                qtd_gramas: 'Qtd. Gramas',
+                qtd_gramas: 'Qtd. Gramas'
             },
             selectedFields: ['quarteirao', 'sequencia', 'logradouro_fiscalizacao', 'numero', 'complemento', 'hora_entrada', 'tipo_imovel'],
             userProfile: localStorage.getItem("userName"),
+            activeTab: 'filtros'
         };
     },
     computed: {
         filteredFiscalizacoes() {
-            return this.fiscalizacoes.filter((fiscalizacao) => {
+            return this.fiscalizacoes.filter(fiscalizacao => {
+                const horaEntrada = new Date(fiscalizacao.hora_entrada);
+                const dataInicial = this.filters.dataInicial ? new Date(this.filters.dataInicial) : null;
+                const dataFinal = this.filters.dataFinal ? new Date(this.filters.dataFinal) : null;
+
+                const isWithinDateRange = (!dataInicial || horaEntrada >= dataInicial) &&
+                    (!dataFinal || horaEntrada <= dataFinal);
+
                 return (
                     (this.filters.quarteirao === '' || fiscalizacao.quarteirao.includes(this.filters.quarteirao)) &&
                     (this.filters.sequencia === '' || fiscalizacao.sequencia.includes(this.filters.sequencia)) &&
                     (this.filters.logradouro_fiscalizacao === '' || fiscalizacao.logradouro_fiscalizacao.toLowerCase().includes(this.filters.logradouro_fiscalizacao.toLowerCase())) &&
-                    (this.filters.tipo_imovel === '' || fiscalizacao.tipo_imovel.toLowerCase().includes(this.filters.tipo_imovel.toLowerCase()))
+                    (this.filters.tipo_imovel === '' || fiscalizacao.tipo_imovel.toLowerCase().includes(this.filters.tipo_imovel.toLowerCase())) &&
+                    isWithinDateRange
                 );
             });
-        },
+        }
     },
     methods: {
         async fetchFiscalizacoes() {
@@ -110,7 +142,6 @@ export default {
         },
         generatePDF() {
             const doc = new jsPDF();
-
             const logoRel = logo;
             doc.addImage(logoRel, 'png', 15, 8, 30, 30);
 
@@ -138,9 +169,9 @@ export default {
             doc.text(emit, doc.internal.pageSize.getWidth() - 51, 26);
             doc.text(emissionDate, doc.internal.pageSize.getWidth() - 51, 32);
 
-            const columns = this.selectedFields.map((field) => this.availableFields[field]);
-            const rows = this.filteredFiscalizacoes.map((fiscalizacao) =>
-                this.selectedFields.map((field) => {
+            const columns = this.selectedFields.map(field => this.availableFields[field]);
+            const rows = this.filteredFiscalizacoes.map(fiscalizacao =>
+                this.selectedFields.map(field => {
                     if (field === 'hora_entrada') {
                         return this.formatDate(fiscalizacao.hora_entrada);
                     }
@@ -150,7 +181,7 @@ export default {
             doc.autoTable({
                 head: [columns],
                 body: rows,
-                startY: 40,
+                startY: 40
             });
 
             doc.save('relatorio_fiscalizacoes.pdf');
@@ -161,57 +192,98 @@ export default {
                 month: 'long',
                 day: 'numeric',
                 hour: '2-digit',
-                minute: '2-digit',
+                minute: '2-digit'
             };
             return new Date(date).toLocaleDateString('pt-BR', options);
         },
         clearFilters() {
+            const today = new Date();
+            const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+            const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+
             this.filters = {
                 quarteirao: '',
                 sequencia: '',
                 logradouro_fiscalizacao: '',
                 tipo_imovel: '',
+                dataInicial: firstDayOfMonth.toISOString().split('T')[0],
+                dataFinal: lastDayOfMonth.toISOString().split('T')[0]
             };
             this.selectedFields = [];
-        },
+        }
     },
     mounted() {
         this.fetchFiscalizacoes();
-    },
+    }
 };
 </script>
 
 <style scoped>
 .rel-fiscalizacoes {
-    margin: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
 }
 
-.filters {
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    background-color: #4285f4;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.tabs button.active {
+    background-color: #69c369;
+    color: white;
+    font-weight: bold;
+}
+
+.filters,
+.fields {
     display: flex;
     flex-direction: column;
+    gap: 15px;
+}
+
+.filters .filter-item {
+    display: flex;
+    align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
 }
 
 .filters label {
-    margin-bottom: 5px;
     font-weight: bold;
+    font-size: 14px;
+    color: #333;
+    flex: 0 0 150px;
 }
 
 .filters input {
-    padding: 8px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
     font-size: 14px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
 }
 
-.fields {
-    margin-bottom: 20px;
+.filters input:focus {
+    border-color: #4285f4;
+    outline: none;
+    box-shadow: 0 0 5px rgba(66, 133, 244, 0.5);
 }
 
-.fields h3 {
-    font-weight: bold;
-    margin-bottom: 10px;
+.filters .date-range {
+    display: flex;
+    gap: 10px;
 }
 
 .checkbox-group {
@@ -223,22 +295,59 @@ export default {
 .checkbox-item {
     display: flex;
     align-items: center;
+    width: calc(50% - 10px);
 }
 
 .checkbox-item input[type='checkbox'] {
-    margin-right: 5px;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #4285f4;
+    border-radius: 4px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
-button {
-    margin-top: 10px;
-    padding: 10px 15px;
-    background-color: #4caf50;
-    color: white;
-    border: none;
+.checkbox-item input[type='checkbox']:checked {
+    background-color: #4285f4;
+    border-color: #4285f4;
+}
+
+.checkbox-item input[type='checkbox']:checked::after {
+    content: '';
+    display: block;
+    width: 10px;
+    height: 10px;
+    margin: auto;
+    background-color: white;
+    border-radius: 2px;
+}
+
+.checkbox-item label {
+    font-size: 14px;
+    color: #333;
     cursor: pointer;
 }
 
+button {
+    margin-top: 20px;
+    padding: 12px 18px;
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
 button:hover {
-    background-color: #45a049;
+    background-color: #357ae8;
+}
+
+button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(66, 133, 244, 0.5);
 }
 </style>

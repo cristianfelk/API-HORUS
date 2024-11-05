@@ -187,7 +187,7 @@ form input {
 }
 
 .map-container {
-    height: 300px;
+    height: 560px;
     margin-top: 20px;
     border-radius: 10px;
 }

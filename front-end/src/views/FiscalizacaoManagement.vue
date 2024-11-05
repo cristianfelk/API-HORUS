@@ -11,7 +11,8 @@
                     <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesNovas" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
                         <h3>{{ fiscalizacao.logradouro_fiscalizacao + ' - ' + fiscalizacao.numero }}</h3>
                         <p><strong>Complemento:</strong> {{ fiscalizacao.complemento }}</p>
-                        <p><strong>Hora Entrada:</strong> {{ fiscalizacao.hora_entrada }}</p>
+                        <p><strong>Usuário:</strong> {{ fiscalizacao.usuario_id }}</p>
+                        <p><strong>Hora Entrada:</strong> {{ fiscalizacao.format_data }}</p>
                         <div class="card-actions">
                             <button @click.stop="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
                             <button @click.stop="confirmDelete(fiscalizacao.id)" class="delete-button">Excluir</button>
@@ -26,6 +27,7 @@
                     <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesAndamento" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
                         <h3>{{ fiscalizacao.logradouro_fiscalizacao + ' - ' + fiscalizacao.numero }}</h3>
                         <p><strong>Complemento:</strong> {{ fiscalizacao.complemento }}</p>
+                        <p><strong>Usuário:</strong> {{ fiscalizacao.usuario_id }}</p>
                         <p><strong>Hora Entrada:</strong> {{ fiscalizacao.format_data }}</p>
                         <div class="card-actions">
                             <button @click.stop="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
@@ -41,7 +43,8 @@
                     <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesFinalizadas" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
                         <h3>{{ fiscalizacao.logradouro_fiscalizacao + ' - ' + fiscalizacao.numero }}</h3>
                         <p><strong>Complemento:</strong> {{ fiscalizacao.complemento }}</p>
-                        <p><strong>Hora Entrada:</strong> {{ fiscalizacao.hora_entrada }}</p>
+                        <p><strong>Usuário:</strong> {{ fiscalizacao.usuario_id }}</p>
+                        <p><strong>Hora Entrada:</strong> {{ fiscalizacao.format_data }}</p>
                         <div class="card-actions">
                             <button @click.stop="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
                             <button @click.stop="confirmDelete(fiscalizacao.id)" class="delete-button">Excluir</button>
@@ -124,7 +127,7 @@ export default {
             selectedFiscalizacao: null,
             currentPage: 1,
             totalPages: 1,
-            pageSize: 5
+            pageSize: 9
         };
     },
     methods: {
@@ -223,7 +226,6 @@ export default {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding-top: 80px;
 }
 
 .button-container {
