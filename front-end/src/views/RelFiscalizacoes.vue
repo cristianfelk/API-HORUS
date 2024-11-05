@@ -232,7 +232,7 @@ export default {
 }
 
 .tabs button {
-    background-color: #4285f4;
+    background-color: #69c36983;
     padding: 10px 20px;
     border: none;
     cursor: pointer;
@@ -278,7 +278,7 @@ export default {
 .filters input:focus {
     border-color: #4285f4;
     outline: none;
-    box-shadow: 0 0 5px rgba(66, 133, 244, 0.5);
+    box-shadow: 0 0 5px rgba(0, 255, 34, 0.5);
 }
 
 .filters .date-range {
@@ -302,7 +302,7 @@ export default {
     appearance: none;
     width: 20px;
     height: 20px;
-    border: 2px solid #4285f4;
+    border: 2px solid #69c369;
     border-radius: 4px;
     margin-right: 10px;
     cursor: pointer;
@@ -310,8 +310,8 @@ export default {
 }
 
 .checkbox-item input[type='checkbox']:checked {
-    background-color: #4285f4;
-    border-color: #4285f4;
+    background-color: #69c369;
+    border-color: #69c369;
 }
 
 .checkbox-item input[type='checkbox']:checked::after {
@@ -333,7 +333,7 @@ export default {
 button {
     margin-top: 20px;
     padding: 12px 18px;
-    background-color: #4285f4;
+    background-color: #69c369;
     color: white;
     border: none;
     border-radius: 4px;
@@ -343,7 +343,7 @@ button {
 }
 
 button:hover {
-    background-color: #357ae8;
+    background-color: #85f885;
 }
 
 button:focus {
