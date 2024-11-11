@@ -153,138 +153,91 @@ values
 insert into monitoramento (casos_confirmados, casos_mortes, casos_monitorados, casos_ativos) 
 values (0, 0, 0, 0);
 
--- create or replace function log_table_changes()
--- returns trigger as $$
--- begin
---     insert into log (acao, tabela, usuario_acao, dados_antigos, dados_alterados, data_log)
---     values (
---         tg_op,  
---         tg_table_name,
---         current_user,
---         case when tg_op = 'DELETE' then row_to_json(old) else row_to_json(old) end,
---         case when tg_op = 'UPDATE' then row_to_json(new) else null end,
---         current_timestamp  
---     );
---     return new;
--- end;
--- $$ language plpgsql;
+create or replace function log_table_changes()
+returns trigger as $$
+begin
+    insert into log (acao, tabela, usuario_acao, dados_antigos, dados_alterados, data_log)
+    values (
+        tg_op,  
+        tg_table_name,
+        current_user,
+        case when tg_op = 'DELETE' then row_to_json(old) else row_to_json(old) end,
+        case when tg_op = 'UPDATE' then row_to_json(new) else null end,
+        current_timestamp  
+    );
+    return new;
+end;
+$$ language plpgsql;
 
--- create trigger trigger_log_monitoramento_update
--- after update on monitoramento
--- for each row
--- when (old.* is distinct from new.*)
--- execute function log_table_changes();
+create trigger trigger_log_monitoramento_update
+after update on monitoramento
+for each row
+when (old.* is distinct from new.*)
+execute function log_table_changes();
 
--- create trigger trigger_log_monitoramento_delete
--- before delete on monitoramento
--- for each row
--- execute function log_table_changes();
+create trigger trigger_log_denuncia_update
+after update on denuncia
+for each row
+when (old.* is distinct from new.*)
+execute function log_table_changes();
 
--- create trigger trigger_log_denuncia_update
--- after update on denuncia
--- for each row
--- when (old.* is distinct from new.*)
--- execute function log_table_changes();
+create trigger trigger_log_fiscalizacao_update
+after update on fiscalizacao
+for each row
+when (old.* is distinct from new.*)
+execute function log_table_changes();
 
--- create trigger trigger_log_denuncia_delete
--- before delete on denuncia
--- for each row
--- execute function log_table_changes();
+create trigger trigger_log_focos_dengue_update
+after update on focos_dengue
+for each row
+when (old.* is distinct from new.*)
+execute function log_table_changes();
 
--- create trigger trigger_log_fiscalizacao_update
--- after update on fiscalizacao
--- for each row
--- when (old.* is distinct from new.*)
--- execute function log_table_changes();
+create or replace function log_usuario_alteracoes()
+returns trigger as $$
+begin
+    insert into log (acao, tabela, usuario_acao, dados_antigos, dados_alterados, data_log)
+    values (
+        tg_op,  
+        'usuario',  
+        current_user,
+        jsonb_build_object(
+            'old', row_to_json(old)
+        ),
+        jsonb_build_object( 
+            'new', row_to_json(new)
+        ),
+        current_timestamp  
+    );
+    return new;
+end;
+$$ language plpgsql;
 
--- create trigger trigger_log_fiscalizacao_delete
--- before delete on fiscalizacao
--- for each row
--- execute function log_table_changes();
-
--- create trigger trigger_log_logradouro_update
--- after update on logradouro
--- for each row
--- when (old.* is distinct from new.*)
--- execute function log_table_changes();
-
--- create trigger trigger_log_logradouro_delete
--- before delete on logradouro
--- for each row
--- execute function log_table_changes();
-
--- create trigger trigger_log_municipio_update
--- after update on municipio
--- for each row
--- when (old.* is distinct from new.*)
--- execute function log_table_changes();
-
--- create trigger trigger_log_municipio_delete
--- before delete on municipio
--- for each row
--- execute function log_table_changes();
-
--- create trigger trigger_log_focos_dengue_update
--- after update on focos_dengue
--- for each row
--- when (old.* is distinct from new.*)
--- execute function log_table_changes();
-
--- create trigger trigger_log_focos_dengue_delete
--- before delete on focos_dengue
--- for each row
--- execute function log_table_changes();
-
--- create or replace function log_usuario_alteracoes()
--- returns trigger as $$
--- begin
---     insert into log (acao, tabela, usuario_acao, dados_antigos, dados_alterados, data_log)
---     values (
---         tg_op,  
---         'usuario',  
---         current_user,
---         jsonb_build_object(
---             'old', row_to_json(old)
---         ),
---         jsonb_build_object( 
---             'new', row_to_json(new)
---         ),
---         current_timestamp  
---     );
---     return new;
--- end;
--- $$ language plpgsql;
-
--- create or replace function delete_old_logs()
--- returns TRIGGER as $$
--- begin
---   delete from log
---   where data_log < now() - INTERVAL '90 days';
+create or replace function delete_old_logs()
+returns TRIGGER as $$
+begin
+  delete from log
+  where data_log < now() - INTERVAL '90 days';
   
---   return null;
--- end;
--- $$ language plpgsql;
+  return null;
+end;
+$$ language plpgsql;
 
--- create or replace function atualizar_data_atualizacao()
--- returns trigger as $$
--- begin
---     new.data_atualizacao := current_timestamp;
---     return new;
--- end;
--- $$ language plpgsql;
+create or replace function atualizar_data_atualizacao()
+returns trigger as $$
+begin
+    new.data_atualizacao := current_timestamp;
+    return new;
+end;
+$$ language plpgsql;
 
--- create trigger trigger_delete_old_logs
--- after insert on log
--- for each row
--- execute function delete_old_logs();
+create trigger trigger_delete_old_logs
+after insert on log
+for each row
+execute function delete_old_logs();
 
--- create trigger trigger_atualizacao_usuario
--- before update on usuario
--- for each row
--- when (old.* is distinct from new.*)
--- execute function atualizar_data_atualizacao();
-
--- create trigger trigger_log_usuario
--- after insert or update or delete on usuario
--- for each row
--- execute function log_usuario_alteracoes();
+create trigger trigger_atualizacao_usuario
+before update on usuario
+for each row
+when (old.* is distinct from new.*)
+execute function atualizar_data_atualizacao();
