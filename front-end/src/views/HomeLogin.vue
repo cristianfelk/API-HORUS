@@ -1,7 +1,7 @@
 <template>
 <div class="login-container">
     <div class="login-content">
-        <img src="../assets/logoPzo.png" alt="Logo" class="login-logo">
+        <img src="../assets/logoPzo.png" alt="Logo" class="login-logo" @click="goToHome">
         <div class="login-box">
             <form @submit.prevent="postLogin">
                 <div class="input-group">
@@ -12,7 +12,6 @@
                     <label for="senha">Senha</label>
                     <input type="password" v-model="senha" id="senha" placeholder="Digite sua senha">
                 </div>
-                <!-- <p class="forgot-password-link" @click="navigateToRecoverPassword">Esqueci minha senha</p> -->
                 <button type="submit" class="login-button">Entrar</button>
                 <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
             </form>
@@ -59,8 +58,8 @@ export default {
                 this.errorMessage = 'Usuário ou senha incorreto. Verifique suas credenciais.';
             }
         },
-        navigateToRecoverPassword() {
-            this.$router.push('/recover-password');
+        goToHome() {
+            this.$router.push('/');
         }
     }
 };
