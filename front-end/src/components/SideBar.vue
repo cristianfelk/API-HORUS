@@ -284,9 +284,9 @@ export default {
     background-color: #5dad5d;
 }
 
-@media (max-width: 390px) {
+@media (max-width: 200px) {
     .sidebar {
-        width: 100%;
+        width: 80%;
         height: 100vh;
         top: 0;
         left: 0;

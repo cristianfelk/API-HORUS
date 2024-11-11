@@ -330,7 +330,7 @@ export default {
 }
 
 .tabs li.active {
-    background-color: #007bff;
+    background-color: #69c369;
     color: #fff;
 }
 
