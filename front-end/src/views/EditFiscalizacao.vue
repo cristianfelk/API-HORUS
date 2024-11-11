@@ -31,8 +31,11 @@
                     <input v-model="fiscalizacao.sequencia" id="sequencia" type="text" placeholder="Sequência" />
                 </div>
                 <div class="form-group">
-                    <label for="tipo_imovel">Tipo de Imóvel:</label>
-                    <input v-model="fiscalizacao.tipo_imovel" id="tipo_imovel" type="text" placeholder="Tipo de Imóvel" />
+                    <label for="visita">Tipo Imóvel:</label>
+                    <select v-model="fiscalizacao.tipo_imovel" id="visita">
+                        <option value="R">Residencial</option>
+                        <option value="c">Comercial</option>
+                    </select>
                 </div>
             </div>
             <div class="form-row">
@@ -50,7 +53,7 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="tipo_imovel">Tipo de Imóvel:</label>
+                    <label for="tipo_imovel">Pendência:</label>
                     <input v-model="fiscalizacao.pendencia" id="tipo_imovel" type="text" placeholder="Tipo de Imóvel" />
                 </div>
                 <div class="form-group">
