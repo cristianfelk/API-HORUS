@@ -4,62 +4,69 @@
     <div class="fiscalizacao-management">
         <h2 class="title">Gerenciamento de Fiscalizações</h2>
 
-        <div class="status-container">
-            <div class="status-section novo">
-                <h3 class="status-title">Novo</h3>
-                <div class="fiscalizacao-grid">
-                    <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesNovas" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
-                        <h3>{{ fiscalizacao.logradouro_fiscalizacao + ' - ' + fiscalizacao.numero }}</h3>
-                        <p><strong>Complemento:</strong> {{ fiscalizacao.complemento }}</p>
-                        <p><strong>Usuário:</strong> {{ fiscalizacao.usuario_id }}</p>
-                        <p><strong>Hora Entrada:</strong> {{ fiscalizacao.format_data }}</p>
-                        <div class="card-actions">
-                            <button @click.stop="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
-                            <button @click.stop="confirmDelete(fiscalizacao.id)" class="delete-button">Excluir</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <!-- Tabs -->
+        <div>
+            <ul class="tabs">
+                <li :class="{ active: activeTab === 'novo' }" @click="setTab('novo')">Novo</li>
+                <li :class="{ active: activeTab === 'andamento' }" @click="setTab('andamento')">Em Andamento</li>
+                <li :class="{ active: activeTab === 'finalizado' }" @click="setTab('finalizado')">Finalizado</li>
+            </ul>
+        </div>
 
-            <div class="status-section andamento">
-                <h3 class="status-title">Em Andamento</h3>
-                <div class="fiscalizacao-grid">
-                    <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesAndamento" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
-                        <h3>{{ fiscalizacao.logradouro_fiscalizacao + ' - ' + fiscalizacao.numero }}</h3>
-                        <p><strong>Complemento:</strong> {{ fiscalizacao.complemento }}</p>
-                        <p><strong>Usuário:</strong> {{ fiscalizacao.usuario_id }}</p>
-                        <p><strong>Hora Entrada:</strong> {{ fiscalizacao.format_data }}</p>
-                        <div class="card-actions">
-                            <button @click.stop="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
-                            <button @click.stop="confirmDelete(fiscalizacao.id)" class="delete-button">Excluir</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="status-section finalizado">
-                <h3 class="status-title">Finalizado</h3>
-                <div class="fiscalizacao-grid">
-                    <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesFinalizadas" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
-                        <h3>{{ fiscalizacao.logradouro_fiscalizacao + ' - ' + fiscalizacao.numero }}</h3>
-                        <p><strong>Complemento:</strong> {{ fiscalizacao.complemento }}</p>
-                        <p><strong>Usuário:</strong> {{ fiscalizacao.usuario_id }}</p>
-                        <p><strong>Hora Entrada:</strong> {{ fiscalizacao.format_data }}</p>
-                        <div class="card-actions">
-                            <button @click.stop="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
-                            <button @click.stop="confirmDelete(fiscalizacao.id)" class="delete-button">Excluir</button>
-                        </div>
+        <!-- Tab content -->
+        <div v-if="activeTab === 'novo'">
+            <div class="fiscalizacao-grid">
+                <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesNovas" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
+                    <h3>{{ fiscalizacao.logradouro_fiscalizacao + ' - ' + fiscalizacao.numero }}</h3>
+                    <p><strong>Complemento:</strong> {{ fiscalizacao.complemento }}</p>
+                    <p><strong>Usuário:</strong> {{ fiscalizacao.usuario_id }}</p>
+                    <p><strong>Hora Entrada:</strong> {{ fiscalizacao.format_data }}</p>
+                    <div class="card-actions">
+                        <button @click.stop="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
+                        <button @click.stop="confirmDelete(fiscalizacao.id)" class="delete-button">Excluir</button>
                     </div>
                 </div>
             </div>
         </div>
 
+        <div v-if="activeTab === 'andamento'">
+            <div class="fiscalizacao-grid">
+                <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesAndamento" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
+                    <h3>{{ fiscalizacao.logradouro_fiscalizacao + ' - ' + fiscalizacao.numero }}</h3>
+                    <p><strong>Complemento:</strong> {{ fiscalizacao.complemento }}</p>
+                    <p><strong>Usuário:</strong> {{ fiscalizacao.usuario_id }}</p>
+                    <p><strong>Hora Entrada:</strong> {{ fiscalizacao.format_data }}</p>
+                    <div class="card-actions">
+                        <button @click.stop="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
+                        <button @click.stop="confirmDelete(fiscalizacao.id)" class="delete-button">Excluir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div v-if="activeTab === 'finalizado'">
+            <div class="fiscalizacao-grid">
+                <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesFinalizadas" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
+                    <h3>{{ fiscalizacao.logradouro_fiscalizacao + ' - ' + fiscalizacao.numero }}</h3>
+                    <p><strong>Complemento:</strong> {{ fiscalizacao.complemento }}</p>
+                    <p><strong>Usuário:</strong> {{ fiscalizacao.usuario_id }}</p>
+                    <p><strong>Hora Entrada:</strong> {{ fiscalizacao.format_data }}</p>
+                    <div class="card-actions">
+                        <button @click.stop="editFiscalizacao(fiscalizacao.id)" class="edit-button">Editar</button>
+                        <button @click.stop="confirmDelete(fiscalizacao.id)" class="delete-button">Excluir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Paginação -->
         <div class="pagination-container">
             <button @click="prevPage" :disabled="currentPage === 1" class="pagination-button">Anterior</button>
             <span>Página {{ currentPage }} de {{ totalPages }}</span>
             <button @click="nextPage" :disabled="currentPage === totalPages" class="pagination-button">Próximo</button>
         </div>
 
+        <!-- Modal de Detalhes -->
         <div v-if="showDetails" class="fiscalizacao-details-modal">
             <div class="modal-content">
                 <h3>Detalhes da Fiscalização</h3>
@@ -89,10 +96,12 @@
                 <p><strong>Quantidade Tratado:</strong> {{ selectedFiscalizacao.qtd_tratado }}</p>
                 <p><strong>Tipo Perifocal:</strong> {{ selectedFiscalizacao.tipo_perifocal }}</p>
                 <p><strong>Quantidade Gramas:</strong> {{ selectedFiscalizacao.qtd_gramas }}</p>
+                <!-- Outros detalhes aqui -->
                 <button @click="closeDetails" class="close-button">Fechar</button>
             </div>
         </div>
 
+        <!-- Modal de Confirmação -->
         <div v-if="showConfirmation" class="confirmation-popup">
             <div class="modal-content">
                 <p>Você tem certeza que deseja excluir esta fiscalização?</p>
@@ -127,7 +136,8 @@ export default {
             selectedFiscalizacao: null,
             currentPage: 1,
             totalPages: 1,
-            pageSize: 9
+            pageSize: 9,
+            activeTab: 'novo' // Aba ativa inicial
         };
     },
     methods: {
@@ -159,13 +169,16 @@ export default {
             this.fiscalizacoesAndamento = this.fiscalizacoes.filter(f => f.status === 2);
             this.fiscalizacoesFinalizadas = this.fiscalizacoes.filter(f => f.status === 3);
         },
+
         editFiscalizacao(fiscalizacaoId) {
             this.$router.push(`/fiscalizacoes/${fiscalizacaoId}/editar`);
         },
+
         confirmDelete(fiscalizacaoId) {
             this.currentFiscalizacaoId = fiscalizacaoId;
             this.showConfirmation = true;
         },
+
         async deleteFiscalizacao(fiscalizacaoId) {
             try {
                 await deleteFiscalizacao(fiscalizacaoId);
@@ -175,29 +188,38 @@ export default {
                 console.error('Erro ao excluir fiscalização:', error);
             }
         },
+
         cancelDelete() {
             this.showConfirmation = false;
             this.currentFiscalizacaoId = null;
         },
+
         openFiscalizacaoDetails(fiscalizacao) {
             this.selectedFiscalizacao = fiscalizacao;
             this.showDetails = true;
         },
+
         closeDetails() {
             this.showDetails = false;
             this.selectedFiscalizacao = null;
         },
+
         prevPage() {
             if (this.currentPage > 1) {
                 this.currentPage--;
                 this.fetchFiscalizacao();
             }
         },
+
         nextPage() {
             if (this.currentPage < this.totalPages) {
                 this.currentPage++;
                 this.fetchFiscalizacao();
             }
+        },
+
+        setTab(tab) {
+            this.activeTab = tab;
         }
     },
     mounted() {
@@ -212,6 +234,7 @@ export default {
     font-weight: bold;
     margin: 20px 0;
     color: #333;
+    text-align: center;
 }
 
 .fiscalizacao-management-container {
@@ -228,181 +251,203 @@ export default {
     flex-direction: column;
 }
 
-.button-container {
-    margin-bottom: 20px;
-}
-
-.status-container {
+.tabs {
+    list-style: none;
     display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 20px;
-}
-
-.status-section {
-    flex: 1;
-    min-width: 300px;
-    background-color: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.status-section h3 {
+    justify-content: center;
+    /* Centraliza as tabs */
+    padding: 0;
     margin-bottom: 20px;
-    font-size: 18px;
-    color: #333;
+    border-bottom: 1px solid #ddd;
 }
 
-.fiscalizacao-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.fiscalizacao-card {
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
+.tabs li {
+    padding: 10px 20px;
     cursor: pointer;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    margin-right: 5px;
+    background-color: #f1f1f1;
     transition: background-color 0.3s ease;
 }
 
-.fiscalizacao-card:hover {
-    background-color: #f0f0f0;
+.tabs li.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.tabs li:hover {
+    background-color: #e0e0e0;
+}
+
+/* NOVO CONTAINER PARA CENTRALIZAR OS CARDS */
+.card-container {
+    display: flex;
+    justify-content: center;
+    /* Centraliza os cards */
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px;
+    /* Controle de largura máxima do container */
+    margin-left: auto;
+    margin-right: auto;
+    height: calc(2 * 350px + 20px);
+    /* Altura suficiente para 2 linhas de cards */
+    overflow-y: auto;
+    /* Adiciona scroll caso haja mais de 2 linhas */
+}
+
+/* Container da Grid */
+.fiscalizacao-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    height: calc(2 * 350px + 20px);
+    /* Altura suficiente para 2 linhas de cards */
+    overflow-y: auto;
+    /* Scroll caso haja mais de 2 linhas */
+}
+
+/* Card */
+.fiscalizacao-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 300px;
+    /* Ajuste da largura */
+    height: 350px;
+    /* Altura fixa */
+}
+
+/* Tabs */
+.tabs {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tabs li {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    border-bottom: none;
+    margin-right: 5px;
+    background-color: #f1f1f1;
+    transition: background-color 0.3s ease;
+}
+
+.tabs li.active {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.tabs li:hover {
+    background-color: #e0e0e0;
+}
+
+.fiscalizacao-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.fiscalizacao-card p {
+    margin: 5px 0;
+    color: #555;
 }
 
 .card-actions {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
 }
 
 .edit-button,
 .delete-button {
-    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
     border: none;
-    border-radius: 5px;
+    padding: 8px 12px;
     cursor: pointer;
-    font-size: 14px;
-}
-
-.edit-button {
-    background-color: #28a745;
-    color: white;
-}
-
-.edit-button:hover {
-    background-color: #218838;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
 }
 
 .delete-button {
     background-color: #dc3545;
-    color: white;
 }
 
+.edit-button:hover,
 .delete-button:hover {
-    background-color: #c82333;
+    opacity: 0.9;
 }
 
 .pagination-container {
     display: flex;
     justify-content: center;
-    margin: 20px 0;
+    margin-top: 20px;
 }
 
 .pagination-button {
-    padding: 10px 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 0 5px;
     background-color: #007bff;
-    color: white;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 4px;
 }
 
-.pagination-button:disabled {
+.pagination-button[disabled] {
     background-color: #ddd;
     cursor: not-allowed;
 }
 
-.fiscalizacao-details-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    max-width: 500px;
-    width: 100%;
-}
-
-.close-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-.close-button:hover {
-    background-color: #0056b3;
-}
-
+.fiscalizacao-details-modal,
 .confirmation-popup {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
-.confirmation-popup p {
-    margin-bottom: 20px;
-    color: rgb(0, 0, 0);
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+.close-button,
 .confirm-button,
 .cancel-button {
-    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
     border: none;
-    border-radius: 5px;
+    padding: 8px 12px;
     cursor: pointer;
-    font-size: 16px;
-    margin: 0 10px;
-}
-
-.confirm-button {
-    background-color: #28a745;
-    color: white;
-}
-
-.confirm-button:hover {
-    background-color: #218838;
+    margin-top: 20px;
+    border-radius: 4px;
 }
 
 .cancel-button {
     background-color: #dc3545;
-    color: white;
-}
-
-.cancel-button:hover {
-    background-color: #c82333;
 }
 </style>
