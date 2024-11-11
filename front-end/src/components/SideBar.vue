@@ -90,11 +90,6 @@
             </a>
             <ul class="dropdown-menu" v-if="!isSidebarCollapsed">
                 <li class="dropdown-item">
-                    <router-link to="/rel-denuncias">
-                        <span v-if="!isSidebarCollapsed">Relatório de denúncias</span>
-                    </router-link>
-                </li>
-                <li class="dropdown-item">
                     <router-link to="/rel-fiscalizacao">
                         <span v-if="!isSidebarCollapsed">Relatório de fiscalizações</span>
                     </router-link>

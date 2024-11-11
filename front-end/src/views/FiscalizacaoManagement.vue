@@ -4,7 +4,6 @@
     <div class="fiscalizacao-management">
         <h2 class="title">Gerenciamento de Fiscalizações</h2>
 
-        <!-- Tabs -->
         <div>
             <ul class="tabs">
                 <li :class="{ active: activeTab === 'novo' }" @click="setTab('novo')">Novo</li>
@@ -13,7 +12,6 @@
             </ul>
         </div>
 
-        <!-- Tab content -->
         <div v-if="activeTab === 'novo'">
             <div class="fiscalizacao-grid">
                 <div class="fiscalizacao-card" v-for="fiscalizacao in fiscalizacoesNovas" :key="fiscalizacao.id" @click="openFiscalizacaoDetails(fiscalizacao)">
@@ -59,14 +57,12 @@
             </div>
         </div>
 
-        <!-- Paginação -->
         <div class="pagination-container">
             <button @click="prevPage" :disabled="currentPage === 1" class="pagination-button">Anterior</button>
             <span>Página {{ currentPage }} de {{ totalPages }}</span>
             <button @click="nextPage" :disabled="currentPage === totalPages" class="pagination-button">Próximo</button>
         </div>
 
-        <!-- Modal de Detalhes -->
         <div v-if="showDetails" class="fiscalizacao-details-modal">
             <div class="modal-content">
                 <h3>Detalhes da Fiscalização</h3>
@@ -96,12 +92,10 @@
                 <p><strong>Quantidade Tratado:</strong> {{ selectedFiscalizacao.qtd_tratado }}</p>
                 <p><strong>Tipo Perifocal:</strong> {{ selectedFiscalizacao.tipo_perifocal }}</p>
                 <p><strong>Quantidade Gramas:</strong> {{ selectedFiscalizacao.qtd_gramas }}</p>
-                <!-- Outros detalhes aqui -->
                 <button @click="closeDetails" class="close-button">Fechar</button>
             </div>
         </div>
 
-        <!-- Modal de Confirmação -->
         <div v-if="showConfirmation" class="confirmation-popup">
             <div class="modal-content">
                 <p>Você tem certeza que deseja excluir esta fiscalização?</p>
@@ -137,7 +131,7 @@ export default {
             currentPage: 1,
             totalPages: 1,
             pageSize: 9,
-            activeTab: 'novo' // Aba ativa inicial
+            activeTab: 'novo'
         };
     },
     methods: {
@@ -255,7 +249,6 @@ export default {
     list-style: none;
     display: flex;
     justify-content: center;
-    /* Centraliza as tabs */
     padding: 0;
     margin-bottom: 20px;
     border-bottom: 1px solid #ddd;
@@ -280,24 +273,18 @@ export default {
     background-color: #e0e0e0;
 }
 
-/* NOVO CONTAINER PARA CENTRALIZAR OS CARDS */
 .card-container {
     display: flex;
     justify-content: center;
-    /* Centraliza os cards */
     flex-wrap: wrap;
     gap: 20px;
     max-width: 1200px;
-    /* Controle de largura máxima do container */
     margin-left: auto;
     margin-right: auto;
     height: calc(2 * 350px + 20px);
-    /* Altura suficiente para 2 linhas de cards */
     overflow-y: auto;
-    /* Adiciona scroll caso haja mais de 2 linhas */
 }
 
-/* Container da Grid */
 .fiscalizacao-grid {
     display: flex;
     flex-wrap: wrap;
@@ -307,12 +294,9 @@ export default {
     margin-left: auto;
     margin-right: auto;
     height: calc(2 * 350px + 20px);
-    /* Altura suficiente para 2 linhas de cards */
     overflow-y: auto;
-    /* Scroll caso haja mais de 2 linhas */
 }
 
-/* Card */
 .fiscalizacao-card {
     background-color: #fff;
     border: 1px solid #ddd;
@@ -323,12 +307,9 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     width: 300px;
-    /* Ajuste da largura */
     height: 350px;
-    /* Altura fixa */
 }
 
-/* Tabs */
 .tabs {
     list-style: none;
     display: flex;
