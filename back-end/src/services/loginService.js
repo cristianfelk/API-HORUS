@@ -5,13 +5,13 @@ const postLogin = async (params) => {
     try {
         const { login, senha } = params;
 
-        const sql_get = `select id, nome, perfil, senha, salt, status from usuario where login = $1`;
+        const sql_get = `select id, nome, perfil, senha, salt, status, excluido from usuario where login = $1`;
         const result = await db.query(sql_get, [login]);
 
         if (result.rows.length > 0) {
-            const { id, nome, perfil, senha: senhaArmazenada, salt, status } = result.rows[0];
+            const { id, nome, perfil, senha: senhaArmazenada, salt, status, excluido } = result.rows[0];
             
-            if (status !== 'ativo') {
+            if (status !== 'ativo' || excluido != false) {
                 return { success: false, message: 'Usuário inativo. Não é possível fazer login.' };
             }
 

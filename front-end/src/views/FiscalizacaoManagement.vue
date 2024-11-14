@@ -396,8 +396,7 @@ export default {
     cursor: not-allowed;
 }
 
-.fiscalizacao-details-modal,
-.confirmation-popup {
+.fiscalizacao-details-modal {
     position: fixed;
     top: 0;
     left: 0;
@@ -414,6 +413,15 @@ export default {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column; 
+    max-width: 600px;
+    width: 100%;
+}
+
+.modal-content p {
+    text-align: left; 
+    width: 100%;
 }
 
 .close-button,

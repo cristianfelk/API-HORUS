@@ -47,17 +47,22 @@
             <span>Página {{ currentPage }}</span>
             <button @click="changePage(currentPage + 1)" :disabled="!hasMore" class="pagination-button">Próximo</button>
         </div>
-        <div v-if="showConfirmation" class="confirmation-popup">
-            <p>Tem certeza que deseja excluir este logradouro?</p>
-            <button @click="deleteLogradouro(currentLogradouroId)" class="confirm-button">Sim</button>
-            <button @click="cancelDelete" class="cancel-button">Não</button>
+        <div v-if="showConfirmation" class="confirmation-overlay">
+            <div class="confirmation-content">
+                <h3>Confirmação de Exclusão</h3>
+                <p>Tem certeza que deseja excluir este logradouro?</p>
+                <div class="confirmation-buttons">
+                    <button @click="deleteLogradouro(currentLogradouroId)" class="confirm-button">Sim</button>
+                    <button @click="cancelDelete" class="cancel-button">Não</button>
+                </div>
+            </div>
         </div>
 
         <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
             <div class="modal-content">
                 <h3>Cadastrar Novo Logradouro</h3>
                 <form @submit.prevent="saveLogradouro">
-                    <div class="form-group municipio-group">
+                    <div class="modal-input-group">
                         <label for="municipio">Município:</label>
                         <input type="text" id="municipio" v-model="municipioSearch" @input="searchMunicipio" placeholder="Digite o nome do município" required />
                         <ul v-if="municipioSuggestions.length" class="suggestions-list">
@@ -417,6 +422,56 @@ export default {
 }
 
 .save-button:hover {
+    background-color: #218838;
+}
+
+.confirmation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.3s ease;
+}
+
+.confirmation-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.confirmation-content h3 {
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #333;
+}
+
+.confirmation-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.confirm-button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.confirm-button:hover {
     background-color: #218838;
 }
 

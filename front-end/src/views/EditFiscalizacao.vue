@@ -46,8 +46,8 @@
                 <div class="form-group">
                     <label for="visita">Visita:</label>
                     <select v-model="fiscalizacao.visita" id="visita">
-                        <option value="S">Sim</option>
-                        <option value="N">Não</option>
+                        <option value="R">Recuperação</option>
+                        <option value="N">Normal</option>
                     </select>
                 </div>
             </div>
@@ -94,7 +94,16 @@ export default {
             const fiscalizacaoId = this.$route.params.id;
             try {
                 const response = await getFiscalizacaoById(fiscalizacaoId);
-                this.fiscalizacao = response.data[0];
+                const fiscalizacao = response.data[0];
+
+                if (fiscalizacao.hora_entrada) {
+                    const [date, time] = fiscalizacao.hora_entrada.split(' ');
+                    const [day, month, year] = date.split('/');
+                    const formattedDate = `${year}-${month}-${day}T${time}`;
+                    fiscalizacao.hora_entrada = formattedDate;
+                }
+
+                this.fiscalizacao = fiscalizacao;
             } catch (error) {
                 alert('Erro ao carregar dados da fiscalização.');
             } finally {
@@ -104,6 +113,14 @@ export default {
         async patchFiscalizacao() {
             const fiscalizacaoId = this.$route.params.id;
             try {
+                let horaEntradaFormatted = null;
+                if (this.fiscalizacao.hora_entrada) {
+                    const [datePart, timePart] = this.fiscalizacao.hora_entrada.split('T');
+                    const [year, month, day] = datePart.split('-');
+
+                    horaEntradaFormatted = `${year}-${month}-${day} ${timePart}`;
+                }
+
                 const updatedFiscalizacao = {
                     quarteirao: this.fiscalizacao.quarteirao || null,
                     sequencia: this.fiscalizacao.sequencia || null,
@@ -111,7 +128,7 @@ export default {
                     numero: this.fiscalizacao.numero || null,
                     complemento: this.fiscalizacao.complemento || null,
                     tipo_imovel: this.fiscalizacao.tipo_imovel || null,
-                    hora_entrada: this.fiscalizacao.hora_entrada || null,
+                    hora_entrada: horaEntradaFormatted || null,
                     visita: this.fiscalizacao.visita || null,
                     pendencia: this.fiscalizacao.pendencia || null,
                     status: this.fiscalizacao.status || null,

@@ -123,12 +123,16 @@ const patchFiscalizacao = async (params) => {
 };
 
 const getFiscalizacaoRel = async () => {
-    const sql_get = `select * from fiscalizacao where excluido != true`;
+    const sql_get = 
+                `select f.*, concat(f.usuario_id, ' - ', u.nome) as usuario_fiscalizacao
+                    from fiscalizacao f
+                    left join usuario u on (f.usuario_id = u.id)
+                where f.excluido != true`;
     return await db.query(sql_get);
 };
 
 const getFiscalizacaoById  = async (params) => {
-    const sql_get = `select * from fiscalizacao where id = $1`;
+    const sql_get = `select *, to_char(hora_entrada, 'DD/MM/YYYY HH24:MI:SS') as hora_entrada from fiscalizacao where id = $1`;
     const { id } = params;
     return (await db.query(sql_get, [id])).rows;   
 };

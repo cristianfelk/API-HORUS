@@ -40,7 +40,7 @@
     </div>
 </div>
 </template>
-    
+
 <script>
 import {
     getUserById,
@@ -71,7 +71,16 @@ export default {
             const userId = this.$route.params.id;
             try {
                 const response = await getUserById(userId);
-                this.user = response.data[0];
+                const userData = response.data[0];
+
+                this.user = {
+                    nome: userData.nome,
+                    login: userData.login,
+                    email: userData.email,
+                    status: userData.status,
+                    perfil: userData.perfil,
+                    senha: '' 
+                };
             } catch (error) {
                 console.error('Erro ao buscar usuário:', error);
                 alert('Erro ao carregar dados do usuário.');
@@ -85,10 +94,10 @@ export default {
                 const updatedUser = {
                     nome: this.user.nome || null,
                     login: this.user.login || null,
-                    senha: this.user.senha ? this.user.senha : '',
                     email: this.user.email || null,
                     status: this.user.status || null,
-                    perfil: this.user.perfil || null
+                    perfil: this.user.perfil || null,
+                    senha: this.user.senha ? this.user.senha : undefined
                 };
 
                 await updateUser(userId, updatedUser);

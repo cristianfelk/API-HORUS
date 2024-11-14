@@ -104,9 +104,10 @@ export default {
                 qtd_grama: 'Qtd. Gramas',
                 qtd_tratado: 'Qtd. Tratado',
                 tipo_perifocal: 'Tipo Perifocal',
-                qtd_gramas: 'Qtd. Gramas'
+                qtd_gramas: 'Qtd. Gramas',
+                usuario_fiscalizacao: 'Usuário'
             },
-            selectedFields: ['quarteirao', 'sequencia', 'logradouro_fiscalizacao', 'numero', 'complemento', 'hora_entrada', 'tipo_imovel'],
+            selectedFields: ['quarteirao', 'sequencia', 'logradouro_fiscalizacao', 'numero', 'complemento', 'hora_entrada'],
             userProfile: localStorage.getItem("userName"),
             activeTab: 'filtros'
         };

@@ -24,7 +24,7 @@ create table focos_dengue (
 );
 
 create table municipio (
-  id integer primary key not null,
+  id serial primary key,
   nome varchar(250) not null,
   ibge integer,
   uf varchar(2),
