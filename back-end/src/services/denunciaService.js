@@ -71,7 +71,11 @@ const putDenuncia = async (params) => {
 
 const getDenuncia = async (page = 1, limit = 10, chave_denuncia = '', email_denunciante = '') => {
     const offset = (page - 1) * limit;
-    let sql_get = `select * from denuncia where true and excluido != true`;
+    let sql_get = 
+            `select d.*, m.nome as id_municipio
+            from denuncia d
+            left join municipio m on (d.id_municipio = m.id)
+            where true and d.excluido != true`;
     let values = [];
 
     if (chave_denuncia) {

@@ -97,7 +97,7 @@ export default {
                     fillColor: '#f03',
                     fillOpacity: 0.5,
                     radius: 50
-                }).addTo(this.map).bindPopup(`><p>Data: ${this.formatDate(foco.data_registro)}</p>`);
+                }).addTo(this.map).bindPopup(`<p>Data: ${this.formatDate(foco.data_registro)}</p>`);
             });
 
             denuncias.forEach(denuncia => {

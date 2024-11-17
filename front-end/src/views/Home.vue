@@ -102,6 +102,7 @@ import {
 import image1 from '../assets/contradengue.png';
 import image2 from '../assets/acaodengue.png';
 import image3 from '../assets/logoPzo.png';
+import image4 from '../assets/denguemata.png';
 
 export default {
     components: {
@@ -118,7 +119,7 @@ export default {
             defaultLat: -26.8481,
             defaultLng: -52.9885,
             map: null,
-            images: [image1, image2, image3],
+            images: [image1, image2, image3, image4],
             currentIndex: 0,
             slideInterval: null,
         };
