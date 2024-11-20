@@ -43,6 +43,17 @@
 
         <div class="map-container">
             <div id="map" class="map"></div>
+            <div class="map-legend">
+                <h3>Legenda</h3>
+                <div class="legend-item">
+                    <div class="circle" style="background-color: red; width: 20px; height: 20px; border-radius: 50%;"></div>
+                    <span>Criadouro de dengue</span>
+                </div>
+                <div class="legend-item">
+                    <div class="circle" style="background-color: red; width: 20px; height: 20px; border-radius: 50%;"></div>
+                    <span>Lixeira rotativa</span>
+                </div>
+            </div>
         </div>
 
         <section class="info-section" id="prevention">
@@ -353,6 +364,25 @@ export default {
     height: 100%;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.map-legend {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.legend-item span {
+    margin-left: 10px;
 }
 
 .info-section {
